@@ -15,7 +15,6 @@ class unit {
     double      _multip;
     double      _moral;
     int         _prState;
-    
     public:
     unit(int nhp, int nrange, int nmove, int nad);
     virtual ~unit();
@@ -28,5 +27,10 @@ class unit {
     int     takeDmg();
 
 };
+
+class swordsmen : public unit {
+    public:
+    swordsmen();
+}
 
 #endif /*__Unit_H_*/
