@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include "board.hpp"
+#include <raylib.h>
 #include "unit.hpp"
 
 

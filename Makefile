@@ -1,9 +1,9 @@
 NAME=Schlacht
-SRC= main.cpp unit.cpp mainloop.cpp board.cpp
+SRC= mainloop.cpp unit.cpp board.cpp
 OBJ_DIR= obj/
 INC_DIR= inc/
 INC_F= $(addprefix $(INC_DIR), board.hpp unit.hpp)
-LIBS=
+LIBS= -lraylib
 INCL=-Iinc
 OBJ= $(addprefix $(OBJ_DIR), $(patsubst %.cpp,%.o, $(SRC)))
 FLAGS= -Wall -Wextra 

@@ -17,7 +17,7 @@ class unit {
     int         _prState;
     public:
     unit(int nhp, int nrange, int nmove, int nad);
-    virtual ~unit();
+        virtual ~unit() {};
 
     int     pbState;
 
@@ -31,6 +31,9 @@ class unit {
 class swordsmen : public unit {
     public:
     swordsmen();
-}
+    ~swordsmen();
+
+    void    attack();
+};
 
 #endif /*__Unit_H_*/
