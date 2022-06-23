@@ -1,12 +1,13 @@
 NAME=Schlacht
-SRC= main.cpp unit.cpp mainloop.cpp board.cpp
+CRYSTAL_SRC= crystal/core.cpp
+SRC= main.cpp unit.cpp mainloop.cpp board.cpp soldier.cpp
 OBJ_DIR= obj/
 INC_DIR= inc/
 INC_F= $(addprefix $(INC_DIR), board.hpp unit.hpp)
-LIBS=
+LIBS=-Llib -lraylib
 INCL=-Iinc
-OBJ= $(addprefix $(OBJ_DIR), $(patsubst %.cpp,%.o, $(SRC)))
-FLAGS= -Wall -Wextra 
+OBJ= $(addprefix obj/, $(CRYSTAL_SRC:.cpp=.o))  $(addprefix obj/, $(SRC:.cpp=.o)) 
+FLAGS= -Wall -Wextra -std=c++20 -fmodules-ts
 
 
 all: $(NAME)
@@ -32,6 +33,6 @@ fclean : clean
 re : fclean all
 
 $(OBJ_DIR) :
-	mkdir obj
+	mkdir obj obj/crystal
 
 .PHONY: all clean fclean final prep 

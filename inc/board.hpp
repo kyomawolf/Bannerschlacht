@@ -1,5 +1,4 @@
-#ifndef __BOARD_H__
-#define __BOARD_H__
+#pragma once
 
 #include <string>
 #include <map>
@@ -37,5 +36,3 @@ class board{
     void    printBoard();
     void    round();
 };
-
-#endif /* __BOARD_H__ */

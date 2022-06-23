@@ -1,5 +1,4 @@
-#ifndef __UNIT_H_
-#define __UNIT_H_
+#pragma once
 
 #include <string>
 using namespace std;
@@ -18,7 +17,6 @@ class unit {
     
     public:
     unit(int nhp, int nrange, int nmove, int nad);
-    virtual ~unit();
 
     int     pbState;
 
@@ -28,5 +26,3 @@ class unit {
     int     takeDmg();
 
 };
-
-#endif /*__Unit_H_*/
