@@ -14,7 +14,7 @@ extern "C" {
 //} LinkedList;
 
 
-export namespace crystal {
+namespace crystal {
 
     typedef uint8_t  u8;
     typedef uint32_t u32;
