@@ -7,7 +7,7 @@ INC_F= $(addprefix $(INC_DIR), board.hpp unit.hpp)
 LIBS=-Llib -lraylib
 INCL=-Iinc
 OBJ= $(addprefix obj/, $(CRYSTAL_SRC:.cpp=.o))  $(addprefix obj/, $(SRC:.cpp=.o)) 
-FLAGS= -Wall -Wextra -std=c++20 -fmodules-ts
+FLAGS= -Wall -Wextra  -fmodules-ts
 
 
 all: $(NAME)
