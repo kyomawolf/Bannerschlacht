@@ -1,3 +1,6 @@
 Schlacht
 obj
 obj/*/*
+.idea
+*.out
+*/test.cpp
