@@ -11,7 +11,7 @@ typedef raylib::Vector2 rVec2D;
 
 class Field {
 private:
-	static const int	hex_radius = 24;
+	static const int	hex_radius = 40;
 	int	width;
 	int	height;
 public:
@@ -21,10 +21,17 @@ public:
 
 	raylib::Vector2	hex_pos(int x, int y) {
 		if (y % 2)
-			return raylib::Vector2(x * (hex_radius * (1.6)) + hex_radius * 0.8, y * (hex_radius * 1.4));
-		return raylib::Vector2(x * (hex_radius * (1.6)), y * (hex_radius * 1.4));
+			return raylib::Vector2(x * (hex_radius * (2)) + hex_radius * 1, y * (hex_radius * 0.55));
+		return raylib::Vector2(x * (hex_radius * (2)), y * (hex_radius * 0.55));
 	}
 
+	void	draw(raylib::Texture& tex) {
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				tex.Draw(hex_pos(x, y), 0, 0.05);
+			}
+		}
+	}
 	void	draw() {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
@@ -41,20 +48,16 @@ int main () {
 	rVec2D	cam_pos(0,0);
 	rCamera2D cam(cam_pos, rVec2D(0,0));
 	raylib::Color textColor(BLUE);
-	Field	board(100, 100);
-	win->SetTargetFPS(60);
-
-	win->BeginDrawing();
-	win->EndDrawing();
+	Field	board(200, 200);
+	win->SetTargetFPS(120);
+	raylib::Texture hexagon(raylib::Image(std::string("../pngegg.png")));
 
 	while (!win->ShouldClose()) {
 		win->BeginDrawing();
 		cam.BeginMode();
 		win->ClearBackground(raylib::Color::RayWhite());
-		board.draw();
+		board.draw(hexagon);
 		textColor.DrawText(std::to_string(win->GetFPS()), 200, 200, 40);
-		win->ClearBackground(raylib::Color::RayWhite());
-		board.draw();
 		if (IsKeyDown('W')) {
 			cam_pos.y -= 11;
 		} if (IsKeyDown('S')) {
