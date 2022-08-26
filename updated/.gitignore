@@ -3,3 +3,4 @@ obj
 obj/*/*
 .idea/*/*
 *.out
+*/.DS_Store
