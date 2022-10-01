@@ -3,14 +3,19 @@
 ## structural overview
 
 TODO:
-	First thing to be made is the Map, all necessities are listed down below.
-	UI is the next thing to be implemented, firstly the map should be clickable and an interface with information of the clicked tile should be displayed.
-	after that, units shall be implemented, so that they are adressable with functions for movement and other actions, UI implementation for Units should follow.
-	Implementing the information system with friend/foe recognition is the next priority.
-	Menus and Settings are the next step afterwards.
+First thing to be made is the Map, all necessities are listed down below.
+
+UI is the next thing to be implemented, firstly the map should be clickable and an interface with information of the clicked tile should be displayed.
+
+after that, units shall be implemented, so that they are adressable with functions for movement and other actions, UI implementation for Units should follow.
+
+Implementing the information system with friend/foe recognition is the next priority.
+
+Menus and Settings are the next step afterwards.
 	
-	Balancing (if not done already) are the next thing to do, as new units are being implemented.
-	The best idea would be some sort of rock-paper-scissors system (with more attributes oc) as its suitable for a first balancing.
+Balancing (if not done already) are the next thing to do, as new units are being implemented.
+
+The best idea would be some sort of rock-paper-scissors system (with more attributes oc) as its suitable for a first balancing.
 
 ### Datastructure
 
