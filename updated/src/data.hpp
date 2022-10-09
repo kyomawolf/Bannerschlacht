@@ -3,6 +3,9 @@
 
 class data {
 private:
+    struct ImageData {
+
+    };
 public:
 protected:
 };

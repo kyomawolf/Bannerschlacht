@@ -1,6 +1,6 @@
 NAME=Schlacht
 SRC_FOLDER=src/
-SRC_FILES= main.cpp tile.cpp map.cpp data.cpp
+SRC_FILES= main.cpp tile.cpp map.cpp data.cpp ui.cpp
 DEP_FILES= AudioDevice.hpp \
            AudioStream.hpp \
            BoundingBox.hpp\
@@ -44,7 +44,7 @@ SRC= $(addprefix $(SRC_FOLDER), $(SRC_FILES))
 OBJ_DIR= obj/
 INC_DIR= inc/
 INC_F= $(addprefix $(INC_DIR), $(DEP_FILES))
-LIBS=-Llib -lraylib
+LIBS=-Llib -lraylib -lGL -lpthread -lm -ldl -lrt -lX11
 INCL=-Iinc
 
 OBJ= $(addprefix obj/, $(SRC_FILES:.cpp=.o))
@@ -62,7 +62,7 @@ else
 	endif
 endif
 
-FLAGS= -Wall -Wextra -std=c++17 -g
+FLAGS= -Wall -Wextra -std=c++17
 
 
 all: $(NAME)

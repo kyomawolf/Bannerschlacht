@@ -11,6 +11,8 @@
 
 class map {
 private:
+    constexpr static const float size_scaling = 100;
+    constexpr static const float image_scaling = 1;
     raylib::Vector2 size;
     std::vector<std::vector<tile> > field;
 public:
@@ -19,6 +21,7 @@ public:
     map(unsigned int height, unsigned int length);
 
     void    draw(raylib::Texture& tex);
+    raylib::Vector2 positionToIndex(raylib::Vector2& worldPosition);
 };
 
 #endif //PROJEKT_DIESCHLACHT_MAP_HPP
