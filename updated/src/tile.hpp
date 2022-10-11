@@ -7,6 +7,7 @@
 
 #include "raylib-cpp.hpp"
 #include "Texture.hpp"
+#include "unit.hpp"
 
 #pragma once
 
@@ -16,14 +17,17 @@ private:
     float   attack_modifier = 1;
     bool    face_access[4] = {true, true, true, true}; ///0 = North, 1 = East, 2 = South, 3 = West
     bool    initialized = false;
+    Unit*   entry;
 public:
     tile() = default; //uninitialized
 //    tile(...); //initialized
     /// getter and setter for modifier
-    Texture *tileTexture = NULL;
+    raylib::Texture *tileTexture = nullptr;
+    void    setEntry(Unit* new_entry) { entry = new_entry; }
     float   getDefenceModifier()    const { return defence_modifier; };
     float   getAttackModifier()     const { return attack_modifier; };
     bool    is_blocked(unsigned int face) { return face >= 4 || face_access[face]; };
+    void    Draw();
 protected:
 
 };

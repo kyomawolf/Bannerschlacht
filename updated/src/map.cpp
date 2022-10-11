@@ -29,6 +29,7 @@ map::map(unsigned int height, unsigned int length) : size(height, length), field
 void    map::draw(raylib::Texture& tex) {
     for (unsigned int i = 0; i < field.size(); i++) {
         for (unsigned int ii = 0; ii != field[i].size(); ii++) {
+            field[i][ii].Draw();
             tex.Draw(raylib::Vector2(i * size_scaling, ii * size_scaling), 0, image_scaling);
         }
     }
@@ -36,4 +37,8 @@ void    map::draw(raylib::Texture& tex) {
 
 raylib::Vector2 map::positionToIndex(raylib::Vector2 &worldPosition) {
     return raylib::Vector2 {floor(worldPosition.x / size_scaling), floor(worldPosition.y / size_scaling)};
+}
+
+raylib::Vector2 map::LocalToWorld(unsigned int index_x, unsigned int index_y) {
+    return {index_x * size_scaling, index_y * size_scaling};
 }

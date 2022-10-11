@@ -22,6 +22,7 @@ public:
 
     void    draw(raylib::Texture& tex);
     raylib::Vector2 positionToIndex(raylib::Vector2& worldPosition);
+    static raylib::Vector2 LocalToWorld(unsigned int index_x, unsigned int index_y);
 };
 
 #endif //PROJEKT_DIESCHLACHT_MAP_HPP

@@ -31,13 +31,13 @@ void move(raylib::Camera2D& cam, raylib::Vector2& cam_pos, raylib::Window& win) 
     if (raylib::Mouse::GetWheelMove() < 0 && stage < 9) {
         ++stage;
         cam.SetZoom(cam.GetZoom() - 0.1);
-        std::cout << raylib::Vector2(cam.GetTarget().x - vec.x, cam.GetTarget().y - vec.y) << std::endl;
+//        std::cout << raylib::Vector2(cam.GetTarget().x - vec.x, cam.GetTarget().y - vec.y) << std::endl;
         cam.SetTarget(raylib::Vector2(cam.GetTarget().x - vec.x, cam.GetTarget().y - vec.y));
     }
     else if (raylib::Mouse::GetWheelMove() > 0 && stage > -10) {
         --stage;
         cam.SetZoom(cam.GetZoom() + 0.1);
-        std::cout << raylib::Vector2(cam.GetTarget().x - vec.x, cam.GetTarget().y - vec.y) << std::endl;
+//        std::cout << raylib::Vector2(cam.GetTarget().x - vec.x, cam.GetTarget().y - vec.y) << std::endl;
         cam.SetTarget(raylib::Vector2(cam.GetTarget().x - vec.x, cam.GetTarget().y - vec.y));
     }
 
@@ -67,7 +67,7 @@ int main () {
         if (raylib::Mouse::IsButtonReleased(0)) {
             raylib::Vector2 vec = cam.GetScreenToWorld(raylib::Mouse::GetPosition());
             vec = gamemap.positionToIndex(vec);
-            std::cout << vec.x << " " << vec.y << std::endl;
+            std::cout << vec << std::endl;
         }
         cam.SetTarget(cam_pos);
         cam.EndMode();
