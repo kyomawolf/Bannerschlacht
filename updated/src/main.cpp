@@ -7,11 +7,14 @@
 //    process();
 //    render();
 //}
+
+#ifndef VEC2OVERLOAD
+#define VEC2OVERLOAD
 std::ostream& operator<<(std::ostream& o, const raylib::Vector2& vec) {
     o << vec.x << " " << vec.y;
     return o;
 }
-
+#endif /*VEC2OVERLOAD*/
 
 
 void move(raylib::Camera2D& cam, raylib::Vector2& cam_pos, raylib::Window& win) {
@@ -53,19 +56,25 @@ int main () {
     win.SetTargetFPS(140);
     raylib::Color textColor(BLUE);
     raylib::Texture quad(raylib::Image(std::string("../rectangle.png")));
+    raylib::Texture unit_text(raylib::Image(std::string("../red_dot.png")));
     raylib::Rectangle rec(10, 10, 700, 20);
     //Ui game_ui(win.GetWidth(), win.GetHeight());
+    Unit* std_unit = new Unit(unit_text);
+    gamemap.at(2, 2).SetEntry(std_unit);
     while(!win.ShouldClose()) {
         win.BeginDrawing();
 
         ///ingame
         cam.BeginMode();
         win.ClearBackground(raylib::Color::RayWhite());
+//        std::cerr << "after" << std::endl;
         gamemap.draw(quad);
         //collection.draw(units);
         move(cam, cam_pos, win);
         if (raylib::Mouse::IsButtonReleased(0)) {
+            //todo check if ui has been clicked
             raylib::Vector2 vec = cam.GetScreenToWorld(raylib::Mouse::GetPosition());
+            gamemap.OnClick(vec);
             vec = gamemap.positionToIndex(vec);
             std::cout << vec << std::endl;
         }
@@ -79,7 +88,7 @@ int main () {
         win.EndDrawing();
         ///TODO: Setup quads as clickable
     }
-
+    delete std_unit;
     return 0;
 //    data* gameData = new data(/*config file?*/);
 //    return main_game_loop(gameData, uiStartup());

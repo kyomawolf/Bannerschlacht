@@ -8,6 +8,7 @@
 #include "./raylib.hpp"
 #include "./raymath.hpp"
 #include "./raylib-cpp-utils.hpp"
+#include <iostream>
 
 namespace raylib {
 /**
@@ -382,7 +383,6 @@ class Vector2 : public ::Vector2 {
             ::Vector2 *collisionPoint) const {
         return ::CheckCollisionLines(*this, endPos1, startPos2, endPos2, collisionPoint);
     }
-
  private:
     void set(const ::Vector2& vec) {
         x = vec.x;
@@ -391,6 +391,8 @@ class Vector2 : public ::Vector2 {
 };
 
 }  // namespace raylib
+
+std::ostream& operator<<(std::ostream& o, const raylib::Vector2& vec);
 using RVector2 = raylib::Vector2;
 
 #endif  // RAYLIB_CPP_INCLUDE_VECTOR2_HPP_

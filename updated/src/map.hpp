@@ -13,6 +13,8 @@ class map {
 private:
     constexpr static const float size_scaling = 100;
     constexpr static const float image_scaling = 1;
+    RVector2 selectedIndex;
+    bool     selected;
     raylib::Vector2 size;
     std::vector<std::vector<tile> > field;
 public:
@@ -22,7 +24,10 @@ public:
 
     void    draw(raylib::Texture& tex);
     raylib::Vector2 positionToIndex(raylib::Vector2& worldPosition);
+    bool    OnClick(RVector2 worldPosition);
     static raylib::Vector2 LocalToWorld(unsigned int index_x, unsigned int index_y);
+    tile& at(unsigned int x, unsigned int y);
+    tile& at(RVector2 pos);
 };
 
 #endif //PROJEKT_DIESCHLACHT_MAP_HPP

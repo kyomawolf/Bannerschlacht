@@ -1,6 +1,8 @@
 //
 // Created by kyomawolf on 02.10.22.
 //
+#ifndef UI_HPP
+#define UI_HPP
 #include "raylib-cpp.hpp"
 
 
@@ -55,3 +57,5 @@ private:
 
 
 };
+
+#endif /*UI_HPP*/
