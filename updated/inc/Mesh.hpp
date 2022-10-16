@@ -11,7 +11,7 @@
 
 namespace raylib {
 /**
- * Vertex data definning a mesh
+ * Vertex Data definning a mesh
  */
 class Mesh : public ::Mesh {
  public:
@@ -125,14 +125,14 @@ class Mesh : public ::Mesh {
     }
 
     /**
-     * Generate heightmap mesh from image data
+     * Generate heightmap mesh from image Data
      */
     static ::Mesh Heightmap(const ::Image& heightmap, ::Vector3 size) {
         return ::GenMeshHeightmap(heightmap, size);
     }
 
     /**
-     * Generate cubes-based map mesh from image data
+     * Generate cubes-based Map mesh from image Data
      */
     static ::Mesh Cubicmap(const ::Image& cubicmap, ::Vector3 cubeSize) {
         return ::GenMeshCubicmap(cubicmap, cubeSize);
@@ -193,14 +193,14 @@ class Mesh : public ::Mesh {
     }
 
     /**
-     * Upload mesh vertex data to GPU (VRAM)
+     * Upload mesh vertex Data to GPU (VRAM)
      */
     inline void Upload(bool dynamic = false) {
         ::UploadMesh(this, dynamic);
     }
 
     /**
-     * Upload mesh vertex data to GPU (VRAM)
+     * Upload mesh vertex Data to GPU (VRAM)
      */
     inline void UpdateBuffer(int index, void *data, int dataSize, int offset = 0) {
         ::UpdateMeshBuffer(*this, index, data, dataSize, offset);
@@ -221,7 +221,7 @@ class Mesh : public ::Mesh {
     }
 
     /**
-     * Export mesh data to file
+     * Export mesh Data to file
      */
     inline bool Export(const std::string& fileName) {
         // TODO(RobLoach): Switch to an exception when failed.

@@ -1,10 +1,10 @@
 #include <iostream>
-#include "map.hpp"
-#include "ui.hpp"
-#include "parser.hpp"
+#include "Map.hpp"
+#include "Ui.hpp"
+#include "Parser.hpp"
 #include "../inc/raylib-cpp.hpp"
 
-//int main_game_loop(data *gameData, uiObj *ui) {
+//int main_game_loop(Data *gameData, uiObj *ui) {
 //    process();
 //    render();
 //}
@@ -49,13 +49,13 @@ void move(raylib::Camera2D& cam, raylib::Vector2& cam_pos, raylib::Window& win) 
 
 
 int main () {
-    parser  par;
+    Parser  par;
     try {
-        par.Map("src/test.map");
-    } catch (parser::parserException &e) {
+        par.Map("src/test.Map");
+    } catch (Parser::ParserException &e) {
         std::cerr << e.what() << std::endl;
     }
-    map gamemap(par.getMapData().width, par.getMapData().height);
+    Map gamemap(par.getMapData().width, par.getMapData().height);
 
     std::cout << "Set up units" << std::endl;
     raylib::Window win(1080, 720, "Schlacht ver. 0.0.2");
@@ -67,7 +67,7 @@ int main () {
     raylib::Rectangle rec(10, 10, 700, 20);
     raylib::Texture unit_text(raylib::Image(std::string("../red_dot.png")));
 
-    const std::vector<data::UnitData> tmp = par.getUnitData();
+    const std::vector<Data::UnitData> tmp = par.getUnitData();
     for (auto i = tmp.begin(); i < tmp.end(); i++) {
         try {
             gamemap.at(i->x, i->y).SetEntry(i->class_d);
@@ -89,8 +89,8 @@ int main () {
         //collection.draw(unitData);
         move(cam, cam_pos, win);
         if (IsKeyDown(KEY_SPACE)) {
-            for (unsigned int i = 0; i < gamemap.size.x; i++) {
-                for (unsigned int ii = 0; ii != gamemap.size.y; ii++) {
+            for (unsigned int i = 0; i < gamemap._size.x; i++) {
+                for (unsigned int ii = 0; ii != gamemap._size.y; ii++) {
                     if (gamemap.at(i, ii).GetInit())
                         std::cout << i << " " << ii << "initialized" << std::endl;
                 }
@@ -114,6 +114,6 @@ int main () {
         ///TODO: Setup quads as clickable
     }
     return 0;
-//    data* gameData = new data(/*config file?*/);
+//    Data* gameData = new Data(/*config file?*/);
 //    return main_game_loop(gameData, uiStartup());
 }

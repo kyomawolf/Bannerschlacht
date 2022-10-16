@@ -84,7 +84,7 @@ class Material : public ::Material {
     }
 
     /**
-     * Set texture for a material map type (MAP_DIFFUSE, MAP_SPECULAR...)
+     * Set texture for a material Map type (MAP_DIFFUSE, MAP_SPECULAR...)
      */
     inline Material& SetTexture(int mapType, const ::Texture2D& texture) {
         ::SetMaterialTexture(this, mapType, texture);

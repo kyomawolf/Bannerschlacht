@@ -32,7 +32,7 @@ class Texture : public ::Texture {
     }
 
     /**
-     * Creates a texture object based on the given Texture struct data.
+     * Creates a texture object based on the given Texture struct Data.
      */
     Texture(const ::Texture& texture) {
         set(texture);
@@ -121,7 +121,7 @@ class Texture : public ::Texture {
     }
 
     /**
-     * Load texture from image data
+     * Load texture from image Data
      */
     void Load(const ::Image& image) {
         set(::LoadTextureFromImage(image));
@@ -158,7 +158,7 @@ class Texture : public ::Texture {
     }
 
     /**
-     * Update GPU texture with new data
+     * Update GPU texture with new Data
      */
     inline Texture& Update(const void *pixels) {
         ::UpdateTexture(*this, pixels);
@@ -166,7 +166,7 @@ class Texture : public ::Texture {
     }
 
     /**
-     * Update GPU texture rectangle with new data
+     * Update GPU texture rectangle with new Data
      */
     inline Texture& Update(::Rectangle rec, const void *pixels) {
         UpdateTextureRec(*this, rec, pixels);
@@ -174,14 +174,14 @@ class Texture : public ::Texture {
     }
 
     /**
-     * Get pixel data from GPU texture and return an Image
+     * Get pixel Data from GPU texture and return an Image
      */
     inline ::Image GetData() const {
         return ::LoadImageFromTexture(*this);
     }
 
     /**
-     * Get pixel data from GPU texture and return an Image
+     * Get pixel Data from GPU texture and return an Image
      */
     inline operator raylib::Image() {
         return GetData();
@@ -274,7 +274,7 @@ class Texture : public ::Texture {
     }
 
     /**
-     * Set texture for a material map type (MAP_DIFFUSE, MAP_SPECULAR...)
+     * Set texture for a material Map type (MAP_DIFFUSE, MAP_SPECULAR...)
      */
     inline Texture& SetMaterial(::Material *material, int mapType = MATERIAL_MAP_NORMAL) {
         ::SetMaterialTexture(material, mapType, *this);
@@ -305,7 +305,7 @@ class Texture : public ::Texture {
     /**
      * Determines whether or not the Texture has been loaded and is ready.
      *
-     * @return True or false depending on whether the Texture has data.
+     * @return True or false depending on whether the Texture has Data.
      */
     bool IsReady() const {
         return id != 0;

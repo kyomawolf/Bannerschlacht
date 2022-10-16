@@ -5,15 +5,15 @@
 TODO:
 First thing to be made is the Map, all necessities are listed down below.
 
-UI is the next thing to be implemented, firstly the map should be clickable and an interface with information of the clicked tile should be displayed.
+UI is the next thing to be implemented, firstly the Map should be clickable and an interface with information of the clicked Tile should be displayed.
 
-after that, unitData shall be implemented, so that they are adressable with functions for movement and other actions, UI implementation for Units should follow.
+after that, _unitData shall be implemented, so that they are adressable with functions for movement and other actions, UI implementation for Units should follow.
 
 Implementing the information system with friend/foe recognition is the next priority.
 
 Menus and Settings are the next step afterwards.
 	
-Balancing (if not done already) are the next thing to do, as new unitData are being implemented.
+Balancing (if not done already) are the next thing to do, as new _unitData are being implemented.
 
 The best idea would be some sort of rock-paper-scissors system (with more attributes oc) as its suitable for a first balancing.
 
@@ -31,12 +31,12 @@ The best idea would be some sort of rock-paper-scissors system (with more attrib
   - holds mapmodifier applied to all tiles and are being copied
 - Units
   - actions
-  - data
-    - has pointer to tile obj
+  - Data
+    - has pointer to Tile obj
     - modifiers
     - actions per turn
     - ressources
     - mapinformation it holds
-    - hp and hp to men/attack-dmg ratio
+    - hp and hp to _men/attack-dmg ratio
   - holds a texture displayable by renderer
 - UI

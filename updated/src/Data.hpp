@@ -3,7 +3,7 @@
 
 class Unit;
 
-class data {
+class Data {
 private:
     struct ImageData {
 

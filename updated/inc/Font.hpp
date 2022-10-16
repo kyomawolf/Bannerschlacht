@@ -9,7 +9,7 @@
 
 namespace raylib {
 /**
- * Font type, includes texture and charSet array data
+ * Font type, includes texture and charSet array Data
  */
 class Font : public ::Font {
  public:
@@ -74,7 +74,7 @@ class Font : public ::Font {
     }
 
     /**
-     * Loads a font from memory, based on the given file type and file data.
+     * Loads a font from memory, based on the given file type and file Data.
      *
      * @throws raylib::RaylibException Throws if the given font failed to initialize.
      *
@@ -83,7 +83,7 @@ class Font : public ::Font {
     Font(const std::string& fileType, const unsigned char* fileData, int dataSize, int fontSize,
             int *fontChars, int charsCount)  {
         if (!Load(fileType, fileData, dataSize, fontSize, fontChars, charsCount)) {
-            throw RaylibException("Failed to load Texture from file data");
+            throw RaylibException("Failed to load Texture from file Data");
         }
     }
 

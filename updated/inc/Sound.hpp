@@ -80,7 +80,7 @@ class Sound : public ::Sound {
     }
 
     /**
-     * Update sound buffer with new data
+     * Update sound buffer with new Data
      */
     inline Sound& Update(const void *data, int samplesCount) {
         ::UpdateSound(*this, data, samplesCount);
@@ -88,7 +88,7 @@ class Sound : public ::Sound {
     }
 
     /**
-     * Update sound buffer with new data, assuming it's the same sample count.
+     * Update sound buffer with new Data, assuming it's the same sample count.
      */
     inline Sound& Update(const void *data) {
         ::UpdateSound(*this, data, static_cast<int>(frameCount));

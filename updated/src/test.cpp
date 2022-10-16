@@ -33,11 +33,11 @@
 //		std::cout << "texture" << tex.GetHeight() << "  " << tex.GetWidth() << std::endl;
 //		//std::vector<raylib::Vector2>(width * height, raylib::Vector2(0, 0));
 //	}
-//	int GetQuad(rVec2D& tile) {
+//	int GetQuad(rVec2D& Tile) {
 //		///if + inner quad, if - outer quad
-//		float px = tile.x - (int) tile.x;
+//		float px = Tile.x - (int) Tile.x;
 //		px = fabs(px - 0.5);
-//		float py = tile.y - (int) tile.y;
+//		float py = Tile.y - (int) Tile.y;
 //		py = fabs(py - 0.5);
 //		if (px > 0.25 || py > 0.5 * 2)
 //			return 0;
@@ -48,10 +48,10 @@
 //	rVec2D	GetTile(rVec2D& worldpos) {
 //		if (worldpos.x < 0 || worldpos.y < 0 || worldpos.x > width * tile_width || worldpos.y > height * tile_height * 1.5)
 //			return rVec2D(-1,-1);
-//		rVec2D tile(worldpos.x / tile_width, worldpos.y / tile_height); //rework, wrong positions: try hexpos with only y first
-//		int quad = GetQuad(tile);
-//		std::cout << "quadresult: " << quad << "    tilepos: " << tile.x << "  " << tile.y << std::endl;
-//		if (worldpos.CheckCollision(tile, hex_radius / 2))
+//		rVec2D Tile(worldpos.x / tile_width, worldpos.y / tile_height); //rework, wrong positions: try hexpos with only y first
+//		int quad = GetQuad(Tile);
+//		std::cout << "quadresult: " << quad << "    tilepos: " << Tile.x << "  " << Tile.y << std::endl;
+//		if (worldpos.CheckCollision(Tile, hex_radius / 2))
 //			return rVec2D(1, 1);
 //		return worldpos;
 //	}
@@ -128,7 +128,7 @@ int main () {
 //		if (rMouse::IsButtonPressed(0)) {
 //			mousepos = rMouse::GetPosition();
 //			auto wpos = cam.GetScreenToWorld(mousepos);
-//			std::cout << "mouse: " << mousepos << " tile: " << board.GetTile(wpos) << std::endl;
+//			std::cout << "mouse: " << mousepos << " Tile: " << board.GetTile(wpos) << std::endl;
 //		}
 //		cam.SetTarget(cam_pos);
 //		cam.EndMode();

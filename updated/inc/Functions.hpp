@@ -68,7 +68,7 @@ RLCPPAPI inline std::string GetGamepadName(int gamepad) {
 }
 
 /**
- * Load text data from file (read)
+ * Load text Data from file (read)
  */
 [[maybe_unused]]
 RLCPPAPI std::string LoadFileText(const std::string& fileName) {
@@ -79,7 +79,7 @@ RLCPPAPI std::string LoadFileText(const std::string& fileName) {
 }
 
 /**
- * Save text data to file (write)
+ * Save text Data to file (write)
  */
 RLCPPAPI inline bool SaveFileText(const std::string& fileName, const std::string& text) {
     return ::SaveFileText(fileName.c_str(), const_cast<char*>(text.c_str()));
@@ -212,7 +212,7 @@ RLCPPAPI inline ::Image LoadImage(const std::string& fileName) {
 }
 
 /**
- * Load an image from RAW file data
+ * Load an image from RAW file Data
  */
 RLCPPAPI inline ::Image LoadImageRaw(const std::string& fileName,
         int width, int height,
@@ -221,7 +221,7 @@ RLCPPAPI inline ::Image LoadImageRaw(const std::string& fileName,
 }
 
 /**
- * Load animated image data
+ * Load animated image Data
  */
 RLCPPAPI inline ::Image LoadImageAnim(const std::string& fileName, int *frames) {
     return ::LoadImageAnim(fileName.c_str(), frames);
@@ -237,7 +237,7 @@ RLCPPAPI inline ::Image LoadImageFromMemory(const std::string& fileType,
 }
 
 /**
- * Export image data to file
+ * Export image Data to file
  */
 RLCPPAPI inline bool ExportImage(const Image& image, const std::string& fileName) {
     return ::ExportImage(image, fileName.c_str());

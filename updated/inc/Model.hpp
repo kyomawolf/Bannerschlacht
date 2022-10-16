@@ -203,7 +203,7 @@ class Model : public ::Model {
     }
 
     /**
-     * Determines whether or not the Model has data in it.
+     * Determines whether or not the Model has Data in it.
      */
     bool IsReady() const {
         return meshCount > 0 || materialCount > 0 || boneCount > 0;

@@ -9,7 +9,7 @@
 
 namespace raylib {
 /**
- * Wave type, defines audio wave data
+ * Wave type, defines audio wave Data
  */
 class Wave : public ::Wave {
  public:
@@ -27,7 +27,7 @@ class Wave : public ::Wave {
     }
 
     /**
-     * Load wave data from file
+     * Load wave Data from file
      */
     Wave(const std::string& fileName) {
         if (!Load(fileName)) {
@@ -59,7 +59,7 @@ class Wave : public ::Wave {
     }
 
     /**
-     * Unload wave data
+     * Unload wave Data
      */
     ~Wave() {
         Unload();
@@ -105,7 +105,7 @@ class Wave : public ::Wave {
     }
 
     /**
-     * Convert wave data to desired format
+     * Convert wave Data to desired format
      */
     inline Wave& Format(int SampleRate, int SampleSize, int Channels = 2) {
         ::WaveFormat(this, SampleRate, SampleSize, Channels);
@@ -128,21 +128,21 @@ class Wave : public ::Wave {
     }
 
     /**
-     * Load samples data from wave as a floats array
+     * Load samples Data from wave as a floats array
      */
     inline float* LoadSamples() {
         return ::LoadWaveSamples(*this);
     }
 
     /**
-     * Unload samples data loaded with LoadWaveSamples()
+     * Unload samples Data loaded with LoadWaveSamples()
      */
     inline void UnloadSamples(float *samples) {
         ::UnloadWaveSamples(samples);
     }
 
     /**
-     * Export wave data to file, returns true on success
+     * Export wave Data to file, returns true on success
      */
     inline bool Export(const std::string& fileName) {
         // TODO(RobLoach): Throw exception on error.
@@ -150,7 +150,7 @@ class Wave : public ::Wave {
     }
 
     /**
-     * Export wave sample data to code (.h), returns true on success
+     * Export wave sample Data to code (.h), returns true on success
      */
     inline bool ExportAsCode(const std::string& fileName) {
         // TODO(RobLoach): Throw exception on error.
@@ -158,7 +158,7 @@ class Wave : public ::Wave {
     }
 
     /**
-     * Unload wave data
+     * Unload wave Data
      */
     void Unload() {
         if (data != nullptr) {
@@ -168,23 +168,23 @@ class Wave : public ::Wave {
     }
 
     /**
-     * Load sound from wave data
+     * Load sound from wave Data
      */
     inline ::Sound LoadSound() {
         return ::LoadSoundFromWave(*this);
     }
 
     /**
-     * Load sound from wave data
+     * Load sound from wave Data
      */
     inline operator ::Sound() {
         return LoadSound();
     }
 
     /**
-     * Load wave data from file.
+     * Load wave Data from file.
      *
-     * @return True or false depending on if the Wave data was loaded properly.
+     * @return True or false depending on if the Wave Data was loaded properly.
      */
     bool Load(const std::string& fileName) {
         set(::LoadWave(fileName.c_str()));
@@ -194,7 +194,7 @@ class Wave : public ::Wave {
     /**
      * Load wave from memory buffer, fileType refers to extension: i.e. "wav"
      *
-     * @return True or false depending on if the Wave data was loaded properly.
+     * @return True or false depending on if the Wave Data was loaded properly.
      */
     bool Load(const std::string& fileType, const unsigned char *fileData, int dataSize) {
         set(::LoadWaveFromMemory(fileType.c_str(), fileData, dataSize));
@@ -202,9 +202,9 @@ class Wave : public ::Wave {
     }
 
     /**
-     * Retrieve whether or not the Wave data has been loaded.
+     * Retrieve whether or not the Wave Data has been loaded.
      *
-     * @return True or false depending on whether the wave data has been loaded.
+     * @return True or false depending on whether the wave Data has been loaded.
      */
     inline bool IsReady() const {
         return data != nullptr;

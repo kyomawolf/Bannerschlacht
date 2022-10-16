@@ -23,7 +23,7 @@ class AudioStream : public ::AudioStream {
     }
 
     /**
-     * Init audio stream (to stream raw audio pcm data)
+     * Init audio stream (to stream raw audio pcm Data)
      *
      * @throws raylib::RaylibException Throws if the AudioStream failed to load.
      */
@@ -77,7 +77,7 @@ class AudioStream : public ::AudioStream {
     }
 
     /**
-     * Update audio stream buffers with data
+     * Update audio stream buffers with Data
      */
     inline AudioStream& Update(const void *data, int samplesCount) {
         ::UpdateAudioStream(*this, data, samplesCount);
@@ -168,7 +168,7 @@ class AudioStream : public ::AudioStream {
     }
 
     /**
-     * Init audio stream (to stream raw audio pcm data)
+     * Init audio stream (to stream raw audio pcm Data)
      *
      * @return True or false depending on if the audio stream initialized properly.
      */

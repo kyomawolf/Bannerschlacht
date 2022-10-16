@@ -1,6 +1,6 @@
 NAME=Schlacht
 SRC_FOLDER=src/
-SRC_FILES= main.cpp tile.cpp map.cpp data.cpp ui.cpp unit.cpp parser.cpp
+SRC_FILES= main.cpp Tile.cpp map.cpp data.cpp ui.cpp unit.cpp parser.cpp
 DEP_FILES= AudioDevice.hpp \
            AudioStream.hpp \
            BoundingBox.hpp\

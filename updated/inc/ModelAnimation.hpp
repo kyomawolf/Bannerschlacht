@@ -75,7 +75,7 @@ class ModelAnimation : public ::ModelAnimation {
     }
 
     /**
-     * Unload animation data
+     * Unload animation Data
      */
     inline void Unload() {
         ::UnloadModelAnimation(*this);

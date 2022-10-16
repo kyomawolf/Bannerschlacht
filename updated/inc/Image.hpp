@@ -126,7 +126,7 @@ class Image : public ::Image {
     }
 
     /**
-     * Get pixel data from screen buffer and return an Image (screenshot)
+     * Get pixel Data from screen buffer and return an Image (screenshot)
      */
     static ::Image LoadFromScreen() {
         return ::LoadImageFromScreen();
@@ -233,9 +233,9 @@ class Image : public ::Image {
     }
 
     /**
-     * Load image from RAW file data.
+     * Load image from RAW file Data.
      *
-     * @return Whether or not the raw image data was loaded successfully.
+     * @return Whether or not the raw image Data was loaded successfully.
      *
      * @see ::LoadImageRaw()
      */
@@ -245,7 +245,7 @@ class Image : public ::Image {
     }
 
     /**
-     * Load image sequence from file (frames appended to image.data).
+     * Load image sequence from file (frames appended to image.Data).
      *
      * @return Whether or not the image animation was loaded successfully.
      *
@@ -259,7 +259,7 @@ class Image : public ::Image {
     /**
      * Load image from memory buffer, fileType refers to extension: i.e. "png".
      *
-     * @return Whether or not the image data was loaded successfully.
+     * @return Whether or not the image Data was loaded successfully.
      *
      * @see ::LoadImageFromMemory()
      */
@@ -294,7 +294,7 @@ class Image : public ::Image {
     }
 
     /**
-     * Export image data to file, returns true on success
+     * Export image Data to file, returns true on success
      */
     inline bool Export(const std::string& fileName) const {
         // TODO(RobLoach): Switch to an invalid loading exception on false.
@@ -344,7 +344,7 @@ class Image : public ::Image {
     }
 
     /**
-     * Convert image data to desired format
+     * Convert image Data to desired format
      */
     inline Image& Format(int newFormat) {
         ::ImageFormat(this, newFormat);
@@ -453,7 +453,7 @@ class Image : public ::Image {
     }
 
     /**
-     * Dither image data to 16bpp or lower (Floyd-Steinberg dithering)
+     * Dither image Data to 16bpp or lower (Floyd-Steinberg dithering)
      */
     inline Image& Dither(int rBpp, int gBpp, int bBpp, int aBpp) {
         ::ImageDither(this, rBpp, gBpp, bBpp, aBpp);
@@ -650,7 +650,7 @@ class Image : public ::Image {
     }
 
     /**
-     * Load color data from image as a Color array (RGBA - 32bit)
+     * Load color Data from image as a Color array (RGBA - 32bit)
      */
     inline ::Color* LoadColors() const {
         return ::LoadImageColors(*this);
@@ -664,7 +664,7 @@ class Image : public ::Image {
     }
 
     /**
-     * Unload color data loaded with LoadImageColors()
+     * Unload color Data loaded with LoadImageColors()
      */
     inline void UnloadColors(::Color* colors) const {
         ::UnloadImageColors(colors);
@@ -678,14 +678,14 @@ class Image : public ::Image {
     }
 
     /**
-     * Load texture from image data.
+     * Load texture from image Data.
      */
     inline ::Texture2D LoadTexture() const {
         return ::LoadTextureFromImage(*this);
     }
 
     /**
-     * Loads a texture from the image data.
+     * Loads a texture from the image Data.
      *
      * @see LoadTexture()
      */
@@ -694,16 +694,16 @@ class Image : public ::Image {
     }
 
     /**
-     * Get pixel data size in bytes for certain format
+     * Get pixel Data size in bytes for certain format
      */
     static int GetPixelDataSize(int width, int height, int format = PIXELFORMAT_UNCOMPRESSED_R32G32B32A32) {
         return ::GetPixelDataSize(width, height, format);
     }
 
     /**
-     * Returns the pixel data size based on the current image.
+     * Returns the pixel Data size based on the current image.
      *
-     * @return The pixel data size of the image.
+     * @return The pixel Data size of the image.
      */
     int GetPixelDataSize() const {
         return ::GetPixelDataSize(width, height, format);
