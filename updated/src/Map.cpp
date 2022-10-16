@@ -22,12 +22,12 @@ Map::Map(const std::string &file_name) : _size(10, 10), _field(_size.x) {
 
 Map::Map(unsigned int height, unsigned int length) : _size(height, length), _field(_size.x) {
     Tile empty;
-    for (auto i = _field.begin(); i != _field.end(); i++) {
-        (*i).assign(_size.y, empty);
-    }
+        for (auto i = _field.begin(); i != _field.end(); i++) {
+            i->assign(_size.y, empty);
+        }
 }
 
-void    Map::draw(raylib::Texture& tex) {
+void    Map::Draw(raylib::Texture& tex) {
     for (unsigned int i = 0; i < _field.size(); i++) {
         for (unsigned int ii = 0; ii != _field[i].size(); ii++) {
             _field[i][ii].Draw(i, ii);
@@ -46,7 +46,7 @@ raylib::Vector2 Map::LocalToWorld(unsigned int index_x, unsigned int index_y) {
 
 bool Map::OnClick(RVector2 worldPosition) {
     RVector2 indexPos = positionToIndex(worldPosition);
-    if (indexPos.x >= _size.x || indexPos.y >= _size.y)
+    if (indexPos.x < 0 || indexPos.y < 0 || indexPos.x >= _size.x || indexPos.y >= _size.y)
         return _selected = false;
     if (_selected) {
         at(_selectedIndex).MoveUnit(at(indexPos));

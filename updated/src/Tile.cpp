@@ -14,7 +14,7 @@ void Tile::Draw(unsigned int x, unsigned int y) {
         pos.x += _paddingLeft;
         pos.y += _paddingTop;
 //        std::cout << "in here "<< Map::LocalToWorld(x, y) << std::endl;
-        _entry->tex->Draw(pos/* plus padding */, 0, _entry->scale);
+        _entry->tex->Draw(pos/* plus padding */, 0, _entry->scale, _entry->player_tints[_entry->GetPlayer()]);
     }
 //    std::cout << "after if" << std::endl;
 }

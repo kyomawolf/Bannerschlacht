@@ -18,10 +18,11 @@ private:
     int         _player;
     int         _id;
 public:
+    raylib::Color player_tints[2] = { {255, 255, 255, 255}, {50, 50, 255, 255} };
     explicit Unit(raylib::Texture& init_tex, int init_player, float init_atk = 0, float init_def = 0, int init_men = 0, float init_mov = 0, float init_mor = 0);
     Unit(const Data::UnitData& data);
     ~Unit() = default;
-
+    int GetPlayer() const;
 };
 
 

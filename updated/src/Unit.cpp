@@ -10,3 +10,7 @@ Unit::Unit(raylib::Texture& init_tex, int init_player, float init_atk, float ini
 
 Unit::Unit(const Data::UnitData &data) : tex(nullptr), _atk(data.atk), _def(data.def), _men(data.men),
                                          _mov(data.mov), _mor(data.mor), _player(data.player), _id(data.id){ }
+
+int Unit::GetPlayer() const {
+    return _player;
+}

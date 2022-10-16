@@ -10,6 +10,8 @@
 #include "Tile.hpp"
 
 class Map {
+public:
+    raylib::Vector2 _size; //todo make private
 private:
     constexpr static const float _sizeScaling = 100;
     constexpr static const float _imageScaling = 1;
@@ -17,12 +19,11 @@ private:
     bool     _selected;
     std::vector<std::vector<Tile> > _field;
 public:
-    raylib::Vector2 _size; //todo make private
     Map();
     Map(const std::string& file_name);
     Map(unsigned int height, unsigned int length);
 
-    void    draw(raylib::Texture& tex);
+    void    Draw(raylib::Texture& tex);
     raylib::Vector2 positionToIndex(raylib::Vector2& worldPosition);
     bool    OnClick(RVector2 worldPosition);
     static raylib::Vector2 LocalToWorld(unsigned int index_x, unsigned int index_y);
