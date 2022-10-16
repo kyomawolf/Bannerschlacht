@@ -1,6 +1,7 @@
 #include <iostream>
 #include "map.hpp"
 #include "ui.hpp"
+#include "parser.hpp"
 #include "../inc/raylib-cpp.hpp"
 
 //int main_game_loop(data *gameData, uiObj *ui) {
@@ -48,19 +49,35 @@ void move(raylib::Camera2D& cam, raylib::Vector2& cam_pos, raylib::Window& win) 
 
 
 int main () {
-    map gamemap(10, 10);
+    parser  par;
+    try {
+        par.Map("src/test.map");
+    } catch (parser::parserException &e) {
+        std::cerr << e.what() << std::endl;
+    }
+    map gamemap(par.getMapData().width, par.getMapData().height);
 
-    raylib::Window win(1080, 720, "testmap-0");
+    std::cout << "Set up units" << std::endl;
+    raylib::Window win(1080, 720, "Schlacht ver. 0.0.2");
     raylib::Vector2 cam_pos(win.GetWidth() / 2,win.GetHeight() / 2);
     raylib::Camera2D cam(cam_pos, raylib::Vector2(0, 0));
     win.SetTargetFPS(140);
     raylib::Color textColor(BLUE);
     raylib::Texture quad(raylib::Image(std::string("../rectangle.png")));
-    raylib::Texture unit_text(raylib::Image(std::string("../red_dot.png")));
     raylib::Rectangle rec(10, 10, 700, 20);
+    raylib::Texture unit_text(raylib::Image(std::string("../red_dot.png")));
+
+    const std::vector<data::UnitData> tmp = par.getUnitData();
+    for (auto i = tmp.begin(); i < tmp.end(); i++) {
+        try {
+            gamemap.at(i->x, i->y).SetEntry(i->class_d);
+            gamemap.at(i->x, i->y).GetEntry()->tex = &unit_text;
+            gamemap.at(i->x, i->y).SetInit(true);
+        } catch (...) {
+            std::cout << "out of range" << std::endl;
+        }
+    }
     //Ui game_ui(win.GetWidth(), win.GetHeight());
-    Unit* std_unit = new Unit(unit_text);
-    gamemap.at(2, 2).SetEntry(std_unit);
     while(!win.ShouldClose()) {
         win.BeginDrawing();
 
@@ -69,8 +86,16 @@ int main () {
         win.ClearBackground(raylib::Color::RayWhite());
 //        std::cerr << "after" << std::endl;
         gamemap.draw(quad);
-        //collection.draw(units);
+        //collection.draw(unitData);
         move(cam, cam_pos, win);
+        if (IsKeyDown(KEY_SPACE)) {
+            for (unsigned int i = 0; i < gamemap.size.x; i++) {
+                for (unsigned int ii = 0; ii != gamemap.size.y; ii++) {
+                    if (gamemap.at(i, ii).GetInit())
+                        std::cout << i << " " << ii << "initialized" << std::endl;
+                }
+            }
+        }
         if (raylib::Mouse::IsButtonReleased(0)) {
             //todo check if ui has been clicked
             raylib::Vector2 vec = cam.GetScreenToWorld(raylib::Mouse::GetPosition());
@@ -88,7 +113,6 @@ int main () {
         win.EndDrawing();
         ///TODO: Setup quads as clickable
     }
-    delete std_unit;
     return 0;
 //    data* gameData = new data(/*config file?*/);
 //    return main_game_loop(gameData, uiStartup());

@@ -15,9 +15,9 @@ private:
     constexpr static const float image_scaling = 1;
     RVector2 selectedIndex;
     bool     selected;
-    raylib::Vector2 size;
     std::vector<std::vector<tile> > field;
 public:
+    raylib::Vector2 size;
     map();
     map(const std::string& file_name);
     map(unsigned int height, unsigned int length);

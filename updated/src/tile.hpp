@@ -34,6 +34,7 @@ public:
     bool    is_blocked(unsigned int face) { return face >= 4 || face_access[face]; };
     void    Draw(unsigned int x, unsigned int y);
     bool    MoveUnit(tile& dest);
+    bool    GetInit() const;
 protected:
 
 };

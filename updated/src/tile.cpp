@@ -29,3 +29,7 @@ bool tile::MoveUnit(tile &dest) {
     std::cout << "success" << std::endl;
     return true;
 }
+
+bool tile::GetInit() const {
+    return initialized;
+}
