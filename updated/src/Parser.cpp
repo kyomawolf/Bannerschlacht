@@ -61,7 +61,7 @@ Data::UnitData ParseUnit(const std::string& rawData) {
     return new_data;
 }
 
-void Parser::Map(const std::string& filename) {
+void Parser::Map(const std::string& filename) {///TODO refactor
     std::ifstream file_map(filename);
     std::string line;
     std::vector<std::string> rawUnits;
@@ -77,8 +77,8 @@ void Parser::Map(const std::string& filename) {
     RVector2 vec = ParseMapData(_mapSize);
     _mData.width = vec.x;
     _mData.height = vec.y;
-//    for (auto i = parsedUnits.begin(); i != parsedUnits.end(); i++)
-//        std::cout << *i << std::endl;
+////    for (auto i = parsedUnits.begin(); i != parsedUnits.end(); i++)
+////       std::cout << *i << std::endl;
 }
 
 const Data::MapData Parser::getMapData() const {

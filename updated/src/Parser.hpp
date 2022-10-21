@@ -10,6 +10,8 @@
 
 class Parser {
 private:
+
+    //TODO refactor (and throw out) variables
     std::map<std::string, std::string> _fileList;
     std::string                        _mapSize;
     std::vector<Data::UnitData>        _unitData;

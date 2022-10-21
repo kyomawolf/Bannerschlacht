@@ -62,7 +62,7 @@ else
 	endif
 endif
 
-FLAGS= -Wall -Wextra -std=c++17 -Wunused-private-field
+FLAGS= -Wall -Wextra -std=c++17
 
 
 all: $(NAME)

@@ -27,9 +27,9 @@ public:
     void    SwitchInit()              { _initialized = !_initialized; }
     void    SetInit(bool sw)              { _initialized = sw; }
     Unit*   GetEntry()                { return _entry; }
-    float   getDefenceModifier()    const { return _defenceModifier; };
-    float   getAttackModifier()     const { return _attackModifier; };
-    bool    is_blocked(unsigned int face) { return face >= 4 || _faceAccess[face]; };
+    float   GetDefenceModifier()    const { return _defenceModifier; };
+    float   GetAttackModifier()     const { return _attackModifier; };
+    bool    IsBlocked(unsigned int face) { return face >= 4 || _faceAccess[face]; };
     void    Draw(unsigned int x, unsigned int y);
     bool    MoveUnit(Tile& dest);
     bool    GetInit() const;

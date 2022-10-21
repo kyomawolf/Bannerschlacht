@@ -95,7 +95,7 @@ int main () {
     Parser  par;
     Data    data;
     try {
-        par.Map("src/test.Map");
+        par.Map("src/test.map");
     } catch (Parser::ParserException &e) {
         std::cerr << e.what() << std::endl;
     }
