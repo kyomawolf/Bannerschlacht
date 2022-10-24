@@ -1,27 +1,31 @@
 #pragma once
 
+#include "raylib-cpp.hpp"
+
 class Unit;
 
 class BaseData {
 public:
-    BaseData() = default;
-    virtual ~BaseData() = 0;
+    // BaseData() = default;
+    // virtual ~BaseData() = 0;
+    virtual void sayHello(){ std::cout << "Hello\n"; }
 };
 
-class MapData : BaseData {
+class MapData : public BaseData {
 private:
     unsigned int _width;
     unsigned int _height;
 public:
     MapData();
     MapData(unsigned int initWidth, unsigned int initHeight);
+    MapData(raylib::Vector2 vec);
     ~MapData();
     void  SetWidth (unsigned int val);
     void  SetHeight(unsigned int val);
 
     unsigned int GetWidth ( void ) const;
     unsigned int GetHeight( void ) const;
-}
+};
 
 class TileData : public BaseData {
     private:
@@ -38,7 +42,7 @@ class TileData : public BaseData {
 
     bool GetFogow( void ) const;
 
-}
+};
 
 class UnitData : public BaseData {
 private:
@@ -58,7 +62,7 @@ public:
     UnitData(float initAtk, float initDef, int initMen, 
              float initMov, float initMor, int initId, 
              unsigned int initX, unsigned int initY, int initPlayer, 
-             Unit* initClass_D)
+             Unit* initClass_D);
     void  SetAtk     (float val);
     void  SetDef     (float val);
     void  SetMen     (int val);
@@ -82,3 +86,5 @@ public:
     Unit*        GetClass_d ( void ) const;
 
 };
+
+std::ostream& operator<<(std::ostream& o, const UnitData& data);

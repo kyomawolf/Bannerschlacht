@@ -7,11 +7,11 @@ class Data {
 public:
     enum DataIndetify {MAP, PLAYER, UNIT, CUSTOM};
     typedef DataIndetify DIdent;
-private:
     struct DataLink {
         DIdent      indentifier;
         BaseData*   classData;
-    }
+    };
+private:
 public:
     //all data will be held here
     //use generator function to create pointer to DataLinkobject

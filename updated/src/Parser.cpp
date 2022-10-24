@@ -4,19 +4,6 @@
 #include "Data.hpp"
 #include "Unit.hpp"
 
-std::ostream& operator<<(std::ostream& o, const Data::UnitData& data) {
-    o << "attack: "     << data.atk << std::endl
-      << "defense: "    << data.def << std::endl
-      << "men: "        << data.men << std::endl
-      << "movement: "   << data.mov << std::endl
-      << "morale: "     << data.mor << std::endl
-      << "id: "         << data.id << std::endl
-      << "pos-x: "      << data.x << std::endl
-      << "pos-y: "      << data.y << std::endl
-      << "player-id: "  << data.player << std::endl;
-    return o;
-}
-
 RVector2       ParseMapData(const std::string& rawData) {
     auto pos = rawData.find('b') + 1;
     if (pos == std::string::npos)
@@ -24,8 +11,8 @@ RVector2       ParseMapData(const std::string& rawData) {
     return RVector2(std::stoi(rawData), std::stoi(&rawData.at(pos)));
 }
 
-Data::UnitData ParseUnit(const std::string& rawData) {
-    Data::UnitData new_data = {0, 0, 0, 0, 0, 0, 0, 0, 0, nullptr}; //todo allocator
+UnitData ParseUnit(const std::string& rawData) {
+    UnitData new_data;
     auto pos = rawData.find("ID");
     if (pos == std::string::npos)
         throw Parser::ParserException("unit");
@@ -33,61 +20,61 @@ Data::UnitData ParseUnit(const std::string& rawData) {
     auto sec_pos = rawData.find(',', pos);
     if (sec_pos == std::string::npos)
         throw Parser::ParserException("unit");
-    new_data.player = std::stoi(&rawData.at(pos), nullptr, 10);
+    new_data.SetPlayer(std::stoi(&rawData.at(pos), nullptr, 10));
     pos = ++sec_pos;
     sec_pos = rawData.find(':', pos);
     if (sec_pos == std::string::npos)
         throw Parser::ParserException("unit");
-    new_data.id = std::stoi(&rawData.at(pos), nullptr, 10);
+    new_data.SetId(std::stoi(&rawData.at(pos), nullptr, 10));
     pos = ++sec_pos;
     sec_pos = rawData.find('b', pos);
     if (sec_pos == std::string::npos)
         throw Parser::ParserException("unit");
-    new_data.x = std::stol(&rawData.at(pos), nullptr, 10);
+    new_data.SetX(std::stol(&rawData.at(pos), nullptr, 10));
     pos = ++sec_pos;
     sec_pos = rawData.find(':', pos);
     if (sec_pos == std::string::npos)
         throw Parser::ParserException("unit");
-    new_data.y = std::stol(&rawData.at(pos), nullptr, 10);
+    new_data.SetY(std::stol(&rawData.at(pos), nullptr, 10));
     pos = ++sec_pos;
     sec_pos = rawData.find(',', pos);
     if (sec_pos == std::string::npos)
         throw Parser::ParserException("unit");
-    new_data.atk = std::stof(&rawData.at(pos), nullptr);
+    new_data.SetAtk(std::stof(&rawData.at(pos), nullptr));
     pos = ++sec_pos;
-    new_data.men = std::stoi(&rawData.at(pos), nullptr, 10);
+    new_data.SetMen(std::stoi(&rawData.at(pos), nullptr, 10));
     std::cout << new_data << std::endl;
-    new_data.class_d = new Unit(new_data);
+    new_data.SetClass_d(new Unit(new_data));
     return new_data;
 }
 
-void Parser::Map(const std::string& filename) {///TODO refactor
+void Parser::Map(const std::string& filename, Data& target) {///TODO refactor
     std::ifstream file_map(filename);
     std::string line;
     std::vector<std::string> rawUnits;
     if (!file_map.is_open())
         throw Parser::ParserException("bad file");
-    _fileList.insert(std::pair<std::string, std::string>("GameMap", filename));
+    // _fileList.insert(std::pair<std::string, std::string>("GameMap", filename));
     std::getline(file_map, _mapSize);
     while (std::getline(file_map, line))
         rawUnits.push_back(line);
     file_map.close();
     for (auto i = rawUnits.begin(); i != rawUnits.end(); i++)
-        _unitData.push_back(ParseUnit(*i));
+        target.vecUnits.push_back(new Unit(ParseUnit(*i)));
     RVector2 vec = ParseMapData(_mapSize);
-    _mData.width = vec.x;
-    _mData.height = vec.y;
+    Data::DataLink  map_data = {Data::DIdent::MAP, new MapData(vec.x, vec.y)};
+    target.vecLink.push_back(map_data   );
 ////    for (auto i = parsedUnits.begin(); i != parsedUnits.end(); i++)
 ////       std::cout << *i << std::endl;
 }
 
-const Data::MapData Parser::getMapData() const {
-    return _mData;
-}
+// const Data::MapData Parser::getMapData() const {
+//     return _mData;
+// }
 
-const std::vector<Data::UnitData> Parser::getUnitData() const {
-    return _unitData;
-}
+// const std::vector<UnitData> Parser::getUnitData() const {
+//     return _unitData;
+// }
 
 Parser::ParserException::ParserException(std::string cause) : _cause(std::move(cause)) { }
 

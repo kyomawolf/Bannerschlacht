@@ -4,6 +4,10 @@
 
 MapData::MapData(unsigned int initWidth, unsigned int initHeight) : 
                  _width(initWidth), _height(initHeight) {}
+
+MapData::MapData(raylib::Vector2 vec) : 
+                 _width(vec.x), _height(vec.y) {}
+
 MapData::MapData() : _width(0), _height(0) {}
 
 void  MapData::SetWidth (unsigned int val) { _width = val; }
@@ -58,3 +62,17 @@ unsigned int    UnitData::GetX       ( void ) const { return _x; }
 unsigned int    UnitData::GetY       ( void ) const { return _y; }
 int             UnitData::GetPlayer  ( void ) const { return _player; }
 Unit*           UnitData::GetClass_d ( void ) const { return _class_d; }
+
+
+std::ostream& operator<<(std::ostream& o, const UnitData& data) {
+    o << "attack:     " << data.GetAtk() << std::endl
+      << "defense:    " << data.GetDef() << std::endl
+      << "men:        " << data.GetMen() << std::endl
+      << "movement:   " << data.GetMov() << std::endl
+      << "morale:     " << data.GetMor() << std::endl
+      << "id:         " << data.GetId() << std::endl
+      << "pos-x:      " << data.GetX() << std::endl
+      << "pos-y:      " << data.GetY() << std::endl
+      << "player-id:  " << data.GetPlayer() << std::endl;
+    return o;
+}

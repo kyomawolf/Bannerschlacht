@@ -12,16 +12,16 @@ class Parser {
 private:
 
     //TODO refactor (and throw out) variables
-    std::map<std::string, std::string> _fileList;
+    // std::map<std::string, std::string> _fileList;
     std::string                        _mapSize;
-    std::vector<Data::UnitData>        _unitData;
-    Data::MapData                      _mData;
+    // std::vector<Data::UnitData>        _unitData;
+    // Data::MapData                      _mData;
 public:
     Parser() = default;
-    void    Map(const std::string& filename);
+    void    Map(const std::string& filename, Data& target);
 
-    [[nodiscard]] const Data::MapData getMapData() const;
-    [[nodiscard]] const std::vector<Data::UnitData> getUnitData() const;
+    // [[nodiscard]] const Data::MapData getMapData()                const;
+    // [[nodiscard]] const std::vector<Data::UnitData> getUnitData() const;
     /* exceptions */
     class ParserException : public std::exception {
     private:
@@ -31,7 +31,5 @@ public:
         [[nodiscard]] const char * what() const noexcept override;
     };
 };
-
-std::ostream& operator<<(std::ostream& o, const Data::UnitData& data);
 
 #endif /*PARSER_HPP*/

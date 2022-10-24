@@ -93,9 +93,9 @@ void    MainGameLoop(raylib::Window& win, raylib::Camera2D& cam, RVector2& camer
 
 int main () {
     Parser  par;
-    Data    data;
+    Data*   data = new Data();
     try {
-        par.Map("src/test.map");
+        par.Map("src/test.map", *data);
     } catch (Parser::ParserException &e) {
         std::cerr << e.what() << std::endl;
     }
