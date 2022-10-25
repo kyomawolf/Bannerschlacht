@@ -21,34 +21,28 @@ public:
     public:
         PauseMenu(int screen_width, int screen_height) : _pauseFrame(screen_width * 0.5 - screen_width * 0.08, screen_height * 0.16,
                                                                      screen_width * 0.16, screen_height * 0.66) { }
-        void draw() {
+        void Draw() {
             _pauseFrame.Draw(raylib::Color::Beige());
         }
     };
 
     class Ingame {
     public:
-        void draw() {}
+        void Draw() {}
     };
 
     class MainMenu {
     public:
-        void draw() {}
+        void Draw() {}
     };
 
-    Ui(int screen_width, int screen_height) : _uiPause(screen_width, screen_height), _uiIngame(), _uiMain() {
-    }
-    void draw() {
-        if ((_menusEnabled & 1) == 1 )
-            _uiPause.draw();
-        if ((_menusEnabled & 2) == 2 )
-            _uiMain.draw();
-        if ((_menusEnabled & 4) == 4 )
-            _uiIngame.draw();
-    }
-    void    SetPause() { _menusEnabled ^= 1; };
-    void    SetMainMenu() { _menusEnabled ^= 2; };
-    void    SetIngame() { _menusEnabled ^= 4; };
+    Ui();
+    Ui(int screen_width, int screen_height);
+    void Draw();
+
+    void    SetPause();
+    void    SetMainMenu();
+    void    SetIngame();;
 
 private:
     PauseMenu   _uiPause;

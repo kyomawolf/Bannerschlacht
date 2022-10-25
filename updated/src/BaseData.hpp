@@ -7,7 +7,7 @@ class Unit;
 class BaseData {
 public:
     // BaseData() = default;
-    // virtual ~BaseData() = 0;
+    virtual ~BaseData();
     virtual void sayHello(){ std::cout << "Hello\n"; }
 };
 

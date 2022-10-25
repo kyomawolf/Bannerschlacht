@@ -64,13 +64,17 @@ void    MainGameLoop(raylib::Window& win, raylib::Camera2D& cam, RVector2& camer
         gamemap.Draw(quad);
         //collection.draw(unitData);
         move(cam, cameraPos, win);
+//        if (IsKeyPressed(KEY_SPACE)) {
+//            for (unsigned int i = 0; i < gamemap._size.x; i++) {
+//                for (unsigned int ii = 0; ii != gamemap._size.y; ii++) {
+//                    if (gamemap.at(i, ii).GetInit())
+//                        std::cout << i << " " << ii << "initialized" << std::endl;
+//                }
+//            }
+//        }
         if (IsKeyPressed(KEY_SPACE)) {
-            for (unsigned int i = 0; i < gamemap._size.x; i++) {
-                for (unsigned int ii = 0; ii != gamemap._size.y; ii++) {
-                    if (gamemap.at(i, ii).GetInit())
-                        std::cout << i << " " << ii << "initialized" << std::endl;
-                }
-            }
+            gameData.gameUi.SetPause();
+            gameData.gameUi.SetIngame();
         }
         if (raylib::Mouse::IsButtonReleased(0)) {
             //todo check if ui has been clicked
@@ -85,7 +89,7 @@ void    MainGameLoop(raylib::Window& win, raylib::Camera2D& cam, RVector2& camer
         ///overlay
         win.DrawFPS();
 //        rec.Draw(raylib::Color::Red());
-        //game_ui.draw();
+        gameData.gameUi.Draw();
         win.EndDrawing();
         ///TODO: Setup quads as clickable
     }
@@ -100,26 +104,27 @@ int main () {
         std::cerr << e.what() << std::endl;
     }
     std::cout << "parsed map" << std::endl;
-    Map gamemap(par.getMapData().width, par.getMapData().height);
+    MapData *mapData = dynamic_cast<MapData *>(data->FindNextIdent(Data::MAP));
+    Map gamemap(mapData->GetWidth(), mapData->GetHeight());
     std::cout << "loaded map" << std::endl;
 
     raylib::Window win(1080, 720, "Schlacht ver. 0.0.2");
+    data->gameUi = Ui(win.GetWidth(), win.GetHeight());
     raylib::Vector2 cam_pos(win.GetWidth() / 2, win.GetHeight() / 2);
     raylib::Camera2D cam(cam_pos, raylib::Vector2(0, 0));
     win.SetTargetFPS(140);
     raylib::Texture unit_text(raylib::Image(std::string("../red_dot.png")));
 
-    const std::vector<Data::UnitData> tmp = par.getUnitData();
-    for (auto i = tmp.begin(); i < tmp.end(); i++) {
+    for (auto i = data->vecUnits.begin(); i < data->vecUnits.end(); i++) {
         try {
-            gamemap.at(i->x, i->y).SetEntry(i->class_d);
-            gamemap.at(i->x, i->y).GetEntry()->tex = &unit_text;
-            gamemap.at(i->x, i->y).SetInit(true);
+            gamemap.at((*i)->GetX(), (*i)->GetY()).SetEntry(*i);
+            gamemap.at((*i)->GetX(), (*i)->GetY()).GetEntry()->tex = &unit_text;
+            gamemap.at((*i)->GetX(), (*i)->GetY()).SetInit(true);
         } catch (...) {
             std::cout << "out of range" << std::endl;
         }
     }
-    MainGameLoop(win, cam, cam_pos, gamemap, data);
+    MainGameLoop(win, cam, cam_pos, gamemap, *data);
     return 0;
 //    Data* gameData = new Data(/*config file?*/);
 //    return main_game_loop(gameData, uiStartup());

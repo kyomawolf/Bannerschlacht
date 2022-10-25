@@ -9,8 +9,28 @@ Unit::Unit(raylib::Texture& init_tex, int init_player, float init_atk, float ini
 }
 
 Unit::Unit(const UnitData &data) : tex(nullptr), _atk(data.GetAtk()), _def(data.GetDef()), _men(data.GetMen()),
-                                         _mov(data.GetMov()), _mor(data.GetMor()), _player(data.GetPlayer()), _id(data.GetId()){ }
+                                         _mov(data.GetMov()), _mor(data.GetMor()), _player(data.GetPlayer()), _id(data.GetId()), _x(data.GetX()), _y(data.GetY()) { }
 
-int Unit::GetPlayer() const {
-    return _player;
-}
+///UnitdData Setter
+
+void  Unit::SetAtk(float val)      { _atk = val; }
+void  Unit::SetDef(float val)      { _def = val; }
+void  Unit::SetMen(int val)        { _men = val; }
+void  Unit::SetMov(float val)      { _mov = val; }
+void  Unit::SetMor(float val)      { _mor = val; }
+void  Unit::SetId(int val)         { _id = val; }
+void  Unit::SetX(unsigned int val) { _x = val; }
+void  Unit::SetY(unsigned int val) { _y = val; }
+void  Unit::SetPlayer(int val)     { _player = val; }
+
+///UnitData Getter
+
+float           Unit::GetAtk     ( void ) const { return _atk; }
+float           Unit::GetDef     ( void ) const { return _def; }
+int             Unit::GetMen     ( void ) const { return _men; }
+float           Unit::GetMov     ( void ) const { return _mov; }
+float           Unit::GetMor     ( void ) const { return _mor; }
+int             Unit::GetId      ( void ) const { return _id; }
+unsigned int    Unit::GetX       ( void ) const { return _x; }
+unsigned int    Unit::GetY       ( void ) const { return _y; }
+int             Unit::GetPlayer  ( void ) const { return _player; }

@@ -2,12 +2,14 @@
 #define DATA_HPP
 
 #include "BaseData.hpp"
+#include "Ui.hpp"
 
 class Data {
 public:
     enum DataIndetify {MAP, PLAYER, UNIT, CUSTOM};
     typedef DataIndetify DIdent;
     struct DataLink {
+//        int         id; TODO
         DIdent      indentifier;
         BaseData*   classData;
     };
@@ -20,8 +22,12 @@ public:
     std::vector<DataLink>   vecLink; //used for deallocation or for searching a specific object (slow)
     std::vector<Unit*>      vecUnits;
     std::vector<TileData>   vecTiles;
+    Ui                      gameUi;
+
+    BaseData* FindNextIdent(DIdent type, std::vector<DataLink>::difference_type index = 0 );
 
     Data();
+    Data(Ui initUi);
     ~Data();
 
 

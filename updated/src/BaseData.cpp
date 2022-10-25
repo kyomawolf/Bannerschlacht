@@ -1,11 +1,13 @@
 #include "BaseData.hpp"
+#include "raylib.hpp"
+#include <iostream>
 
 //!     MapData
 
 MapData::MapData(unsigned int initWidth, unsigned int initHeight) : 
                  _width(initWidth), _height(initHeight) {}
 
-MapData::MapData(raylib::Vector2 vec) : 
+MapData::MapData(RVector2 vec) :
                  _width(vec.x), _height(vec.y) {}
 
 MapData::MapData() : _width(0), _height(0) {}
@@ -16,10 +18,14 @@ void  MapData::SetHeight(unsigned int val) { _height = val; }
 unsigned int MapData::GetWidth ( void ) const {return _width;}
 unsigned int MapData::GetHeight( void ) const {return _height; }
 
+MapData::~MapData() {
+
+}
+
 //!     TileData
 
-TileData::TileData(unsigned int initX, unsigned int initY) : fogow(true), _x(initX), _y(initY);
-TileData::~TileData();
+TileData::TileData(unsigned int initX, unsigned int initY) : _fogow(true), _x(initX), _y(initY) {};
+TileData::~TileData() {};
 
 //!     UnitData
 
@@ -37,6 +43,7 @@ UnitData::UnitData(float initAtk, float initDef, int initMen,
         std::cerr << "[Warning]: " << "nullpointer init" << std::endl;
 }
 
+UnitData::~UnitData() {};
 ///UnitdData Setter
 
 void  UnitData::SetAtk(float val)      { _atk = val; }
@@ -75,4 +82,8 @@ std::ostream& operator<<(std::ostream& o, const UnitData& data) {
       << "pos-y:      " << data.GetY() << std::endl
       << "player-id:  " << data.GetPlayer() << std::endl;
     return o;
+}
+
+BaseData::~BaseData() {
+
 }
