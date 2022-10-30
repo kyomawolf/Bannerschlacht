@@ -18,17 +18,23 @@ private:
     RVector2 _selectedIndex;
     bool     _selected;
     std::vector<std::vector<Tile> > _field;
+    raylib::Texture* _tileTex;
 public:
     Map();
     Map(const std::string& file_name);
     Map(unsigned int height, unsigned int length);
 
     void    Draw(raylib::Texture& tex);
+    void    Draw();
     raylib::Vector2 positionToIndex(raylib::Vector2& worldPosition);
     bool    OnClick(RVector2 worldPosition);
     static raylib::Vector2 LocalToWorld(unsigned int index_x, unsigned int index_y);
     Tile& at(unsigned int x, unsigned int y);
     Tile& at(RVector2 pos);
+
+    [[nodiscard]] raylib::Texture *GetTileTex() const;
+
+    void SetTileTex(raylib::Texture *tileTex);
 };
 
 #endif //PROJEKT_DIESCHLACHT_MAP_HPP

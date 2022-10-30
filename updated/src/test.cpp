@@ -101,15 +101,6 @@
 //	}
 //}
 
-#include <cstdio>
-
-int main () {
-    //1010000
-    int i = 5;
-    int mask = (1 + 2 + 4);
-
-    printf("%i\n", i ^ mask);
-}
 //	raylib::Window*	win = new raylib::Window(WIDTH, HEIGHT, "test-window");
 //	rVec2D	cam_pos(0,0);
 //	rCamera2D cam(cam_pos, rVec2D(0,0));

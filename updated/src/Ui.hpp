@@ -42,7 +42,7 @@ public:
 
     void    SetPause();
     void    SetMainMenu();
-    void    SetIngame();;
+    void    SetIngame();
 
 private:
     PauseMenu   _uiPause;

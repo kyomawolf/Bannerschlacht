@@ -71,3 +71,20 @@ Tile &Map::at(unsigned int x, unsigned int y) {
     return _field[x][y];
 }
 
+void Map::Draw() {
+    for (unsigned int i = 0; i < _field.size(); i++) {
+        for (unsigned int ii = 0; ii != _field[i].size(); ii++) {
+            _tileTex->Draw(raylib::Vector2(i * _sizeScaling, ii * _sizeScaling), 0, _imageScaling);
+            _field[i][ii].Draw(i, ii);
+        }
+    }
+}
+
+raylib::Texture *Map::GetTileTex() const {
+    return _tileTex;
+}
+
+void Map::SetTileTex(raylib::Texture *tileTex) {
+    Map::_tileTex = tileTex;
+}
+
