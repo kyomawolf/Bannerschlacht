@@ -21,7 +21,10 @@ void Button::Draw() {
     if (_buttonTexture == nullptr) {
         raylib::Rectangle rec(_position, _clickSize);
         rec.Draw(_tintColor);
-        raylib::Text::Draw(_text, _position.x, _position.y, 20, raylib::BLACK);
+        #ifdef DEBUG
+        #endif
+        if (!_text.empty())
+            raylib::Text::Draw(_text, _position.x, _position.y, 20, raylib::BLACK);
         return;
     }
     _buttonTexture->Draw(_position, _tintColor);
@@ -72,15 +75,15 @@ Color Button::GetColor() const {
 }
 
 bool Button::IsInside(const RVector2& cpos) const {
-    if (_isCircular) {
-        if (cpos.x < _position.x || cpos.y < _position.x)
+    if (_isCircular) { //TODO check if thats actually working looks odd reading this on a friday night
+        if (cpos.x > _position.x + _clickSize.x || cpos.y > _position.y + _clickSize.x)
             return false;
-        if (cpos.x > _position.x + _clickSize.x || cpos.y > _position.y + _clickSize.y)
+        if (cpos.x < _position.x - _clickSize.x || cpos.y < _position.y - _clickSize.x)
             return false;
         return true;
     } else {
-        if (cpos.x < _position.x - _clickSize.x || cpos.x > _position.x + _clickSize.x
-            || cpos.y < _position.y - _clickSize.y || cpos.y > _position.y + _clickSize.y )
+        if (cpos.x < _position.x || cpos.x > _position.x + _clickSize.x
+            || cpos.y < _position.y || cpos.y > _position.y + _clickSize.y )
             return false;
         return true;
     }

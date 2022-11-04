@@ -52,11 +52,13 @@ bool Map::OnClick(RVector2 worldPosition) {
         at(_selectedIndex).MoveUnit(at(indexPos));
         std:: cout << "moved" << std::endl;
         return _selected = false;
-    } else {
-        _selectedIndex = indexPos;
-        std::cout << "selected new Tile" << std::endl;
     }
-    return _selected = true;
+    _selectedIndex = indexPos;
+    std::cout << "selected new Tile" << std::endl;
+    if (_field[static_cast<int>(_selectedIndex.x)][static_cast<int>(_selectedIndex.y)].GetEntry() != nullptr)
+        return _selected = true;
+    else
+        return _selected = false;
 }
 
 Tile &Map::at(RVector2 pos) {

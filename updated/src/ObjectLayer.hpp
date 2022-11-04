@@ -15,6 +15,9 @@ public:
     ObjectLayer();
     explicit ObjectLayer(ObjectLayer* initParent, ObjectLayer* initChild = nullptr);
     ~ObjectLayer() = default;
+
     void SetEventHandler(EventHandlerType* initEHT);
+    void SetChild(ObjectLayer *child);
+
     void CallEvent();
 };

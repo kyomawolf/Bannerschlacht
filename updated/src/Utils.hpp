@@ -4,7 +4,7 @@
 class Button {
 private:
     RVector2     _position; ///upper left corner
-    RVector2     _clickSize; ///rectangle, if _isCircular == true only x value will be used as radius
+    RVector2     _clickSize; ///rectangle, [_isCircular == true] only x value will be used as radius
     std::string  _text;
     bool         _isCircular;
     raylib::Color    _tintColor = {255, 255, 255, 255};

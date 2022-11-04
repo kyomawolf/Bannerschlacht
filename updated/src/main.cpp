@@ -51,9 +51,19 @@ void InputHandler(raylib::Camera2D& cam, raylib::Vector2& cam_pos, raylib::Windo
 
 void    Setup() { }
 
-void    MainGameLoop(raylib::Window& win, raylib::Camera2D& cam, RVector2& cameraPos, Map& gamemap, Data& gameData) {
+void    MainGameLoop(raylib::Window& win, raylib::Camera2D& cam, RVector2& cameraPos, Map& gamemap, Data& gameData, UiInGame& UiObject) {
     //Ui game_ui(win.GetWidth(), win.GetHeight());
     ///ingame
+    InGame gameEventHandler;
+    gameEventHandler.SetGamemap(&gamemap);
+    gameEventHandler.SetCam(&cam);
+    gameEventHandler.EnableHandler();
+    UiObject.EnableHandler();
+    ObjectLayer ui;
+    ObjectLayer game(&ui, nullptr);
+    ui.SetEventHandler(&UiObject);
+    game.SetEventHandler(&gameEventHandler);
+    ui.SetChild(&game);
     while (!WindowShouldClose()) {
 
         win.BeginDrawing();
@@ -65,7 +75,10 @@ void    MainGameLoop(raylib::Window& win, raylib::Camera2D& cam, RVector2& camer
         //collection.draw(unitData);
 
         ///inputhandler
+//        UiObject.Handler();
         InputHandler(cam, cameraPos, win);
+        if (GetKeyPressed() || raylib::Mouse::IsButtonPressed(0) || raylib::Mouse::IsButtonPressed(1))
+            ui.CallEvent();
         if (IsKeyPressed(KEY_SPACE)) {
             for (unsigned int i = 0; i < gamemap._size.x; i++) {
                 for (unsigned int ii = 0; ii != gamemap._size.y; ii++) {
@@ -75,17 +88,16 @@ void    MainGameLoop(raylib::Window& win, raylib::Camera2D& cam, RVector2& camer
             }
         }
 
-        if (raylib::Mouse::IsButtonReleased(0)) {
-            //todo check if ui has been clicked
-            raylib::Vector2 vec = cam.GetScreenToWorld(raylib::Mouse::GetPosition());
-            gamemap.OnClick(vec);
-            vec = gamemap.positionToIndex(vec);
-            std::cout << vec << std::endl;
-        }
+//        if (IsMouseButtonPressed(0)) {
+//            raylib::Vector2 vec = cam.GetScreenToWorld(raylib::Mouse::GetPosition());
+//            gamemap.OnClick(vec);
+//            vec = gamemap.positionToIndex(vec);
+//            std::cout << vec << std::endl;
+//        }
         cam.SetTarget(cameraPos);
         cam.EndMode();
-
         ///overlay
+        UiObject.DrawElements();
         win.DrawFPS();
 //        rec.Draw(raylib::Color::Red());
 //        gameData.gameUi.Draw();
@@ -105,6 +117,29 @@ void MainMenuLoop(raylib::Window& win, MenuMain& mainGameMenu, Data& gameData) {
         mainGameMenu.DrawElements();
         win.EndDrawing();
 };
+
+void    SetUpButtonsMainMenu(MenuMain& menuObject, raylib::Window& win) {
+    Button      buttonNewGame( {static_cast<float>(win.GetWidth()) / 2 - 60, static_cast<float>(win.GetHeight()) / 2 - 30} , {120, 20});
+    buttonNewGame.SetColor(raylib::GREEN);
+    buttonNewGame.SetText("New Game");
+
+    Button      buttonLoadGame({static_cast<float>(win.GetWidth()) / 2 - 60, static_cast<float>(win.GetHeight()) / 2 + 10} , {120, 20});
+    buttonLoadGame.SetColor(raylib::ORANGE);
+    buttonLoadGame.SetText("Load Game");
+
+    Button      buttonExitGame({static_cast<float>(win.GetWidth()) / 2 - 60, static_cast<float>(win.GetHeight()) / 2 + 50} , {120, 20});
+    buttonExitGame.SetColor(raylib::RED);
+    buttonExitGame.SetText("Exit");
+    menuObject.AddButton(buttonNewGame);
+    menuObject.AddButton(buttonLoadGame);
+    menuObject.AddButton(buttonExitGame);
+}
+
+void    SetUpButtonsMainUi(UiInGame& UiObject, raylib::Window& win) {
+    Button      buttonVoid({static_cast<float>(win.GetWidth()) * 0.2f, static_cast<float>(win.GetHeight()) * 0.8f}, {static_cast<float>(win.GetWidth()) * 0.6f, static_cast<float>(win.GetHeight()) * 0.2f});
+    buttonVoid.SetColor(raylib::BEIGE);
+    UiObject.AddButton(buttonVoid);
+}
 
 int main () {
     Parser  par;
@@ -129,22 +164,11 @@ int main () {
     win.SetTargetFPS(140);
 
     MenuMain    mainGameMenu;
+    UiInGame    mainUi;
     ///Main Menu Buttons:
 
-    Button      buttonNewGame( {static_cast<float>(win.GetWidth()) / 2 - 60, static_cast<float>(win.GetHeight()) / 2 - 30} , {120, 20});
-    buttonNewGame.SetColor(raylib::GREEN);
-    buttonNewGame.SetText("New Game");
-
-    Button      buttonLoadGame({static_cast<float>(win.GetWidth()) / 2 - 60, static_cast<float>(win.GetHeight()) / 2 + 10} , {120, 20});
-    buttonLoadGame.SetColor(raylib::ORANGE);
-    buttonLoadGame.SetText("Load Game");
-
-    Button      buttonExitGame({static_cast<float>(win.GetWidth()) / 2 - 60, static_cast<float>(win.GetHeight()) / 2 + 50} , {120, 20});
-    buttonExitGame.SetColor(raylib::RED);
-    buttonExitGame.SetText("Exit");
-    mainGameMenu.AddButton(buttonNewGame);
-    mainGameMenu.AddButton(buttonLoadGame);
-    mainGameMenu.AddButton(buttonExitGame);
+    SetUpButtonsMainMenu(mainGameMenu, win);
+    SetUpButtonsMainUi(mainUi, win);
 
     raylib::Texture unit_text(raylib::Image(std::string("../red_dot.png")));
 
@@ -168,7 +192,7 @@ int main () {
             case LOADMENU:
                 break;
             case GAME:
-                MainGameLoop(win, cam, cam_pos, gamemap, *data);
+                MainGameLoop(win, cam, cam_pos, gamemap, *data, mainUi);
                 break;
         }
 //        win.BeginDrawing();
@@ -186,8 +210,6 @@ int main () {
         //  case GAME:
         //}
     }
-    exit(0);
-
     return 0;
     Data* gameData = new Data(/*config file?*/);
 //    return main_game_loop(gameData, uiStartup());

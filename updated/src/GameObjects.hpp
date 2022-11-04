@@ -1,19 +1,30 @@
 #pragma once
 #include "EventHandlerType.hpp"
 #include "Utils.hpp"
-#include <any>
+#include "Map.hpp"
 
 class InGame : public EventHandlerType {
 private:
 protected:
+    Map*              _gamemap;
+    raylib::Camera2D* _cam;
 public:
     bool Handler() override;
+
+    Map *GetGamemap() const;
+
+    void SetGamemap(Map *gamemap);
+
+    raylib::Camera2D *GetCam() const;
+
+    void SetCam(raylib::Camera2D *cam);
 };
 
 class MenuMain : public EventHandlerType {
     private:
     protected:
     std::vector<Button> _buttonList;
+
     public:
     void AddButton(const Button& newButton);
     bool Handler() override;
@@ -23,6 +34,9 @@ class MenuMain : public EventHandlerType {
 class UiInGame : public EventHandlerType {
 private:
 protected:
+    std::vector<Button> _buttonList;
 public:
     bool Handler() override;
+    void AddButton(const Button& newButton);
+    void DrawElements();
 };
