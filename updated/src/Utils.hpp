@@ -1,6 +1,8 @@
 
 #include "raylib-cpp.hpp"
 
+enum scenes {MAINMENU, LOADMENU, GAME, ENUMCOUNT = GAME};
+
 class Button {
 private:
     RVector2     _position; ///upper left corner

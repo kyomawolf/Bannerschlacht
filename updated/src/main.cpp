@@ -5,14 +5,12 @@
 #include "../inc/raylib-cpp.hpp"
 #include "ObjectLayer.hpp"
 #include "GameObjects.hpp"
+#include "Utils.hpp"
 
 //int main_game_loop(Data *gameData, uiObj *ui) {
 //    process();
 //    render();
 //}
-
-
-enum scenes {MAINMENU, LOADMENU, GAME};
 
 enum scenes global_scene_var;
 
@@ -205,20 +203,7 @@ int main () {
                 MainGameLoop(win, cam, cam_pos, gamemap, *data, mainUi);
                 break;
         }
-//        win.BeginDrawing();
-//
-//        win.ClearBackground(raylib::Color::RayWhite());
-//        win.DrawFPS();
-//        mainGameMenu.Handler();
-//        mainGameMenu.DrawElements();
-//        win.EndDrawing();
-//        ///TODO check static variables to change scenes
-        //switch(scene) {
-        //  case MAINMENU:
-        //  case LOADMENU:
-        //  case LOADINGSCREEN:
-        //  case GAME:
-        //}
+    return EXIT_SUCCESS;
     }
     return 0;
     Data* gameData = new Data(/*config file?*/);
