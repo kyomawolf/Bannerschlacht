@@ -136,9 +136,19 @@ void    SetUpButtonsMainMenu(MenuMain& menuObject, raylib::Window& win) {
 }
 
 void    SetUpButtonsMainUi(UiInGame& UiObject, raylib::Window& win) {
-    Button      buttonVoid({static_cast<float>(win.GetWidth()) * 0.2f, static_cast<float>(win.GetHeight()) * 0.8f}, {static_cast<float>(win.GetWidth()) * 0.6f, static_cast<float>(win.GetHeight()) * 0.2f});
+    Button      buttonVoid({static_cast<float>(win.GetWidth()) * 0.2f,
+                                      static_cast<float>(win.GetHeight()) * 0.8f },
+                           {static_cast<float>(win.GetWidth()) * 0.6f,
+                                      static_cast<float>(win.GetHeight()) * 0.2f});
+    RVector2    containerTopRightCorner = buttonVoid.GetPosition();
+    RVector2    containerSize = buttonVoid.GetClickSize();
+    Button      buttonEnableAttackMode({containerTopRightCorner.x + containerSize.x * 0.2f,
+                                        containerTopRightCorner.y + containerSize.y * 0.5f - 60 },
+                                       {60, 60 });
     buttonVoid.SetColor(raylib::BEIGE);
-    UiObject.AddButton(buttonVoid);
+    buttonEnableAttackMode.SetColor(raylib::MAROON);
+    UiObject.AddButton(buttonEnableAttackMode);
+    UiObject.AddButton(buttonVoid); //background layer
 }
 
 int main () {

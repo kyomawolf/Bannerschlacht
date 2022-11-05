@@ -67,8 +67,8 @@ void UiInGame::AddButton(const Button& newButton) {
 }
 
 void UiInGame::DrawElements() {
-    for (auto & i : _buttonList)
-        i.Draw();
+    for (auto i = _buttonList.rbegin(); i != _buttonList.rend(); i++)
+        i->Draw();
 }
 
 bool UiInGame::Handler() {
@@ -80,6 +80,7 @@ bool UiInGame::Handler() {
     for (auto & i : _buttonList) {
         if (i.IsInside(currMousePos)) {
             if (IsMouseButtonPressed(0)) {
+                std::cout << i.GetClickSize() << std::endl;
                 std::cout << "clicked " << i.GetText() << std::endl;
                 return true;
             }

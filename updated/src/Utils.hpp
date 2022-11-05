@@ -31,5 +31,5 @@ public:
     [[nodiscard]] RVector2           GetPosition()   const;
     [[nodiscard]] RVector2           GetClickSize()  const;
     [[nodiscard]] Texture*           GetTexture()    const;
-    [[nodiscard]] const std::string& GetText()        const;
+    [[nodiscard]] const std::string& GetText()       const;
 };
