@@ -1,10 +1,12 @@
+#ifndef BANNERSCHLACHT_OBJECTLAYER_HPP
+#define BANNERSCHLACHT_OBJECTLAYER_HPP
 #include "raylib-cpp.hpp"
 #include "Ui.hpp"
 #include "Vector2.hpp"
 #include <functional>
 #include <map>
 
-#include "EventHandlerType.hpp"
+#include "../EventHandlerType.hpp"
 
 class ObjectLayer {
 private:
@@ -21,3 +23,5 @@ public:
 
     void CallEvent();
 };
+
+#endif

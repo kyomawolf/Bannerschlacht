@@ -1,7 +1,8 @@
-
+#ifndef BANNERSCHLACHT_UTILS_HPP
+#define BANNERSCHLACHT_UTILS_HPP
 #include "raylib-cpp.hpp"
 
-enum scenes {MAINMENU, LOADMENU, GAME, ENUMCOUNT = GAME};
+enum scenes {MAINMENU, GAME, ENUMCOUNT = GAME, LOADMENU};
 
 class Button {
 private:
@@ -35,3 +36,4 @@ public:
     [[nodiscard]] Texture*           GetTexture()    const;
     [[nodiscard]] const std::string& GetText()       const;
 };
+#endif

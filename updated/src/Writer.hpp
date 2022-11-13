@@ -1,9 +1,10 @@
-#pragma once
+#ifndef BANNERSCHLACHT_WRITE_HPP
+#define BANNERSCHLACHT_WRITE_HPP
 #include <iostream>
 #include <string>
 #include <fstream>
 #include <exception>
-#include "Data.hpp"
+#include "datastructure/Data.hpp"
 
 //used to write data to file
 class Writer {
@@ -22,3 +23,4 @@ public:
         [[nodiscard]] const char * what() const noexcept override;
     }
 };
+#endif

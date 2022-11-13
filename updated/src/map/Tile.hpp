@@ -7,7 +7,8 @@
 
 #include "raylib-cpp.hpp"
 #include "Texture.hpp"
-#include "Unit.hpp"
+
+class Unit;
 
 class Tile {
 private:

@@ -11,7 +11,7 @@ BaseData* Data::FindNextIdent(Data::DataIndetify type, std::vector<DataLink>::di
     return nullptr;
 }
 
-Data::Data() : vecLink(), vecUnits(), vecTiles(), gameUi() {
+Data::Data() : vecLink(), vecUnits(), vecTiles(), _window(nullptr) {
 
 }
 
@@ -19,6 +19,16 @@ Data::~Data() {
 
 }
 
-Data::Data(Ui initUi) : vecLink(), vecUnits(), vecTiles(), gameUi(initUi) {
+Scene * Data::getSceneByEnum(scenes type) {
+    for (auto & i: vecScenes)
+        if (i->sceneType == type)
+            return i;
+}
 
+const raylib::Window* Data::GetWindow() const {
+    return _window;
+}
+
+void Data::SetWindow(raylib::Window* window) {
+    _window = window;
 }

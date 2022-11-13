@@ -34,3 +34,7 @@ int             Unit::GetId      ( void ) const { return _id; }
 unsigned int    Unit::GetX       ( void ) const { return _x; }
 unsigned int    Unit::GetY       ( void ) const { return _y; }
 int             Unit::GetPlayer  ( void ) const { return _player; }
+
+HeadQuarter::HeadQuarter(raylib::Texture &initTex, int initPlayer, float initAtk, float initDef, int initMen,
+                         float initMov, float initMor) : Unit(initTex, initPlayer, initAtk, initDef, initMen, initMov,
+                                                              initMor) {}

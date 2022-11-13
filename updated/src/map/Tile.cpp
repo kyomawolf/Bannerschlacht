@@ -5,6 +5,7 @@
 #include <iostream>
 #include "Tile.hpp"
 #include "Map.hpp"
+#include "../units/Unit.hpp"
 
 
 void Tile::Draw(unsigned int x, unsigned int y) {

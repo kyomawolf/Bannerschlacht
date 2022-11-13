@@ -1,7 +1,9 @@
-#pragma once
-#include "EventHandlerType.hpp"
-#include "Utils.hpp"
-#include "Map.hpp"
+#ifndef BANNERSCHLACHT_GAMEOBJECTS_HPP
+#define BANNERSCHLACHT_GAMEOBJECTS_HPP
+#include "../EventHandlerType.hpp"
+#include "../Utils.hpp"
+#include "../map/Map.hpp"
+class Map;
 
 class InGame : public EventHandlerType {
 private:
@@ -40,3 +42,4 @@ public:
     void AddButton(const Button& newButton);
     void DrawElements();
 };
+#endif

@@ -1,8 +1,8 @@
 #include "Parser.hpp"
 
 #include <utility>
-#include "Data.hpp"
-#include "Unit.hpp"
+#include "datastructure/Data.hpp"
+#include "units/Unit.hpp"
 
 RVector2       ParseMapData(const std::string& rawData) {
     auto pos = rawData.find('b') + 1;

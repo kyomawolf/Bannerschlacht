@@ -1,5 +1,5 @@
-#pragma once
-
+#ifndef BANNERSCHLACHT_BASEDATA_HPP
+#define BANNERSCHLACHT_BASEDATA_HPP
 #include "raylib-cpp.hpp"
 
 class Unit;
@@ -88,3 +88,4 @@ public:
 };
 
 std::ostream& operator<<(std::ostream& o, const UnitData& data);
+#endif
