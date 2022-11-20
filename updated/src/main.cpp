@@ -1,8 +1,7 @@
 #include <iostream>
 #include "map/Map.hpp"
-#include "ui/Ui.hpp"
 #include "Parser.hpp"
-#include "../inc/raylib-cpp.hpp"
+#include "raylib-cpp.hpp"
 #include "ui/ObjectLayer.hpp"
 #include "datastructure/GameObjects.hpp"
 #include "Utils.hpp"

@@ -1,9 +1,9 @@
 NAME=Schlacht
-VPATH    = src/ src/map src/ui src/units src/datastructure
+VPATH    = src/ src/map src/ui src/units src/datastructure inc/ src/algorithm
 SRC_FILES= main.cpp Tile.cpp Map.cpp Data.cpp Ui.cpp Unit.cpp \
            Parser.cpp BaseData.cpp Utils.cpp ObjectLayer.cpp \
            EventHandlerType.cpp GameObjects.cpp Scene.cpp \
-           Player.cpp
+           Player.cpp PathFinder.cpp
 
 DEP_FILES= AudioDevice.hpp \
            AudioStream.hpp \
@@ -49,7 +49,7 @@ OBJ_DIR= obj/
 INC_DIR= inc/
 INC_F= $(addprefix $(INC_DIR), $(DEP_FILES))
 LIBS=-Llib -lraylib #-lGL -lpthread -lm -ldl -lrt -lX11
-INCL=-Iinc
+INCL=-Iinc -Imap -Iui -Iunits -Idatastructure -Ialgorithm
 
 OBJ= $(addprefix $(OBJ_DIR), $(patsubst %.cpp, %.o, $(SRC)))
 

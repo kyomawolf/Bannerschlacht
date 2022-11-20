@@ -90,3 +90,8 @@ void Map::SetTileTex(raylib::Texture *tileTex) {
     Map::_tileTex = tileTex;
 }
 
+Tile * Map::atPosition(RVector2 pos) {
+    if (pos.x >= _size.x || pos.y >= _size.y)
+        throw std::out_of_range("Map");
+    return &_field[floor(pos.x)][floor(pos.y)];
+}

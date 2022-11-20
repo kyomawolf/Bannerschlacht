@@ -63,7 +63,7 @@ void Parser::Map(const std::string& filename, Data& target) {///TODO refactor
         target.vecUnits.push_back(new Unit(ParseUnit(*i)));
     RVector2 vec = ParseMapData(_mapSize);
     Data::DataLink  map_data = {Data::DIdent::MAP, new MapData(vec.x, vec.y)};
-    target.vecLink.push_back(map_data   );
+    target.vecLink.push_back(map_data);
 ////    for (auto i = parsedUnits.begin(); i != parsedUnits.end(); i++)
 ////       std::cout << *i << std::endl;
 }

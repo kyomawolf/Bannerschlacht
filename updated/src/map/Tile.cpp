@@ -34,3 +34,82 @@ bool Tile::MoveUnit(Tile &dest) {
 bool Tile::GetInit() const {
     return _initialized;
 }
+
+int Tile::GetCost() const {
+    return _cost;
+}
+
+void Tile::SetCost(int cost) {
+    _cost = cost;
+}
+
+Tile::Tile(int x, int y, Map& parent) : _pos(x, y), _parent(parent) { }
+
+TileIterator::TileIterator(int x, int y, Map& ref) : _x(x), _y(y), _ref(ref) {}
+
+void TileIterator::operator++() {
+    if (_x + 1 < _ref._size.x)
+        ++_x;
+    else if (_y + 1 < _ref._size.y) {
+        _x = 0;
+        ++_y;
+    }
+    else {
+        _x = -1;
+        _y = -1;
+    }
+}
+
+const TileIterator TileIterator::operator++(int) {
+    TileIterator tmp(*this);
+    if (_x + 1 < _ref._size.x)
+        ++_x;
+    else if (_y + 1 < _ref._size.y) {
+        _x = 0;
+        ++_y;
+    }
+    else {
+        _x = -1;
+        _y = -1;
+    }
+    return tmp;
+}
+
+void TileIterator::operator--() {
+    if (_x - 1 > 0)
+        --_x;
+    else if (_y - 1 > 0) {
+        _x = 0;
+        --_y;
+    }
+    else {
+        _x = -1;
+        _y = -1;
+    }
+}
+
+const TileIterator TileIterator::operator--(int) {
+    TileIterator tmp(*this);
+    if (_x - 1 < 0)
+        --_x;
+    else if (_y - 1 < 0) {
+        _x = 0;
+        --_y;
+    }
+    else {
+        _x = -1;
+        _y = -1;
+    }
+    return tmp;
+}
+
+
+Tile &TileIterator::operator*() {
+    return _ref.at(_x, _y);
+}
+
+Tile &TileIterator::operator->() {
+    return _ref.at(_x, _y);
+}
+
+TileIterator::TileIterator(TileIterator& other) = default;

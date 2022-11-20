@@ -15,7 +15,7 @@ Menus and Settings are the next step afterwards.
 	
 Balancing (if not done already) are the next thing to do, as new _unitData are being implemented.
 
-The best idea would be some sort of rock-paper-scissors system (with more attributes oc) as its suitable for a first balancing.
+The best idea would be some sort of rock-paper-scissors system (with more attributes oc) as its suitable for a x balancing.
 
 ### Datastructure
 
