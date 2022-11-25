@@ -10,10 +10,13 @@
 
 class Unit;
 class Map;
+class TileIterator;
 
 class Tile {
 private:
-    /* cost can be seen as:
+//Tile(const Tile tile, Map &parent);
+
+/* cost can be seen as:
      *  0 = unpassable
      *  1 = no modifier; planes
      *  2 = something like low hills
@@ -30,10 +33,15 @@ private:
     float    _paddingLeft = 20.0f;
     float    _paddingTop = 20.0f;
 public:
+    typedef TileIterator iterator;
     Map&     _parent;
     RVector2 _pos;
     Tile(int y, int x, Map& parent); //uninitialized
+    Tile(const Tile& tile);
+    Tile& operator=(const Tile& other) noexcept;
 //    Tile(...); //initialized
+
+
     /// getter and setter for modifier
     raylib::Texture *tileTexture = nullptr;
     void    SetEntry(Unit* new_entry) { _entry = new_entry; _initialized = true; }
@@ -67,7 +75,18 @@ public:
     const TileIterator operator--(int);
     Tile& operator*();
     Tile& operator->();
+
+    TileIterator(const Tile& tile);
+    //comparison
+
+    bool operator==(const TileIterator& second) const;
+    bool operator!=(const TileIterator& second) const;
+    bool operator<(const TileIterator& second) const;
+    bool operator>(const TileIterator& second) const;
+    bool operator<=(const TileIterator& second) const;
+    bool operator>=(const TileIterator& second) const;
 };
+
 
 
 #endif //PROJEKT_DIESCHLACHT_TILE_HPP

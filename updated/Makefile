@@ -72,7 +72,7 @@ FLAGS= -Wall -Wextra -std=c++17
 all: add_debug_flag $(NAME)
 
 add_debug_flag:
-	$(eval FLAGS+=-DDEBUG)
+	$(eval FLAGS+=-DDEBUG -g)
 
 release: final $(NAME)
 

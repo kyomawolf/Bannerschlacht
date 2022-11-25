@@ -26,6 +26,14 @@ bool    PathFinder::IsHandled(std::pair<int, int> obj, std::vector<tile_w>& sec,
     return true;
 }
 
+/**
+ * Called once per iteration. The path that generates a closer position is prioritized for the next iteration(tmp->prio),
+ * while the other tiles are being pushed into a vector, that may be revisited if no path can be generated in the next iteration.
+ * Future optimization:
+ * - minimum tiles in prio
+ * - maximum tiles in prio
+ * - precalculated chokepoints on maps for certain paths
+ */
 int PathFinder::setTilePrio() {
     std::vector<tile_w> tmp;
     std::vector<tile_w> sec;
@@ -89,6 +97,16 @@ int PathFinder::setTilePrio() {
     return 1;
 }
 
+
+
+/**
+ * Constructs the pathfinding object
+ * @param end: target tile to be reached
+ * @param start: path origin
+ * @param map: the map this calculation is done on
+ *
+ *
+ */
 PathFinder::PathFinder(const PathFinder::tile_w &end, const PathFinder::tile_w &start, Map& map) : _end(end),
                                                                                                    _start(start),
                                                                                                    _map(map) {
@@ -96,15 +114,8 @@ PathFinder::PathFinder(const PathFinder::tile_w &end, const PathFinder::tile_w &
 }
 
 void PathFinder::calculate() {
-    while (setTilePrio()) {
-//#ifdef DEBUG
-//#ifdef TRACE_PATH
-        for (auto &i:  _map.at(_start.x, _start.y)) {
-
-        }
-//#endif //TRACE_PATH
-//#endif //DEBUG
-    }
+    while (setTilePrio()) { }
+//printMap();
 }
 
 PathFinder::tile_wrapper::tile_wrapper(int i, int i1, PathFinder::tile_wrapper *pWrapper, Tile& tile): x(i),
@@ -112,9 +123,10 @@ PathFinder::tile_wrapper::tile_wrapper(int i, int i1, PathFinder::tile_wrapper *
                                                                                                        prev(pWrapper),
                                                                                                        tileRef(tile) { }
 
-PathFinder::tile_wrapper& PathFinder::tile_wrapper::operator=(const PathFinder::tile_wrapper &other) {
-    this->x = other.x;
-    this->y = other.y;
-    this->tileRef = other.tileRef;
-    this->prev = other.prev;
+PathFinder::tile_wrapper &PathFinder::tile_wrapper::operator=(const PathFinder::tile_wrapper &other) {
+    x = other.x;
+    y = other.y;
+    prev = other.prev;
+    tileRef = other.tileRef;
+    return *this;
 }

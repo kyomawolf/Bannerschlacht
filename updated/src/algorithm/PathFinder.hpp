@@ -8,6 +8,11 @@
 #include "../map/Map.hpp"
 #include <vector>
 
+
+/**
+ * Pathfinding algorithm used for any navigation during the game.
+ * Uses an a* pathfinding algorithm
+ */
 class PathFinder {
 public:
     typedef struct tile_wrapper {

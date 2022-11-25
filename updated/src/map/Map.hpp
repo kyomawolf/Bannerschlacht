@@ -20,10 +20,18 @@ private:
     std::vector<std::vector<Tile> > _field;
     raylib::Texture* _tileTex;
 public:
+    typedef TileIterator iterator;
+
     Map();
-    Map(const std::string& file_name);
     Map(unsigned int height, unsigned int length);
 
+    iterator begin();
+    iterator end();
+
+    Tile&   front();
+    Tile&   back();
+
+    iterator getIter(int x, int y);
     void    Draw(raylib::Texture& tex);
     void    Draw();
     raylib::Vector2 positionToIndex(raylib::Vector2& worldPosition);

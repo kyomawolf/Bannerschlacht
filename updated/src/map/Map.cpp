@@ -6,25 +6,19 @@
 #include "Tile.hpp"
 
 Map::Map() : _size(10, 10), _field(_size.x) {
-    Tile empty;
-    Unit std_unit();
-    for (auto i = _field.begin(); i != _field.end(); i++) {
-        (*i).assign(_size.y, empty);
-    }
-}
-
-Map::Map(const std::string &file_name) : _size(10, 10), _field(_size.x) {
-    Tile empty;
-    for (auto i = _field.begin(); i != _field.end(); i++) {
-        (*i).assign(_size.y, empty);
-    }
-}
-
-Map::Map(unsigned int height, unsigned int length) : _size(height, length), _field(_size.x) {
-    Tile empty;
-        for (auto i = _field.begin(); i != _field.end(); i++) {
-            i->assign(_size.y, empty);
+    for (auto i = 0; i < _size.x; i++) {
+        for (auto ii = 0; ii < _size.y; ii++) {
+            _field[i].push_back({i, ii, *this});
         }
+    }
+}
+
+Map::Map(unsigned int length, unsigned int height) : _size(length, height), _field(_size.x) {
+    for (auto i = 0; i < _size.x; i++) {
+        for (auto ii = 0; ii < _size.y; ii++) {
+            _field[i].push_back({i, ii, *this});
+        }
+    }
 }
 
 void    Map::Draw(raylib::Texture& tex) {
@@ -94,4 +88,26 @@ Tile * Map::atPosition(RVector2 pos) {
     if (pos.x >= _size.x || pos.y >= _size.y)
         throw std::out_of_range("Map");
     return &_field[floor(pos.x)][floor(pos.y)];
+}
+
+Map::iterator Map::begin() {
+    return {(*_field.begin()->begin())};
+}
+
+Map::iterator Map::getIter(int x, int y) {
+    return {x, y, *this};
+}
+
+Map::iterator Map::end() {
+    return {(int)_size.x,  (int)_size.y, *this};
+}
+
+Tile &Map::front() {
+    return *begin();
+}
+
+Tile &Map::back() {
+    iterator it = end();
+    --it;
+    return (*it);
 }

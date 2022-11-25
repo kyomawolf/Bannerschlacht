@@ -154,6 +154,7 @@ int main () {
     } catch (Parser::ParserException &e) {
         std::cerr << e.what() << std::endl;
     }
+    raylib::Texture unit_text(raylib::Image(std::string("../red_dot.png")));
     std::cout << "parsed map" << std::endl;
     MapData *mapData = dynamic_cast<MapData *>(data->FindNextIdent(Data::MAP));
     Map gamemap(mapData->GetWidth(), mapData->GetHeight());
@@ -173,7 +174,6 @@ int main () {
 
     SetUpButtonsMainMenu(mainGameMenu, win);
     SetUpButtonsMainUi(mainUi, win);
-    raylib::Texture unit_text(raylib::Image(std::string("../red_dot.png")));
 
     for (auto i = data->vecUnits.begin(); i < data->vecUnits.end(); i++) {
         try {
