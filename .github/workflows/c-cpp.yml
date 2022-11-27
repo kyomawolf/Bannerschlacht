@@ -18,7 +18,7 @@ jobs:
         version: 'tags/4.2.0'
         regex: true
         file: "raylib-4.2.0_linux_amd64.tar.gz"
-        target: 'lib/raylib.tar.gz'
+        target: 'updated/lib/raylib.tar.gz'
         token: ${{ secrets.GITHUB_TOKEN }}
     - uses: actions/checkout@v3
     #- name: configure
