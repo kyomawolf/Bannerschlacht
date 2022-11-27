@@ -78,8 +78,8 @@ release: final $(NAME)
 
 pipeline:
 	sudo apt install -y libglfw3-dev
-	cd lib
-	tar -x raylib.tar.gz
+	tar -xf lib/raylib.tar.gz -Clib/
+	mv lib/raylib/lib/libraylib.a lib/libraylib.a
 	cd ..
 	make -C .
 
