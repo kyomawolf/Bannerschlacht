@@ -48,7 +48,7 @@ SRC= $(SRC_FILES)
 OBJ_DIR= obj/
 INC_DIR= inc/
 INC_F= $(addprefix $(INC_DIR), $(DEP_FILES))
-LIBS=-Llib -lraylib #-lGL -lpthread -lm -ldl -lrt -lX11
+LIBS=-Llib
 INCL=-Iinc -Imap -Iui -Iunits -Idatastructure -Ialgorithm
 
 OBJ= $(addprefix $(OBJ_DIR), $(patsubst %.cpp, %.o, $(SRC)))
@@ -60,9 +60,9 @@ ifeq ($(OS), Windows_NT)
 else
 	UNAME_S := $(shell uname -s)
 	ifeq ($(UNAME_S), Linux)
-		LDFLAGS +=
+		LDFLAGS += -lraylib-linux -lGL -lpthread -lm -ldl -lrt -lX11
 	else ifeq ($(UNAME_S), Darwin)
-		LDFLAGS += -Llib -lglfw3 -framework CoreVideo -framework IOKit -framework Cocoa -framework GLUT -framework OpenGL
+		LDFLAGS += -Llib -lraylib-mac -lglfw3-mac -framework CoreVideo -framework IOKit -framework Cocoa -framework GLUT -framework OpenGL
 	endif
 endif
 
@@ -78,11 +78,6 @@ release: final $(NAME)
 
 pipeline:
 	sudo apt-get install --assume-yes --force-yes libglfw3-dev
-	ls
-	ls lib
-	tar -xf lib/raylib.tar.gz -Clib/
-	mv lib/raylib/lib/libraylib.a lib/libraylib.a
-	cd ..
 	make -C .
 
 final :
