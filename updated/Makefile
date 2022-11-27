@@ -66,7 +66,7 @@ else
 	endif
 endif
 
-FLAGS= -Wall -Wextra -std=c++11 -fsanitize=address
+FLAGS += -Wall -Wextra -std=c++11 -fsanitize=address
 
 
 all: add_debug_flag $(NAME)
@@ -78,6 +78,9 @@ release: final $(NAME)
 
 pipeline:
 	apt install -y libglfw3-dev
+	cd lib
+	tar -x raylib.tar.gz
+	cd ..
 	make -C .
 
 final :
