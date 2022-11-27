@@ -77,7 +77,7 @@ add_debug_flag:
 release: final $(NAME)
 
 pipeline:
-	apt install -y libglfw3-dev
+	sudo apt install -y libglfw3-dev
 	cd lib
 	tar -x raylib.tar.gz
 	cd ..
