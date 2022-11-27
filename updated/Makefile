@@ -66,7 +66,7 @@ else
 	endif
 endif
 
-FLAGS= -Wall -Wextra -std=c++17
+FLAGS= -Wall -Wextra -std=c++11 -fsanitize=address
 
 
 all: add_debug_flag $(NAME)

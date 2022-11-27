@@ -66,7 +66,8 @@ private:
     int _y;
     Map& _ref;
 public:
-    TileIterator(TileIterator& other);
+    TileIterator(const TileIterator& other);
+    TileIterator& operator=(TileIterator& other);
 
     TileIterator(int x, int y, Map& ref);
     void operator++();

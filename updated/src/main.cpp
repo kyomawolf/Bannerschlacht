@@ -14,8 +14,13 @@
 //    render();
 //}
 
+/**
+ * global variables
+ */
 enum scenes global_scene_var;
 
+/** Input handling - somewhat; see issue#9
+ */
 void InputHandler(raylib::Camera2D& cam, raylib::Vector2& cam_pos, raylib::Window& win) {
     static int stage = 0;
     if (IsKeyDown('W')) {
@@ -154,13 +159,14 @@ int main () {
     } catch (Parser::ParserException &e) {
         std::cerr << e.what() << std::endl;
     }
-    raylib::Texture unit_text(raylib::Image(std::string("../red_dot.png")));
+    raylib::Image reddot(std::string("../red_dot.png"));
+    std::cout << reddot.IsReady() << std::endl;
+    raylib::Texture unit_text(reddot);
     std::cout << "parsed map" << std::endl;
     MapData *mapData = dynamic_cast<MapData *>(data->FindNextIdent(Data::MAP));
     Map gamemap(mapData->GetWidth(), mapData->GetHeight());
     std::cout << "loaded map" << std::endl;
 
-    global_scene_var = MAINMENU;
 
     raylib::Window win(1080, 720, "Schlacht ver. 0.0.4");
     raylib::Vector2 cam_pos(win.GetWidth() / 2, win.GetHeight() / 2);
@@ -189,6 +195,8 @@ int main () {
     gamemap.SetTileTex(&quad);
 
     ///setting up scenes
+    global_scene_var = MAINMENU;
+
     MainMenuScene mainMenuSceneObject(scenes::MAINMENU, win, mainGameMenu);
     GameScene     gameSceneObject(scenes::GAME, win, cam_pos, cam, data, gamemap, mainUi);
 

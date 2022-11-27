@@ -37,3 +37,4 @@ public:
     [[nodiscard]] const std::string& GetText()       const;
 };
 #endif
+

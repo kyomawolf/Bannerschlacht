@@ -165,4 +165,11 @@ bool TileIterator::operator>=(const TileIterator &second) const {
     return (*this == second || *this > second);
 }
 
-TileIterator::TileIterator(TileIterator& other) = default;
+TileIterator &TileIterator::operator=(TileIterator & other) {
+    _x = other._x;
+    _y = other._y;
+    _ref = other._ref;
+    return *this;
+}
+
+TileIterator::TileIterator(const TileIterator& other) = default;

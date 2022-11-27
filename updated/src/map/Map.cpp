@@ -3,6 +3,7 @@
 //
 
 #include "Map.hpp"
+#include <iostream>
 #include "Tile.hpp"
 
 Map::Map() : _size(10, 10), _field(_size.x) {
@@ -99,7 +100,7 @@ Map::iterator Map::getIter(int x, int y) {
 }
 
 Map::iterator Map::end() {
-    return {(int)_size.x,  (int)_size.y, *this};
+    return iterator((int)_size.x,  (int)_size.y, *this);
 }
 
 Tile &Map::front() {

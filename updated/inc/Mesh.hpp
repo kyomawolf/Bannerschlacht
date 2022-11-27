@@ -11,31 +11,13 @@
 
 namespace raylib {
 /**
- * Vertex Data definning a mesh
+ * Vertex data definning a mesh
  */
 class Mesh : public ::Mesh {
  public:
     Mesh(const ::Mesh& mesh) {
         set(mesh);
     }
-
-    Mesh(int vertexCount, int triangleCount) : ::Mesh{
-            vertexCount,
-            triangleCount,
-            nullptr,
-            nullptr,
-            nullptr,
-            nullptr,
-            nullptr,
-            nullptr,
-            nullptr,
-            nullptr,
-            nullptr,
-            nullptr,
-            nullptr,
-            0,
-            nullptr
-        } {}
 
     /**
      * Load meshes from model file
@@ -111,6 +93,13 @@ class Mesh : public ::Mesh {
     }
 
     /**
+     * Generate cone/pyramid mesh
+     */
+    static ::Mesh Cone(float radius, float height, int slices) {
+        return ::GenMeshCone(radius, height, slices);
+    }
+
+    /**
      * Generate torus mesh
      */
     static ::Mesh Torus(float radius, float size, int radSeg, int sides) {
@@ -125,14 +114,14 @@ class Mesh : public ::Mesh {
     }
 
     /**
-     * Generate heightmap mesh from image Data
+     * Generate heightmap mesh from image data
      */
     static ::Mesh Heightmap(const ::Image& heightmap, ::Vector3 size) {
         return ::GenMeshHeightmap(heightmap, size);
     }
 
     /**
-     * Generate cubes-based Map mesh from image Data
+     * Generate cubes-based map mesh from image data
      */
     static ::Mesh Cubicmap(const ::Image& cubicmap, ::Vector3 cubeSize) {
         return ::GenMeshCubicmap(cubicmap, cubeSize);
@@ -193,14 +182,14 @@ class Mesh : public ::Mesh {
     }
 
     /**
-     * Upload mesh vertex Data to GPU (VRAM)
+     * Upload mesh vertex data to GPU (VRAM)
      */
     inline void Upload(bool dynamic = false) {
         ::UploadMesh(this, dynamic);
     }
 
     /**
-     * Upload mesh vertex Data to GPU (VRAM)
+     * Upload mesh vertex data to GPU (VRAM)
      */
     inline void UpdateBuffer(int index, void *data, int dataSize, int offset = 0) {
         ::UpdateMeshBuffer(*this, index, data, dataSize, offset);
@@ -209,23 +198,26 @@ class Mesh : public ::Mesh {
     /**
      * Draw a 3d mesh with material and transform
      */
-    inline void Draw(const ::Material& material, const ::Matrix& transform) {
+    inline void Draw(const ::Material& material, const ::Matrix& transform) const {
         ::DrawMesh(*this, material, transform);
     }
 
     /**
      * Draw multiple mesh instances with material and different transforms
      */
-    inline void Draw(const ::Material& material, ::Matrix* transforms, int instances) {
+    inline void Draw(const ::Material& material, ::Matrix* transforms, int instances) const {
         ::DrawMeshInstanced(*this, material, transforms, instances);
     }
 
     /**
-     * Export mesh Data to file
+     * Export mesh data to file
+     *
+     * @throws raylib::RaylibException Throws if failed to export the Mesh.
      */
-    inline bool Export(const std::string& fileName) {
-        // TODO(RobLoach): Switch to an exception when failed.
-        return ExportMesh(*this, fileName.c_str());
+    inline void Export(const std::string& fileName) {
+        if (!::ExportMesh(*this, fileName.c_str())) {
+            throw new RaylibException("Failed to export the Mesh");
+        }
     }
 
     /**
@@ -257,14 +249,6 @@ class Mesh : public ::Mesh {
      */
     inline Mesh& GenTangents() {
         ::GenMeshTangents(this);
-        return *this;
-    }
-
-    /**
-     * Compute mesh binormals (aka bitangent)
-     */
-    inline Mesh& GenBinormals() {
-        ::GenMeshBinormals(this);
         return *this;
     }
 
@@ -302,6 +286,7 @@ class Mesh : public ::Mesh {
     }
 };
 }  // namespace raylib
+
 using RMesh = raylib::Mesh;
 
 #endif  // RAYLIB_CPP_INCLUDE_MESH_HPP_

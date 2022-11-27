@@ -60,7 +60,7 @@ class Camera3D : public ::Camera3D {
     }
 
     /**
-     * Get transform matrix for camera
+     * Get camera transform matrix (view matrix)
      */
     inline Matrix GetMatrix() const {
         return ::GetCameraMatrix(*this);
@@ -126,26 +126,24 @@ class Camera3D : public ::Camera3D {
     /**
      * Draw a billboard texture.
      */
-    inline Camera3D& DrawBillboard(
+    inline void DrawBillboard(
             const ::Texture2D& texture,
             ::Vector3 center,
             float size,
-            ::Color tint = {255, 255, 255, 255}) {
+            ::Color tint = {255, 255, 255, 255}) const {
         ::DrawBillboard(*this, texture, center, size, tint);
-        return *this;
     }
 
     /**
      * Draw a billboard texture defined by source.
      */
-    inline Camera3D& DrawBillboard(
+    inline void DrawBillboard(
             const ::Texture2D& texture,
             ::Rectangle sourceRec,
             ::Vector3 center,
             ::Vector2 size,
-            ::Color tint = {255, 255, 255, 255}) {
+            ::Color tint = {255, 255, 255, 255}) const {
         ::DrawBillboardRec(*this, texture, sourceRec, center, size, tint);
-        return *this;
     }
 
  private:
@@ -159,7 +157,9 @@ class Camera3D : public ::Camera3D {
 };
 
 typedef Camera3D Camera;
+
 }  // namespace raylib
+
 using RCamera = raylib::Camera;
 using RCamera3D = raylib::Camera3D;
 

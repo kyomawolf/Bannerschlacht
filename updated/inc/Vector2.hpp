@@ -5,10 +5,10 @@
 #include <cmath>
 #endif
 
+#include <iostream>
 #include "./raylib.hpp"
 #include "./raymath.hpp"
 #include "./raylib-cpp-utils.hpp"
-#include <iostream>
 
 namespace raylib {
 /**
@@ -16,9 +16,7 @@ namespace raylib {
  */
 class Vector2 : public ::Vector2 {
  public:
-    Vector2(const ::Vector2& vec) {
-        set(vec);
-    }
+    Vector2(const ::Vector2& vec) : ::Vector2{vec.x, vec.y} {}
 
     Vector2(float x, float y) : ::Vector2{x, y} {}
     Vector2(float x) : ::Vector2{x, 0} {}
@@ -289,54 +287,46 @@ class Vector2 : public ::Vector2 {
     }
 #endif
 
-    inline Vector2& DrawPixel(::Color color) {
+    inline void DrawPixel(::Color color = {0, 0, 0, 255}) const {
         ::DrawPixelV(*this, color);
-        return *this;
     }
 
-    inline Vector2& DrawLine(::Vector2 endPos, ::Color color) {
+    inline void DrawLine(::Vector2 endPos, ::Color color = {0, 0, 0, 255}) const {
         ::DrawLineV(*this, endPos, color);
-        return *this;
     }
 
-    inline Vector2& DrawLine(::Vector2 endPos, float thick, ::Color color) {
+    inline void DrawLine(::Vector2 endPos, float thick, ::Color color = {0, 0, 0, 255}) const {
         ::DrawLineEx(*this, endPos, thick, color);
-        return *this;
     }
 
-    inline Vector2& DrawLineBezier(::Vector2 endPos, float thick, ::Color color) {
+    inline void DrawLineBezier(::Vector2 endPos, float thick, ::Color color = {0, 0, 0, 255}) const {
         ::DrawLineBezier(*this, endPos, thick, color);
-        return *this;
     }
 
     /**
      * Draw line using quadratic bezier curves with a control point.
      */
-    inline Vector2& DrawLineBezierQuad(
+    inline void DrawLineBezierQuad(
             ::Vector2 endPos,
             ::Vector2 controlPos,
             float thick,
-            ::Color color) {
+            ::Color color = {0, 0, 0, 255}) const {
        ::DrawLineBezierQuad(*this, endPos, controlPos, thick, color);
-       return *this;
     }
 
     /**
      * Draw a color-filled circle (Vector version)
      */
-    inline Vector2& DrawCircle(float radius, ::Color color) {
+    inline void DrawCircle(float radius, ::Color color = {0, 0, 0, 255}) const {
         ::DrawCircleV(*this, radius, color);
-        return *this;
     }
 
-    inline Vector2& DrawRectangle(::Vector2 size, ::Color color) {
+    inline void DrawRectangle(::Vector2 size, ::Color color = {0, 0, 0, 255}) const {
         ::DrawRectangleV(*this, size, color);
-        return *this;
     }
 
-    inline Vector2& DrawPoly(int sides, float radius, float rotation, ::Color color) {
+    inline void DrawPoly(int sides, float radius, float rotation, ::Color color = {0, 0, 0, 255}) const {
         ::DrawPoly(*this, sides, radius, rotation, color);
-        return *this;
     }
 
     /**
@@ -383,16 +373,27 @@ class Vector2 : public ::Vector2 {
             ::Vector2 *collisionPoint) const {
         return ::CheckCollisionLines(*this, endPos1, startPos2, endPos2, collisionPoint);
     }
+
+    /**
+     * Check if point belongs to line created between two points [p1] and [p2] with defined margin in pixels [threshold]
+     */
+    inline bool CheckCollisionPointLine(::Vector2 p1, ::Vector2 p2, int threshold = 1) {
+        return ::CheckCollisionPointLine(*this, p1, p2, threshold);
+    }
+
  private:
     void set(const ::Vector2& vec) {
         x = vec.x;
         y = vec.y;
     }
+public:
+    friend std::ostream& operator<<(std::ostream& o, const raylib::Vector2 &vec) {
+        o << vec.x  << ' ' << vec.y;
+    }
 };
 
 }  // namespace raylib
 
-std::ostream& operator<<(std::ostream& o, const raylib::Vector2& vec);
 using RVector2 = raylib::Vector2;
 
 #endif  // RAYLIB_CPP_INCLUDE_VECTOR2_HPP_

@@ -68,9 +68,8 @@ RLCPPAPI inline std::string GetGamepadName(int gamepad) {
 }
 
 /**
- * Load text Data from file (read)
+ * Load text data from file (read)
  */
-[[maybe_unused]]
 RLCPPAPI std::string LoadFileText(const std::string& fileName) {
     char* text = ::LoadFileText(fileName.c_str());
     std::string output(text);
@@ -79,7 +78,7 @@ RLCPPAPI std::string LoadFileText(const std::string& fileName) {
 }
 
 /**
- * Save text Data to file (write)
+ * Save text data to file (write)
  */
 RLCPPAPI inline bool SaveFileText(const std::string& fileName, const std::string& text) {
     return ::SaveFileText(fileName.c_str(), const_cast<char*>(text.c_str()));
@@ -151,12 +150,10 @@ RLCPPAPI inline std::string GetWorkingDirectory() {
 /**
  * Get filenames in a directory path
  */
-[[maybe_unused]]
-RLCPPAPI std::vector<std::string> GetDirectoryFiles(const std::string& dirPath) {
-    int count;
-    char** files = ::GetDirectoryFiles(dirPath.c_str(), &count);
-    std::vector<std::string> output(files, files + count);
-    ::ClearDirectoryFiles();
+RLCPPAPI std::vector<std::string> LoadDirectoryFiles(const std::string& dirPath) {
+    FilePathList files = ::LoadDirectoryFiles(dirPath.c_str());
+    std::vector<std::string> output(files.paths, files.paths + files.count);
+    ::UnloadDirectoryFiles(files);
     return output;
 }
 
@@ -170,15 +167,13 @@ RLCPPAPI inline bool ChangeDirectory(const std::string& dir) {
 /**
  * Get dropped files names
  */
-[[maybe_unused]]
-RLCPPAPI std::vector<std::string> GetDroppedFiles() {
+RLCPPAPI std::vector<std::string> LoadDroppedFiles() {
     if (!::IsFileDropped()) {
         return std::vector<std::string>();
     }
-    int count;
-    char** files = ::GetDroppedFiles(&count);
-    std::vector<std::string> output(files, files + count);
-    ::ClearDroppedFiles();
+    FilePathList files = ::LoadDroppedFiles();
+    std::vector<std::string> output(files.paths, files.paths + files.count);
+    ::UnloadDroppedFiles(files);
     return output;
 }
 
@@ -212,7 +207,7 @@ RLCPPAPI inline ::Image LoadImage(const std::string& fileName) {
 }
 
 /**
- * Load an image from RAW file Data
+ * Load an image from RAW file data
  */
 RLCPPAPI inline ::Image LoadImageRaw(const std::string& fileName,
         int width, int height,
@@ -221,7 +216,7 @@ RLCPPAPI inline ::Image LoadImageRaw(const std::string& fileName,
 }
 
 /**
- * Load animated image Data
+ * Load animated image data
  */
 RLCPPAPI inline ::Image LoadImageAnim(const std::string& fileName, int *frames) {
     return ::LoadImageAnim(fileName.c_str(), frames);
@@ -237,7 +232,7 @@ RLCPPAPI inline ::Image LoadImageFromMemory(const std::string& fileType,
 }
 
 /**
- * Export image Data to file
+ * Export image data to file
  */
 RLCPPAPI inline bool ExportImage(const Image& image, const std::string& fileName) {
     return ::ExportImage(image, fileName.c_str());

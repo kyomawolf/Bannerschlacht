@@ -31,6 +31,10 @@ class Material : public ::Material {
 
         other.maps = nullptr;
         other.shader = {};
+        other.params[0] = 0.0f;
+        other.params[1] = 0.0f;
+        other.params[2] = 0.0f;
+        other.params[3] = 0.0f;
     }
 
     ~Material() {
@@ -84,7 +88,7 @@ class Material : public ::Material {
     }
 
     /**
-     * Set texture for a material Map type (MAP_DIFFUSE, MAP_SPECULAR...)
+     * Set texture for a material map type (MAP_DIFFUSE, MAP_SPECULAR...)
      */
     inline Material& SetTexture(int mapType, const ::Texture2D& texture) {
         ::SetMaterialTexture(this, mapType, texture);
@@ -94,17 +98,15 @@ class Material : public ::Material {
     /**
      * Draw a 3d mesh with material and transform
      */
-    inline const Material& DrawMesh(const ::Mesh& mesh, ::Matrix transform) const {
+    inline void DrawMesh(const ::Mesh& mesh, ::Matrix transform) const {
         ::DrawMesh(mesh, *this, transform);
-        return *this;
     }
 
     /**
      * Draw multiple mesh instances with material and different transforms
      */
-    inline const Material& DrawMesh(const ::Mesh& mesh, ::Matrix* transforms, int instances) const {
+    inline void DrawMesh(const ::Mesh& mesh, ::Matrix* transforms, int instances) const {
         ::DrawMeshInstanced(mesh, *this, transforms, instances);
-        return *this;
     }
 
  private:
@@ -118,6 +120,7 @@ class Material : public ::Material {
     }
 };
 }  // namespace raylib
+
 using RMaterial = raylib::Material;
 
 #endif  // RAYLIB_CPP_INCLUDE_MATERIAL_HPP_

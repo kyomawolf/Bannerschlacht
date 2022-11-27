@@ -57,6 +57,8 @@
 #include "./Sound.hpp"
 #include "./Text.hpp"
 #include "./Texture.hpp"
+#include "./TextureUnmanaged.hpp"
+#include "./Touch.hpp"
 #include "./Vector2.hpp"
 #include "./Vector3.hpp"
 #include "./Vector4.hpp"
