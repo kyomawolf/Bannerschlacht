@@ -76,6 +76,10 @@ add_debug_flag:
 
 release: final $(NAME)
 
+pipeline:
+	apt install -y libglfw3-dev
+	make -C .
+
 final :
 	$(eval FLAGS+=-Werror -O3)
 
