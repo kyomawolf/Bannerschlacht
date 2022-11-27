@@ -78,6 +78,7 @@ release: final $(NAME)
 
 pipeline:
 	sudo apt-get install --assume-yes --force-yes libglfw3-dev
+	ls
 	ls lib
 	tar -xf lib/raylib.tar.gz -Clib/
 	mv lib/raylib/lib/libraylib.a lib/libraylib.a
