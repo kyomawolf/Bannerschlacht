@@ -77,9 +77,9 @@ add_debug_flag:
 release: final $(NAME)
 
 pipeline:
-	sudo apt install -y libglfw3-dev
-	tar -xf lib/raylib.tar.gz -Clib/
+	sudo apt-get install --assume-yes --force-yes libglfw3-dev
 	ls lib
+	tar -xf lib/raylib.tar.gz -Clib/
 	mv lib/raylib/lib/libraylib.a lib/libraylib.a
 	cd ..
 	make -C .
