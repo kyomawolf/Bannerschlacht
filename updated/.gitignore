@@ -4,3 +4,4 @@ obj/*/*
 .idea/*/*
 *.out
 */.DS_Store
+/src/test.cpp

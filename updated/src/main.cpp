@@ -159,6 +159,10 @@ int main () {
     } catch (Parser::ParserException &e) {
         std::cerr << e.what() << std::endl;
     }
+
+    // replace hardcoded window settings to configuration file loading
+    raylib::Window win(1080, 720, "Schlacht ver. 0.0.4");
+
     raylib::Image reddot(std::string("../red_dot.png"));
     std::cout << reddot.IsReady() << std::endl;
     raylib::Texture unit_text(reddot);
@@ -168,7 +172,6 @@ int main () {
     std::cout << "loaded map" << std::endl;
 
 
-    raylib::Window win(1080, 720, "Schlacht ver. 0.0.4");
     raylib::Vector2 cam_pos(win.GetWidth() / 2, win.GetHeight() / 2);
     raylib::Camera2D cam(cam_pos, raylib::Vector2(0, 0));
     win.SetTargetFPS(140);
