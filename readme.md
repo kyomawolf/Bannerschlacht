@@ -1,42 +1,13 @@
 # Bannerschlacht
+A small game for testing out C++ 11/17 features.
 
-## structural overview
+## Compilation
 
-TODO:
-First thing to be made is the Map, all necessities are listed down below.
+### prerequisites:
+C++ toolchain; I'm using clang v.12 on macos.
+Install the [raylib](https://github.com/raysan5/raylib) into any linker included search path or locally in the folder `lib` in `updated`. You may need opengl as well.
 
-UI is the next thing to be implemented, firstly the Map should be clickable and an interface with information of the clicked Tile should be displayed.
+### compilation:
+With the raylib you should, in general, be able to install it onto any system supported by raylib (linux, macos, windows).
 
-after that, _unitData shall be implemented, so that they are adressable with functions for movement and other actions, UI implementation for Units should follow.
-
-Implementing the information system with friend/foe recognition is the next priority.
-
-Menus and Settings are the next step afterwards.
-	
-Balancing (if not done already) are the next thing to do, as new _unitData are being implemented.
-
-The best idea would be some sort of rock-paper-scissors system (with more attributes oc) as its suitable for a x balancing.
-
-### Datastructure
-
-- Map
-  - made of Tiles
-    - Properties and modifier accessed by Units and UI
-      - attack width for all six sides
-      - stealth modifier
-      - action cost when moving through
-    - has pointer to unit obj
-    - holds a texture, displayed by renderer
-    - modifiers that can be added on top, but are seperated to avoid bugs when removed
-  - holds mapmodifier applied to all tiles and are being copied
-- Units
-  - actions
-  - Data
-    - has pointer to Tile obj
-    - modifiers
-    - actions per turn
-    - ressources
-    - mapinformation it holds
-    - hp and hp to _men/attack-dmg ratio
-  - holds a texture displayable by renderer
-- UI
+Enter the folder `updated` and use the `make` command to compile the program. The program should compile, if it doesn't, fix it and create a pull request ;)
