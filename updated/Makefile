@@ -1,8 +1,9 @@
 NAME=Schlacht
-SRC_FOLDER=src/
+VPATH    = src/ src/map src/ui src/units src/datastructure inc/ src/algorithm
 SRC_FILES= main.cpp Tile.cpp Map.cpp Data.cpp Ui.cpp Unit.cpp \
            Parser.cpp BaseData.cpp Utils.cpp ObjectLayer.cpp \
-           EventHandlerType.cpp GameObjects.cpp
+           EventHandlerType.cpp GameObjects.cpp Scene.cpp \
+           Player.cpp PathFinder.cpp
 
 DEP_FILES= AudioDevice.hpp \
            AudioStream.hpp \
@@ -42,15 +43,15 @@ DEP_FILES= AudioDevice.hpp \
            VrStereoConfig.hpp \
            Wave.hpp \
            Window.hpp #tile.hpp map.hpp data.hpp
-SRC= $(addprefix $(SRC_FOLDER), $(SRC_FILES))
+SRC= $(SRC_FILES)
 
 OBJ_DIR= obj/
 INC_DIR= inc/
 INC_F= $(addprefix $(INC_DIR), $(DEP_FILES))
 LIBS=-Llib -lraylib #-lGL -lpthread -lm -ldl -lrt -lX11
-INCL=-Iinc
+INCL=-Iinc -Imap -Iui -Iunits -Idatastructure -Ialgorithm
 
-OBJ= $(addprefix obj/, $(SRC_FILES:.cpp=.o))
+OBJ= $(addprefix $(OBJ_DIR), $(patsubst %.cpp, %.o, $(SRC)))
 
 TEST= src/test.cpp
 
@@ -65,15 +66,22 @@ else
 	endif
 endif
 
-FLAGS= -Wall -Wextra -std=c++17
+FLAGS += -Wall -Wextra -std=c++11 -fsanitize=address
 
 
 all: add_debug_flag $(NAME)
 
 add_debug_flag:
-	$(eval FLAGS+=-DDEBUG)
+	$(eval FLAGS+=-DDEBUG -g)
 
 release: final $(NAME)
+
+pipeline:
+	apt install -y libglfw3-dev
+	cd lib
+	tar -x raylib.tar.gz
+	cd ..
+	make -C .
 
 final :
 	$(eval FLAGS+=-Werror -O3)
@@ -81,7 +89,7 @@ final :
 $(NAME) : $(OBJ_DIR) $(OBJ)
 	c++ $(INCL) $(FLAGS) $(OBJ) $(LIBS) $(LDFLAGS) -o $(NAME)
 
-$(OBJ_DIR)%.o: $(SRC_FOLDER)%.cpp #$(INC_F) #$(SRC_FOLDER)$(DEP_FILES)
+$(OBJ_DIR)%.o: %.cpp #$(INC_F) #$(SRC_FOLDER)$(DEP_FILES)
 	c++ $(INCL) $(FLAGS) -c $< -o $@
 
 clean :

@@ -1,7 +1,6 @@
 #include "GameObjects.hpp"
 #include "raylib-cpp.hpp"
 #include <iostream>
-enum scenes {MAINMENU, LOADMENU, GAME};
 extern enum scenes global_scene_var;
 
 bool InGame::Handler() {

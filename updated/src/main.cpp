@@ -1,21 +1,26 @@
 #include <iostream>
-#include "Map.hpp"
-#include "Ui.hpp"
+#include "map/Map.hpp"
 #include "Parser.hpp"
-#include "../inc/raylib-cpp.hpp"
-#include "ObjectLayer.hpp"
-#include "GameObjects.hpp"
+#include "raylib-cpp.hpp"
+#include "ui/ObjectLayer.hpp"
+#include "datastructure/GameObjects.hpp"
+#include "Utils.hpp"
+#include "Scene.hpp"
+#include "units/Unit.hpp"
+
 
 //int main_game_loop(Data *gameData, uiObj *ui) {
 //    process();
 //    render();
 //}
 
-
-enum scenes {MAINMENU, LOADMENU, GAME};
-
+/**
+ * global variables
+ */
 enum scenes global_scene_var;
 
+/** Input handling - somewhat; see issue#9
+ */
 void InputHandler(raylib::Camera2D& cam, raylib::Vector2& cam_pos, raylib::Window& win) {
     static int stage = 0;
     if (IsKeyDown('W')) {
@@ -109,13 +114,7 @@ void    MainGameLoop(raylib::Window& win, raylib::Camera2D& cam, RVector2& camer
 
 
 void MainMenuLoop(raylib::Window& win, MenuMain& mainGameMenu, Data& gameData) {
-        win.BeginDrawing();
 
-        win.ClearBackground(raylib::Color::RayWhite());
-        win.DrawFPS();
-        mainGameMenu.Handler();
-        mainGameMenu.DrawElements();
-        win.EndDrawing();
 };
 
 void    SetUpButtonsMainMenu(MenuMain& menuObject, raylib::Window& win) {
@@ -155,32 +154,35 @@ int main () {
     Parser  par;
     Data*   data = new Data();
 
-    global_scene_var = MAINMENU;
-
     try {
         par.Map("src/test.map", *data);
     } catch (Parser::ParserException &e) {
         std::cerr << e.what() << std::endl;
     }
+
+    // replace hardcoded window settings to configuration file loading
+    raylib::Window win(1080, 720, "Schlacht ver. 0.0.4");
+
+    raylib::Image reddot(std::string("../red_dot.png"));
+    std::cout << reddot.IsReady() << std::endl;
+    raylib::Texture unit_text(reddot);
     std::cout << "parsed map" << std::endl;
     MapData *mapData = dynamic_cast<MapData *>(data->FindNextIdent(Data::MAP));
     Map gamemap(mapData->GetWidth(), mapData->GetHeight());
     std::cout << "loaded map" << std::endl;
 
-    raylib::Window win(1080, 720, "Schlacht ver. 0.0.4");
-    data->gameUi = Ui(win.GetWidth(), win.GetHeight());
+
     raylib::Vector2 cam_pos(win.GetWidth() / 2, win.GetHeight() / 2);
     raylib::Camera2D cam(cam_pos, raylib::Vector2(0, 0));
     win.SetTargetFPS(140);
 
+    data->SetWindow(&win);
     MenuMain    mainGameMenu;
     UiInGame    mainUi;
     ///Main Menu Buttons:
 
     SetUpButtonsMainMenu(mainGameMenu, win);
     SetUpButtonsMainUi(mainUi, win);
-
-    raylib::Texture unit_text(raylib::Image(std::string("../red_dot.png")));
 
     for (auto i = data->vecUnits.begin(); i < data->vecUnits.end(); i++) {
         try {
@@ -194,33 +196,27 @@ int main () {
     raylib::Texture quad(raylib::Image(std::string("../rectangle.png")));
 //    raylib::Rectangle rec(10, 10, 700, 20);
     gamemap.SetTileTex(&quad);
-    while(!win.ShouldClose()) {
-        switch (global_scene_var) {
-            case MAINMENU:
-                MainMenuLoop(win, mainGameMenu,*data);
-                break;
-            case LOADMENU:
-                break;
-            case GAME:
-                MainGameLoop(win, cam, cam_pos, gamemap, *data, mainUi);
-                break;
-        }
-//        win.BeginDrawing();
-//
-//        win.ClearBackground(raylib::Color::RayWhite());
-//        win.DrawFPS();
-//        mainGameMenu.Handler();
-//        mainGameMenu.DrawElements();
-//        win.EndDrawing();
-//        ///TODO check static variables to change scenes
-        //switch(scene) {
-        //  case MAINMENU:
-        //  case LOADMENU:
-        //  case LOADINGSCREEN:
-        //  case GAME:
-        //}
+
+    ///setting up scenes
+    global_scene_var = MAINMENU;
+
+    MainMenuScene mainMenuSceneObject(scenes::MAINMENU, win, mainGameMenu);
+    GameScene     gameSceneObject(scenes::GAME, win, cam_pos, cam, data, gamemap, mainUi);
+
+    data->vecScenes.push_back(&mainMenuSceneObject);
+    data->vecScenes.push_back(&gameSceneObject);
+    if (data->vecScenes.size() - 1 != scenes::ENUMCOUNT) {
+#ifdef DEBUG
+        std::cerr << "not every scene has been loaded: " << std::endl
+        << "amount of scenes loaded: (" << data->vecScenes.size() - 1 << "/" << scenes::ENUMCOUNT << ")" << std::endl
+        << "following scenes have been loaded: " << std::endl;
+        for (auto &i : data->vecScenes)
+            std::cerr << i->sceneType << std::endl;
+#endif
+        return EXIT_FAILURE;
     }
-    return 0;
-    Data* gameData = new Data(/*config file?*/);
-//    return main_game_loop(gameData, uiStartup());
+    while(!win.ShouldClose()) {
+        data->getSceneByEnum(global_scene_var)->Play();
+        }
+    return EXIT_SUCCESS;
 }

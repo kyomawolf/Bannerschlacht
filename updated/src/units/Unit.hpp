@@ -3,7 +3,7 @@
 
 #include "raylib-cpp.hpp"
 #include "Texture.hpp"
-#include "Data.hpp"
+#include "../datastructure/Data.hpp"
 
 class Unit {
 public:
@@ -44,6 +44,14 @@ public:
     [[nodiscard]] unsigned int GetY       ( void ) const;
     [[nodiscard]] int          GetPlayer  ( void ) const;
 };
+
+///derived unit classes:
+class HeadQuarter : public Unit {
+public:
+    HeadQuarter(raylib::Texture &initTex, int initPlayer, float initAtk, float initDef, int initMen, float initMov,
+                float initMor);
+};
+
 
 
 #endif /*PROJEKT_DIESCHLACHT_UNIT_HPP*/

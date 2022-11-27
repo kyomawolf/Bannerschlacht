@@ -1,4 +1,5 @@
-#pragma once
+#ifndef BANNERSCHLACHT_EVENTHANDLERTYPE_HPP
+#define BANNERSCHLACHT_EVENTHANDLERTYPE_HPP
 
 class EventHandlerType {
 protected:
@@ -11,3 +12,4 @@ public:
     void DisableHandler();
     virtual bool Handler() = 0;
 };
+#endif

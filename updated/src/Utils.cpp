@@ -1,14 +1,9 @@
 #include "Utils.hpp"
+#include <iostream>
 
 extern raylib::Font wrttxt;
 
-#ifndef VEC2OVERLOAD
-#define VEC2OVERLOAD
-std::ostream& operator<<(std::ostream& o, const raylib::Vector2& vec) {
-    o << vec.x << " " << vec.y;
-    return o;
-}
-#endif /*VEC2OVERLOAD*/
+
 
 Button::Button() : _position(0, 0), _clickSize(0, 0), _isCircular(false) { }
 
