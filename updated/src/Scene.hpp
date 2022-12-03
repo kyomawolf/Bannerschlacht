@@ -34,14 +34,14 @@ public:
 
 class GameScene : public Scene {
 private:
-    RVector2&           _camPos;
-    raylib::Camera2D&   _camera;
-    Map&                _map;
-    Data*               _data;
-    UiInGame&           _gameUi;
+    RVector2&             _camPos;
+    raylib::Camera2D&     _camera;
+    Map&                  _map;
+    std::shared_ptr<Data> _data;
+    UiInGame&             _gameUi;
 public:
     GameScene(scenes newSceneType, raylib::Window &windowReference, RVector2 &camPos,
-              raylib::Camera2D &camera, Data *data, Map &map, UiInGame &gameUi);
+              raylib::Camera2D &camera, std::shared_ptr<Data> data, Map &map, UiInGame &gameUi);
     int Play() override;
 };
 #endif //BANNERSCHLACHT_SCENE_HPP

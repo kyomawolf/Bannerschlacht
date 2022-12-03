@@ -10,7 +10,8 @@ bool InGame::Handler() {
     if (raylib::Mouse::IsButtonPressed(0)) {
         raylib::Vector2 vec = _cam->GetScreenToWorld(raylib::Mouse::GetPosition());
         _gamemap->OnClick(vec);
-        std::cout << _gamemap->positionToIndex(vec) << std::endl;
+//        std::cout << _gamemap->positionToIndex(vec) << std::endl;
+        std::cout << "true" << std::endl;
         return true;
     }
     return false;
@@ -80,7 +81,8 @@ bool UiInGame::Handler() {
         if (i.IsInside(currMousePos)) {
             if (IsMouseButtonPressed(0)) {
                 std::cout << i.GetClickSize() << std::endl;
-                std::cout << "clicked " << i.GetText() << std::endl;
+                //TODO i.GetText/ i.<function> gets me an SIGILL
+//                std::cout << "clicked " << i.GetText() << std::endl;
                 return true;
             }
             break;

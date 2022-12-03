@@ -3,7 +3,7 @@ VPATH    = src/ src/map src/ui src/units src/datastructure inc/ src/algorithm
 SRC_FILES= main.cpp Tile.cpp Map.cpp Data.cpp Ui.cpp Unit.cpp \
            Parser.cpp BaseData.cpp Utils.cpp ObjectLayer.cpp \
            EventHandlerType.cpp GameObjects.cpp Scene.cpp \
-           Player.cpp PathFinder.cpp
+           Player.cpp PathFinder.cpp ComPlayer.cpp
 
 DEP_FILES= AudioDevice.hpp \
            AudioStream.hpp \
@@ -48,7 +48,7 @@ SRC= $(SRC_FILES)
 OBJ_DIR= obj/
 INC_DIR= inc/
 INC_F= $(addprefix $(INC_DIR), $(DEP_FILES))
-LIBS=-Llib -lraylib #-lGL -lpthread -lm -ldl -lrt -lX11
+LIBS=-Llib #-lGL -lpthread -lm -ldl -lrt -lX11
 INCL=-Iinc -Imap -Iui -Iunits -Idatastructure -Ialgorithm
 
 OBJ= $(addprefix $(OBJ_DIR), $(patsubst %.cpp, %.o, $(SRC)))
@@ -60,13 +60,13 @@ ifeq ($(OS), Windows_NT)
 else
 	UNAME_S := $(shell uname -s)
 	ifeq ($(UNAME_S), Linux)
-		LDFLAGS +=
+		LDFLAGS += -lraylib-linux
 	else ifeq ($(UNAME_S), Darwin)
-		LDFLAGS += -Llib -lglfw3 -framework CoreVideo -framework IOKit -framework Cocoa -framework GLUT -framework OpenGL
+		LDFLAGS += -Llib -l"raylib-mac" -l"glfw3-mac" -framework CoreVideo -framework IOKit -framework Cocoa -framework GLUT -framework OpenGL
 	endif
 endif
 
-FLAGS += -Wall -Wextra -std=c++11 -fsanitize=address
+FLAGS += -Wall -Wextra -std=c++17 -fsanitize=address
 
 
 all: add_debug_flag $(NAME)

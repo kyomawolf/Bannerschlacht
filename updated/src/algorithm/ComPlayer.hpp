@@ -4,9 +4,9 @@
 
 #ifndef BANNERSCHLACHT_COMPLAYER_HPP
 #define BANNERSCHLACHT_COMPLAYER_HPP
+#include "../Player.hpp"
 
-
-class ComPlayer {
+class ComPlayer : public Player {
 private:
 public:
     ComPlayer();

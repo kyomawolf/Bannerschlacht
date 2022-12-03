@@ -12,8 +12,10 @@ void ObjectLayer::SetEventHandler(EventHandlerType *initEHT) {
 
 void ObjectLayer::CallEvent() {
     if (_eventHandlerType->IsActive()) {
-        if (!_eventHandlerType->Handler() && _child != nullptr)
+        if (_eventHandlerType->Handler() == false && _child != nullptr) {
             _child->CallEvent();
+        }
+        std::cout << "this" << std::endl;
     }
     else if (_child != nullptr)
         _child->CallEvent();

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 #include "map/Map.hpp"
 #include "Parser.hpp"
 #include "raylib-cpp.hpp"
@@ -56,61 +57,61 @@ void InputHandler(raylib::Camera2D& cam, raylib::Vector2& cam_pos, raylib::Windo
 
 void    Setup() { }
 
-void    MainGameLoop(raylib::Window& win, raylib::Camera2D& cam, RVector2& cameraPos, Map& gamemap, Data& gameData, UiInGame& UiObject) {
-    //Ui game_ui(win.GetWidth(), win.GetHeight());
-    ///ingame
-    InGame gameEventHandler;
-    gameEventHandler.SetGamemap(&gamemap);
-    gameEventHandler.SetCam(&cam);
-    gameEventHandler.EnableHandler();
-    UiObject.EnableHandler();
-    ObjectLayer ui;
-    ObjectLayer game(&ui, nullptr);
-    ui.SetEventHandler(&UiObject);
-    game.SetEventHandler(&gameEventHandler);
-    ui.SetChild(&game);
-    while (!WindowShouldClose()) {
-
-        win.BeginDrawing();
-
-        cam.BeginMode();
-        win.ClearBackground(raylib::Color::RayWhite());
-//        std::cerr << "after" << std::endl;
-        gamemap.Draw();
-        //collection.draw(unitData);
-
-        ///inputhandler
-//        UiObject.Handler();
-        InputHandler(cam, cameraPos, win);
-        if (GetKeyPressed() || raylib::Mouse::IsButtonPressed(0) || raylib::Mouse::IsButtonPressed(1))
-            ui.CallEvent();
-        if (IsKeyPressed(KEY_SPACE)) {
-            for (unsigned int i = 0; i < gamemap._size.x; i++) {
-                for (unsigned int ii = 0; ii != gamemap._size.y; ii++) {
-                    if (gamemap.at(i, ii).GetInit())
-                        std::cout << i << " " << ii << "initialized" << std::endl;
-                }
-            }
-        }
-
-//        if (IsMouseButtonPressed(0)) {
-//            raylib::Vector2 vec = cam.GetScreenToWorld(raylib::Mouse::GetPosition());
-//            gamemap.OnClick(vec);
-//            vec = gamemap.positionToIndex(vec);
-//            std::cout << vec << std::endl;
-//        }
-        cam.SetTarget(cameraPos);
-        cam.EndMode();
-        ///overlay
-        UiObject.DrawElements();
-        win.DrawFPS();
-//        rec.Draw(raylib::Color::Red());
-//        gameData.gameUi.Draw();
-        win.EndDrawing();
-    }
-    global_scene_var = MAINMENU;
-        ///TODO: Setup quads as clickable
-}
+//void    MainGameLoop(raylib::Window& win, raylib::Camera2D& cam, RVector2& cameraPos, Map& gamemap, Data& gameData, UiInGame& UiObject) {
+//    //Ui game_ui(win.GetWidth(), win.GetHeight());
+//    ///ingame
+//    InGame gameEventHandler;
+//    gameEventHandler.SetGamemap(&gamemap);
+//    gameEventHandler.SetCam(&cam);
+//    gameEventHandler.EnableHandler();
+//    UiObject.EnableHandler();
+//    ObjectLayer ui;
+//    ObjectLayer game(&ui, nullptr);
+//    ui.SetEventHandler(&UiObject);
+//    game.SetEventHandler(&gameEventHandler);
+//    ui.SetChild(&game);
+//    while (!WindowShouldClose()) {
+//
+//        win.BeginDrawing();
+//
+//        cam.BeginMode();
+//        win.ClearBackground(raylib::Color::RayWhite());
+////        std::cerr << "after" << std::endl;
+//        gamemap.Draw();
+//        //collection.draw(unitData);
+//
+//        ///inputhandler
+////        UiObject.Handler();
+//        //InputHandler(cam, cameraPos, win);
+//        //if (GetKeyPressed() || raylib::Mouse::IsButtonPressed(0) || raylib::Mouse::IsButtonPressed(1))
+//        //    ui.CallEvent();
+//        //if (IsKeyPressed(KEY_SPACE)) {
+//        //    for (unsigned int i = 0; i < gamemap._size.x; i++) {
+//        //        for (unsigned int ii = 0; ii != gamemap._size.y; ii++) {
+//        //            if (gamemap.at(i, ii).GetInit())
+//        //                std::cout << i << " " << ii << "initialized" << std::endl;
+//        //        }
+//        //    }
+//        //}
+//
+////        if (IsMouseButtonPressed(0)) {
+////            raylib::Vector2 vec = cam.GetScreenToWorld(raylib::Mouse::GetPosition());
+////            gamemap.OnClick(vec);
+////            vec = gamemap.positionToIndex(vec);
+////            std::cout << vec << std::endl;
+////        }
+//        cam.SetTarget(cameraPos);
+//        cam.EndMode();
+//        ///overlay
+//        UiObject.DrawElements();
+//        win.DrawFPS();
+////        rec.Draw(raylib::Color::Red());
+////        gameData.gameUi.Draw();
+//        win.EndDrawing();
+//    }
+//    global_scene_var = MAINMENU;
+//        ///TODO: Setup quads as clickable
+//}
 
 
 void MainMenuLoop(raylib::Window& win, MenuMain& mainGameMenu, Data& gameData) {
@@ -152,7 +153,7 @@ void    SetUpButtonsMainUi(UiInGame& UiObject, raylib::Window& win) {
 
 int main () {
     Parser  par;
-    Data*   data = new Data();
+    auto   data = std::make_shared<Data>();
 
     try {
         par.Map("src/test.map", *data);

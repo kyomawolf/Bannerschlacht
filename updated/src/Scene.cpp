@@ -5,6 +5,7 @@
 #include "Scene.hpp"
 #include "ui/ObjectLayer.hpp"
 #include <iostream>
+#include <utility>
 
 extern enum scenes global_scene_var;
 void InputHandler(raylib::Camera2D& cam, raylib::Vector2& cam_pos, raylib::Window& win);
@@ -43,8 +44,8 @@ void MainMenuScene::setMenu(const MenuMain &menu) {
 }
 
 GameScene::GameScene(scenes newSceneType, raylib::Window &windowReference, RVector2 &camPos,
-                     raylib::Camera2D &camera, Data *data, Map &map, UiInGame &gameUi)
-        : Scene(newSceneType, windowReference), _camPos(camPos), _camera(camera), _map(map), _data(data),
+                     raylib::Camera2D &camera, std::shared_ptr<Data> data, Map &map, UiInGame &gameUi)
+        : Scene(newSceneType, windowReference), _camPos(camPos), _camera(camera), _map(map), _data(std::move(data)),
           _gameUi(gameUi) {}
 
 int GameScene::Play() {
@@ -70,7 +71,7 @@ int GameScene::Play() {
 
         ///inputhandler
 //        UiObject.Handler();
-        InputHandler(_camera, _camPos, _window);
+        //InputHandler(_camera, _camPos, _window);
         if (GetKeyPressed() || raylib::Mouse::IsButtonPressed(0) || raylib::Mouse::IsButtonPressed(1))
             ui.CallEvent();
         if (IsKeyPressed(KEY_SPACE)) {
