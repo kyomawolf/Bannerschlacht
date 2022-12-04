@@ -221,3 +221,8 @@ int main () {
         }
     return EXIT_SUCCESS;
 }
+/*
+ *  UI -> boolean in todolist <- actionmanager calls function if the todolist in this entry says so | or routine
+ *                               function checks for boolean to enable special modes/skins/other functionalities
+ *
+ * */

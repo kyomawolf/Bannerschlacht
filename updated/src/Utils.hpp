@@ -1,6 +1,7 @@
 #ifndef BANNERSCHLACHT_UTILS_HPP
 #define BANNERSCHLACHT_UTILS_HPP
 #include "raylib-cpp.hpp"
+#include <map>
 
 enum scenes {MAINMENU, GAME, ENUMCOUNT = GAME, LOADMENU};
 
@@ -11,7 +12,7 @@ private:
     std::string  _text;
     bool         _isCircular;
     raylib::Color    _tintColor = {255, 255, 255, 255};
-    raylib::Texture* _buttonTexture = nullptr;
+    raylib::Texture* _buttonTexture = nullptr; //todo shared pointer
 public:
     Button();
 //    explicit Button(RVector2 initPosition, RVector2 initClickSize = {0, 0});
@@ -20,8 +21,8 @@ public:
 
     void Draw();
     [[nodiscard]] bool IsInside(const RVector2& cpos) const;
-
-
+    //actionhandlerobject(maybe multiple for different parts of the system (sound, etc)) param1: action_id(as string?), action (as integer: 0 invert (if on turn off, vice versa; 1 on; 2 off)
+    void        ButtonAction(std::map<std::string, int>& actionHandlerObject, std::string& actionId, int action = 0);
     void        SetText(const std::string& text);
     void        SetIsCircular(bool val);
     void        SetPosition(RVector2 val);

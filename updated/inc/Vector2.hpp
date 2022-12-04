@@ -389,6 +389,7 @@ class Vector2 : public ::Vector2 {
 public:
     friend std::ostream& operator<<(std::ostream& o, const raylib::Vector2 &vec) {
         o << vec.x  << ' ' << vec.y;
+        return o;
     }
 };
 

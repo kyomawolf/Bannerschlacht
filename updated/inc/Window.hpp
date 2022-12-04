@@ -356,14 +356,15 @@ class Window {
      * Set clipboard text content
      */
     inline void SetClipboardText(const std::string& text) {
-        SetClipboardText(text.c_str());
+        ::SetClipboardText(text.c_str());
     }
 
     /**
      * Get clipboard text content
      */
-    inline const std::string& GetClipboardText() {
-        return GetClipboardText();
+    inline std::string& GetClipboardText() {
+        std::string str = ::GetClipboardText();
+        return str;
     }
 
     /**

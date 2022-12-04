@@ -92,5 +92,19 @@ void Button::SetText(const std::string &text) {
     _text = text;
 }
 
+void Button::ButtonAction(std::map<std::string, int>& actionHandlerObject, std::string &actionId, int action) {
+    auto value = actionHandlerObject.find(actionId);
+    switch (action) {
+        case 1:
+            value->second = 1;
+            break;
+        case 2:
+            value->second = 0;
+            break;
+        default:
+            value->second = value->second * -1 + 1;
+    }
+}
+
 
 
