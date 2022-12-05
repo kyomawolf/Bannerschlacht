@@ -6,11 +6,13 @@
 #include <exception>
 #include "datastructure/Data.hpp"
 
-//used to write data to file
+/**
+ * purpose: used to write data to files. Shall be used for custom formats etc.
+ * */
 class Writer {
 private:
 public:
-    Write() = default;
+    Writer() = default;
     ~Writer() {}
     //write mapsaves
     bool    MapSaves(std::string& absolutePath, Data/*::sub_class*/& mapToSave);
@@ -20,7 +22,8 @@ public:
         std::string _cause;
     public:
         WriterException(constexpr std::string cause);
-        [[nodiscard]] const char * what() const noexcept override;
+        ~WriterException() noexcept;
+        [[nodiscard]] const char * what() noexcept const;
     }
 };
 #endif

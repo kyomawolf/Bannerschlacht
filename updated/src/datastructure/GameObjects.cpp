@@ -3,6 +3,8 @@
 #include <iostream>
 extern enum scenes global_scene_var;
 
+//todo move gameobjects to a different structure => gameobjects/<objectname> also current classes should be scenes probably
+
 bool InGame::Handler() {
 #ifdef DEBUG
     std::cerr << "InGame class Handler() called" << std::endl;

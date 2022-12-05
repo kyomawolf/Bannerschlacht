@@ -33,6 +33,7 @@ int MainMenuScene::Play() {
     _menu.Handler();
     _menu.DrawElements();
     _window.EndDrawing();
+    return 0;
 }
 
 const MenuMain &MainMenuScene::getMenu() const {
@@ -100,4 +101,5 @@ int GameScene::Play() {
     }
     global_scene_var = MAINMENU;
     ///TODO: Setup quads as clickable
+    return 0;
 }

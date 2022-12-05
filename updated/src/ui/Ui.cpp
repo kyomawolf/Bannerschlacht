@@ -2,6 +2,8 @@
 // Created by kyomawolf on 02.10.22.
 //
 
+//todo move main menu here
+
 #include "Ui.hpp"
 
 Ui::Ui() : _uiPause(0, 0), _uiIngame(), _uiMain(){}

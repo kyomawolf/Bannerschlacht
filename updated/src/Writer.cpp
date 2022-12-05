@@ -20,6 +20,8 @@ bool    Writer::MapSaves(std::string& absolutePath, Data/*::sub_class*/& mapToSa
 
 Writer::WriterException::WriterException(std::string cause) : _cause(cause) {}
 
+Writer::WriterException::~WriterException() { }
+
 const char* Writer::WriterException::what() const noexcept {
     return _cause.c_str();
 }
