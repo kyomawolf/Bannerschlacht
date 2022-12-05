@@ -362,7 +362,7 @@ class Window {
     /**
      * Get clipboard text content
      */
-    inline std::string& GetClipboardText() {
+    inline std::string GetClipboardText() {
         std::string str = ::GetClipboardText();
         return str;
     }
