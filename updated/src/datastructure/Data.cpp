@@ -1,34 +1,58 @@
 
 #include "Data.hpp"
 
-BaseData* Data::FindNextIdent(Data::DataIndetify type, std::vector<DataLink>::difference_type index) {
-    if (index >= vecLink.size())
-        return nullptr;
-    for (auto i = vecLink.begin() + index; i != vecLink.end(); i++) {
-        if (i->indentifier == type)
-            return i->classData;
-    }
-    return nullptr;
-}
+Data    Data::instance = Data();
 
-Data::Data() : vecLink(), vecUnits(), vecTiles(), _window(nullptr) {
-
+Data::Data() {
+    _window = new raylib::Window();
 }
 
 Data::~Data() {
 
 }
 
-Scene * Data::getSceneByEnum(scenes type) {
+Scene & Data::getSceneByEnum(scenes type) {
     for (auto & i: vecScenes)
-        if (i->sceneType == type)
-            return i;
+        if (i->GetSceneType() == type)
+            return *i;
+    return *vecScenes.front();
 }
 
-const raylib::Window* Data::GetWindow() const {
+raylib::Window* Data::GetWindow() const {
     return _window;
 }
 
-void Data::SetWindow(raylib::Window* window) {
-    _window = window;
+const std::vector<raylib::Image> &Data::GetImageCollection() const {
+    return imageCollection;
 }
+
+void Data::AddImageCollection(raylib::Image &image) {
+    imageCollection.insert(imageCollection.end(), std::move(image));
+}
+
+const std::vector<raylib::Texture> &Data::GetTextureCollection() const {
+    return textureCollection;
+}
+
+void Data::AddTextureCollection(raylib::Texture &texture) {
+    textureCollection.insert(textureCollection.end(), std::move(texture));
+}
+
+const std::vector<Scene*> &Data::GetVecScenes() const {
+    return vecScenes;
+}
+
+void Data::AddVecScenes(Scene* scene) {
+    vecScenes.insert(vecScenes.end(), scene);
+}
+
+Data &Data::GetInstance() {
+    return instance;
+}
+
+bool Data::InitWindow(int width, int height, const std::string &title) {
+    _window->Init(width, height, title);
+    while (!raylib::Window::IsReady());
+    return true;
+}
+

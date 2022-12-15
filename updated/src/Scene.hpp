@@ -9,12 +9,13 @@
 class Data;
 
 class Scene {
-protected:
-    raylib::Window& _window;
+private:
+    scenes sceneType;
 public:
-    const scenes sceneType;
     Scene(scenes newSceneType, raylib::Window& windowReference);
     virtual int Play() = 0;
+
+    scenes GetSceneType() const;
 
     virtual ~Scene();
 };

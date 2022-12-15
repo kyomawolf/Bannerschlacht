@@ -70,8 +70,8 @@ int main () {
     std::cout << reddot.IsReady() << std::endl;
     raylib::Texture unit_text(reddot);
     std::cout << "parsed map" << std::endl;
-    MapData *mapData = dynamic_cast<MapData *>(data->FindNextIdent(Data::MAP));
-    Map gamemap(mapData->GetWidth(), mapData->GetHeight());
+//    MapData *mapData = dynamic_cast<MapData *>(data->FindNextIdent(Data::MAP));
+//    Map gamemap(mapData->GetWidth(), mapData->GetHeight());
     std::cout << "loaded map" << std::endl;
 
 
@@ -79,7 +79,8 @@ int main () {
     raylib::Camera2D cam(cam_pos, raylib::Vector2(0, 0));
     win.SetTargetFPS(140);
 
-    data->SetWindow(&win);
+//    data->SetWindow(&win);
+    data->
     MenuMain    mainGameMenu;
     UiInGame    mainUi;
     ///Main Menu Buttons:
