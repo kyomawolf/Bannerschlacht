@@ -2,8 +2,8 @@
 // Created by Jascha Kasper on 11/6/22.
 //
 
-#include "Scene.hpp"
 #include "ui/ObjectLayer.hpp"
+#include "datastructure/Data.hpp"
 #include <iostream>
 #include <utility>
 
@@ -17,16 +17,20 @@ void InputHandler(raylib::Camera2D& cam, raylib::Vector2& cam_pos, raylib::Windo
 //    return 0;
 //}
 
-Scene::Scene(scenes newSceneType, raylib::Window& windowReference) : _window(windowReference), sceneType(newSceneType) { }
+Scene::Scene(scenes newSceneType, raylib::Window& windowReference) : sceneType(newSceneType) { }
 
 Scene::~Scene() { }
+
+scenes Scene::GetSceneType() const {
+    return sceneType;
+}
 
 MainMenuScene::MainMenuScene(scenes newSceneType, raylib::Window &windowReference, MenuMain &menu) : Scene(newSceneType,
                                                                                                            windowReference),
                                                                                                      _menu(menu) {}
 
 int MainMenuScene::Play() {
-    _window.BeginDrawing();
+    raylib::Window& _window = Data::GetInstance().GetWindow();
 
     _window.ClearBackground(raylib::Color::RayWhite());
     _window.DrawFPS();
@@ -50,6 +54,7 @@ GameScene::GameScene(scenes newSceneType, raylib::Window &windowReference, RVect
           _gameUi(gameUi) {}
 
 int GameScene::Play() {
+    raylib::Window& _window = Data::GetInstance().GetWindow();
     InGame gameEventHandler;
     gameEventHandler.SetGamemap(&_map);
     gameEventHandler.SetCam(&_camera);

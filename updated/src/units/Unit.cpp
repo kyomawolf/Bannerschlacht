@@ -25,15 +25,15 @@ void  Unit::SetPlayer(int val)     { _player = val; }
 
 ///UnitData Getter
 
-float           Unit::GetAtk     ( void ) const { return _atk; }
-float           Unit::GetDef     ( void ) const { return _def; }
-int             Unit::GetMen     ( void ) const { return _men; }
-float           Unit::GetMov     ( void ) const { return _mov; }
-float           Unit::GetMor     ( void ) const { return _mor; }
-int             Unit::GetId      ( void ) const { return _id; }
-unsigned int    Unit::GetX       ( void ) const { return _x; }
-unsigned int    Unit::GetY       ( void ) const { return _y; }
-int             Unit::GetPlayer  ( void ) const { return _player; }
+float           Unit::GetAtk   () const { return _atk; }
+float           Unit::GetDef   () const { return _def; }
+int             Unit::GetMen   () const { return _men; }
+float           Unit::GetMov   () const { return _mov; }
+float           Unit::GetMor   () const { return _mor; }
+int             Unit::GetId    () const { return _id; }
+unsigned int    Unit::GetX     () const { return _x; }
+unsigned int    Unit::GetY     () const { return _y; }
+int             Unit::GetPlayer() const { return _player; }
 
 HeadQuarter::HeadQuarter(raylib::Texture &initTex, int initPlayer, float initAtk, float initDef, int initMen,
                          float initMov, float initMor) : Unit(initTex, initPlayer, initAtk, initDef, initMen, initMov,

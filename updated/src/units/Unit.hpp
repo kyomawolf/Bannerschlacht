@@ -10,13 +10,13 @@ public:
     raylib::Texture*    tex = nullptr; //todo make private
     float               scale = 0.02f; //todo make private
 private:
-    float       _atk;
-    float       _def;
-    int         _men;
-    float       _mov;
-    float       _mor;
-    int         _player;
-    int         _id;
+    float       _atk{};
+    float       _def{};
+    int         _men{};
+    float       _mov{};
+    float       _mor{};
+    int         _player{};
+    int         _id{};
     unsigned int  _x = 0; /// pos
     unsigned int  _y = 0;
 public:
@@ -34,15 +34,15 @@ public:
     void  SetY       (unsigned int val);
     void  SetPlayer  (int val);
 
-    [[nodiscard]] float        GetAtk     ( void ) const;
-    [[nodiscard]] float        GetDef     ( void ) const;
-    [[nodiscard]] int          GetMen     ( void ) const;
-    [[nodiscard]] float        GetMov     ( void ) const;
-    [[nodiscard]] float        GetMor     ( void ) const;
-    [[nodiscard]] int          GetId      ( void ) const;
-    [[nodiscard]] unsigned int GetX       ( void ) const;
-    [[nodiscard]] unsigned int GetY       ( void ) const;
-    [[nodiscard]] int          GetPlayer  ( void ) const;
+    [[nodiscard]] float        GetAtk     () const;
+    [[nodiscard]] float        GetDef     () const;
+    [[nodiscard]] int          GetMen     () const;
+    [[nodiscard]] float        GetMov     () const;
+    [[nodiscard]] float        GetMor     () const;
+    [[nodiscard]] int          GetId      () const;
+    [[nodiscard]] unsigned int GetX       () const;
+    [[nodiscard]] unsigned int GetY       () const;
+    [[nodiscard]] int          GetPlayer  () const;
 };
 
 ///derived unit classes:
