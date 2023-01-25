@@ -1,14 +1,18 @@
 #include "BaseData.hpp"
 #include "raylib.hpp"
 #include <iostream>
+#include "Data.hpp"
 
+class Data;
 //!     MapData
 
 MapData::MapData(unsigned int initWidth, unsigned int initHeight) : 
                  _width(initWidth), _height(initHeight) {}
 
 MapData::MapData(RVector2 vec) :
-                 _width(vec.x), _height(vec.y) {}
+                 _width(vec.x), _height(vec.y), _map(vec.y, vec.x) {
+    //implement get texture settings from Program settings
+}
 
 MapData::MapData() : _width(0), _height(0) {}
 
@@ -22,6 +26,10 @@ MapData::~MapData() {
 
 }
 
+Map *MapData::GetMapPointer() {
+    return &_map;
+}
+
 //!     TileData
 
 TileData::TileData(unsigned int initX, unsigned int initY) : _fogow(true), _x(initX), _y(initY) {};
@@ -29,17 +37,18 @@ TileData::~TileData() {};
 
 //!     UnitData
 
-UnitData::UnitData() : 
-            _atk(0), _def(0), _men(0), _mov(0), _mor(0), _id(0),
-            _x(0),  _y(0), _player(0), _class_d(nullptr) {}
+UnitData::UnitData() :
+        _atk(0), _def(0), _men(0), _mov(0), _mor(0), _id(0),
+        _x(0), _y(0), _player(0), _mapUnit(nullptr) {}
 
 UnitData::UnitData(float initAtk, float initDef, int initMen, 
                    float initMov, float initMor, int initId, 
-                   unsigned int initX, unsigned int initY, int initPlayer, 
-                   Unit* initClass_D) : 
-            _atk(initAtk), _def(initDef), _men(initMen), _mov(initMov), _mor(initMor), _id(initId),
-            _x(initX),     _y(initY),     _player(initPlayer),          _class_d(initClass_D) {
-    if (_class_d == nullptr)
+                   unsigned int initX, unsigned int initY, int initPlayer,
+                   const std::shared_ptr<Unit>& initClass_D) :
+        _atk(initAtk), _def(initDef), _men(initMen), _mov(initMov), _mor(initMor), _id(initId),
+        _x(initX), _y(initY), _player(initPlayer), _mapUnit() {
+    _mapUnit = initClass_D;
+    if (_mapUnit == nullptr)
         std::cerr << "[Warning]: " << "nullpointer init" << std::endl;
 }
 
@@ -55,7 +64,7 @@ void  UnitData::SetId(int val)         { _id = val; }
 void  UnitData::SetX(unsigned int val) { _x = val; }
 void  UnitData::SetY(unsigned int val) { _y = val; }
 void  UnitData::SetPlayer(int val)     { _player = val; }
-void  UnitData::SetClass_d(Unit* ptr)  { _class_d = ptr; }
+void  UnitData::SetMapUnit(std::shared_ptr<Unit>& ptr)  { _mapUnit = ptr; }
 
 ///UnitData Getter
 
@@ -68,7 +77,11 @@ int             UnitData::GetId      ( void ) const { return _id; }
 unsigned int    UnitData::GetX       ( void ) const { return _x; }
 unsigned int    UnitData::GetY       ( void ) const { return _y; }
 int             UnitData::GetPlayer  ( void ) const { return _player; }
-Unit*           UnitData::GetClass_d ( void ) const { return _class_d; }
+const Unit&     UnitData::GetMapUnit (void ) const { return *_mapUnit; }
+
+UnitData::UnitData(std::shared_ptr<Unit>& rawUnit) : _mapUnit(nullptr){
+    _mapUnit = std::move(rawUnit);
+}
 
 
 std::ostream& operator<<(std::ostream& o, const UnitData& data) {

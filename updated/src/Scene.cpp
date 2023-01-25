@@ -17,7 +17,7 @@ void InputHandler(raylib::Camera2D& cam, raylib::Vector2& cam_pos, raylib::Windo
 //    return 0;
 //}
 
-Scene::Scene(scenes newSceneType, raylib::Window& windowReference) : sceneType(newSceneType) { }
+Scene::Scene(scenes newSceneType) : sceneType(newSceneType) { }
 
 Scene::~Scene() { }
 
@@ -25,18 +25,17 @@ scenes Scene::GetSceneType() const {
     return sceneType;
 }
 
-MainMenuScene::MainMenuScene(scenes newSceneType, raylib::Window &windowReference, MenuMain &menu) : Scene(newSceneType,
-                                                                                                           windowReference),
+MainMenuScene::MainMenuScene(scenes newSceneType, MenuMain &menu) : Scene(newSceneType),
                                                                                                      _menu(menu) {}
 
 int MainMenuScene::Play() {
-    raylib::Window& _window = Data::GetInstance().GetWindow();
+    std::unique_ptr<raylib::Window>& _window = Data::GetInstance().GetWindow();
 
-    _window.ClearBackground(raylib::Color::RayWhite());
-    _window.DrawFPS();
+    _window->ClearBackground(raylib::Color::RayWhite());
+    _window->DrawFPS();
     _menu.Handler();
     _menu.DrawElements();
-    _window.EndDrawing();
+    _window->EndDrawing();
     return 0;
 }
 
@@ -48,15 +47,15 @@ void MainMenuScene::setMenu(const MenuMain &menu) {
     _menu = menu;
 }
 
-GameScene::GameScene(scenes newSceneType, raylib::Window &windowReference, RVector2 &camPos,
-                     raylib::Camera2D &camera, std::shared_ptr<Data> data, Map &map, UiInGame &gameUi)
-        : Scene(newSceneType, windowReference), _camPos(camPos), _camera(camera), _map(map), _data(std::move(data)),
-          _gameUi(gameUi) {}
+GameScene::GameScene(scenes newSceneType, RVector2 &camPos,
+                     raylib::Camera2D &camera, UiInGame &gameUi, int newMapID)
+        : Scene(newSceneType), _camPos(camPos), _camera(camera),
+          _gameUi(gameUi), _mapID(newMapID) {}
 
 int GameScene::Play() {
-    raylib::Window& _window = Data::GetInstance().GetWindow();
+    std::unique_ptr<raylib::Window>& _window = Data::GetInstance().GetWindow();
     InGame gameEventHandler;
-    gameEventHandler.SetGamemap(&_map);
+    gameEventHandler.SetGamemap(Data::GetInstance().GetMapDataByIdx(_mapID));
     gameEventHandler.SetCam(&_camera);
     gameEventHandler.EnableHandler();
     _gameUi.EnableHandler();
@@ -67,12 +66,13 @@ int GameScene::Play() {
     ui.SetChild(&game);
     while (!WindowShouldClose()) {
 
-        _window.BeginDrawing();
+        _window->BeginDrawing();
 
         _camera.BeginMode();
-        _window.ClearBackground(raylib::Color::RayWhite());
+        _window->ClearBackground(raylib::Color::RayWhite());
 //        std::cerr << "after" << std::endl;
-        _map.Draw();
+        /// currently hardcoded, but should be set with a 'current game' variable
+        Data::GetInstance().GetMapDataByIdx(_mapID).GetMapPointer()->Draw();
         //collection.draw(unitData);
 
         ///inputhandler
@@ -81,9 +81,9 @@ int GameScene::Play() {
         if (GetKeyPressed() || raylib::Mouse::IsButtonPressed(0) || raylib::Mouse::IsButtonPressed(1))
             ui.CallEvent();
         if (IsKeyPressed(KEY_SPACE)) {
-            for (unsigned int i = 0; i < _map._size.x; i++) {
-                for (unsigned int ii = 0; ii != _map._size.y; ii++) {
-                    if (_map.at(i, ii).GetInit())
+            for (unsigned int i = 0; i < Data::GetInstance().GetMapDataByIdx(0).GetWidth(); i++) {
+                for (unsigned int ii = 0; ii != Data::GetInstance().GetMapDataByIdx(0).GetHeight(); ii++) {
+                    if (Data::GetInstance().GetMapDataByIdx(0).GetMapPointer()->at(i, ii).GetInit())
                         std::cout << i << " " << ii << "initialized" << std::endl;
                 }
             }
@@ -99,10 +99,10 @@ int GameScene::Play() {
         _camera.EndMode();
         ///overlay
         _gameUi.DrawElements();
-        _window.DrawFPS();
+        _window->DrawFPS();
 //        rec.Draw(raylib::Color::Red());
 //        gameData.gameUi.Draw();
-        _window.EndDrawing();
+        _window->EndDrawing();
     }
     global_scene_var = MAINMENU;
     ///TODO: Setup quads as clickable

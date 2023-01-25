@@ -23,8 +23,8 @@ Map *InGame::GetGamemap() const {
     return _gamemap;
 }
 
-void InGame::SetGamemap(Map *gamemap) {
-    _gamemap = gamemap;
+void InGame::SetGamemap(MapData& gamemap) {
+    _gamemap = gamemap.GetMapPointer();
 }
 
 raylib::Camera2D *InGame::GetCam() const {

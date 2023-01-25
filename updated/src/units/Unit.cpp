@@ -8,8 +8,7 @@ Unit::Unit(raylib::Texture& init_tex, int init_player, float init_atk, float ini
 
 }
 
-Unit::Unit(const UnitData &data) : tex(nullptr), _atk(data.GetAtk()), _def(data.GetDef()), _men(data.GetMen()),
-                                         _mov(data.GetMov()), _mor(data.GetMor()), _player(data.GetPlayer()), _id(data.GetId()), _x(data.GetX()), _y(data.GetY()) { }
+Unit::Unit() {}
 
 ///UnitdData Setter
 

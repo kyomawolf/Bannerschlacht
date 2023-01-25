@@ -12,7 +12,7 @@ class Scene {
 private:
     scenes sceneType;
 public:
-    Scene(scenes newSceneType, raylib::Window& windowReference);
+    Scene(scenes newSceneType);
     virtual int Play() = 0;
 
     scenes GetSceneType() const;
@@ -29,7 +29,7 @@ public:
     void setMenu(const MenuMain &menu);
 
 public:
-    MainMenuScene(scenes newSceneType, raylib::Window &windowReference, MenuMain &menu);
+    MainMenuScene(scenes newSceneType, MenuMain &menu);
     int Play() override;
 };
 
@@ -37,12 +37,11 @@ class GameScene : public Scene {
 private:
     RVector2&             _camPos;
     raylib::Camera2D&     _camera;
-    Map&                  _map;
-    std::shared_ptr<Data> _data;
     UiInGame&             _gameUi;
+    int                   _mapID;
 public:
-    GameScene(scenes newSceneType, raylib::Window &windowReference, RVector2 &camPos,
-              raylib::Camera2D &camera, std::shared_ptr<Data> data, Map &map, UiInGame &gameUi);
+    GameScene(scenes newSceneType, RVector2 &camPos,
+              raylib::Camera2D &camera, UiInGame &gameUi, int newMapID);
     int Play() override;
 };
 #endif //BANNERSCHLACHT_SCENE_HPP

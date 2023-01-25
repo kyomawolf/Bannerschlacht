@@ -1,7 +1,9 @@
 #ifndef BANNERSCHLACHT_BASEDATA_HPP
 #define BANNERSCHLACHT_BASEDATA_HPP
 #include "raylib-cpp.hpp"
+#include "../map/Map.hpp"
 #include <iostream>
+
 class Unit;
 
 class BaseData {
@@ -15,6 +17,7 @@ class MapData : public BaseData {
 private:
     unsigned int _width;
     unsigned int _height;
+    Map          _map;
 public:
     MapData();
     MapData(unsigned int initWidth, unsigned int initHeight);
@@ -25,6 +28,7 @@ public:
 
     unsigned int GetWidth ( void ) const;
     unsigned int GetHeight( void ) const;
+    Map *GetMapPointer();
 };
 
 class TileData : public BaseData {
@@ -55,14 +59,15 @@ private:
     unsigned int  _x; /// pos 
     unsigned int  _y;
     int      _player;
-    Unit*   _class_d;
+    std::shared_ptr<Unit>   _mapUnit;
 public:
     UnitData();
+    UnitData(std::shared_ptr<Unit>& rawUnit);
     ~UnitData();
     UnitData(float initAtk, float initDef, int initMen, 
              float initMov, float initMor, int initId, 
-             unsigned int initX, unsigned int initY, int initPlayer, 
-             Unit* initClass_D);
+             unsigned int initX, unsigned int initY, int initPlayer,
+             const std::shared_ptr<Unit>& initClass_D);
     void  SetAtk     (float val);
     void  SetDef     (float val);
     void  SetMen     (int val);
@@ -72,7 +77,7 @@ public:
     void  SetX       (unsigned int val);
     void  SetY       (unsigned int val);
     void  SetPlayer  (int val);
-    void  SetClass_d (Unit* ptr);
+    void  SetMapUnit (std::shared_ptr<Unit>& ptr);
 
     float        GetAtk     ( void ) const;
     float        GetDef     ( void ) const;
@@ -83,7 +88,7 @@ public:
     unsigned int GetX       ( void ) const;
     unsigned int GetY       ( void ) const;
     int          GetPlayer  ( void ) const;
-    Unit*        GetClass_d ( void ) const;
+    const Unit&  GetMapUnit ( void ) const;
 
 };
 

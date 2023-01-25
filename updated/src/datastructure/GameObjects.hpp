@@ -3,6 +3,8 @@
 #include "../EventHandlerType.hpp"
 #include "../Utils.hpp"
 #include "../map/Map.hpp"
+#include "BaseData.hpp"
+
 class Map;
 
 class InGame : public EventHandlerType {
@@ -15,7 +17,7 @@ public:
 
     Map *GetGamemap() const;
 
-    void SetGamemap(Map *gamemap);
+    void SetGamemap(MapData& gamemap);
 
     raylib::Camera2D *GetCam() const;
 

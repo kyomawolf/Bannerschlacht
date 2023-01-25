@@ -3,7 +3,7 @@ VPATH    = src/ src/map src/ui src/units src/datastructure inc/ src/algorithm
 SRC_FILES= main.cpp Tile.cpp Map.cpp Data.cpp Ui.cpp Unit.cpp \
            Parser.cpp BaseData.cpp Utils.cpp ObjectLayer.cpp \
            EventHandlerType.cpp GameObjects.cpp Scene.cpp \
-           Player.cpp PathFinder.cpp ComPlayer.cpp
+           Player.cpp PathFinder.cpp ComPlayer.cpp Setting.cpp
 
 DEP_FILES= AudioDevice.hpp \
            AudioStream.hpp \
@@ -62,12 +62,14 @@ else
 	ifeq ($(UNAME_S), Linux)
 		LDFLAGS += -lraylib-linux -lGL -lpthread -lm -ldl -lrt -lX11
 	else ifeq ($(UNAME_S), Darwin)
+		FLAGS := -fsanitize=address
 		LDFLAGS += -Llib -lraylib-mac -lglfw3-mac -framework CoreVideo -framework IOKit -framework Cocoa -framework GLUT -framework OpenGL
 	endif
 endif
 
-FLAGS += -Wall -Wextra -std=c++17 -fsanitize=address
+FLAGS += -Wall -Wextra -std=c++17 -MMD -MP
 
+-include $(DEPS)
 
 all: add_debug_flag $(NAME)
 

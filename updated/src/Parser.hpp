@@ -7,18 +7,21 @@
 #include <map>
 #include <vector>
 #include "datastructure/Data.hpp"
+#include "datastructure/Setting.hpp"
 
 class Parser {
 private:
 
     //TODO refactor (and throw out) variables
     // std::map<std::string, std::string> _fileList;
-    std::string                        _mapSize;
+    //std::string                        _mapSize;
     // std::vector<Data::UnitData>        _unitData;
     // Data::MapData                      _mData;
 public:
     Parser() = default;
-    void    Map(const std::string& filename, Data& target);
+    static void    Map(const std::string& filename, Data& target);
+    static Setting Settings(const std::string& filename="game.config");
+
 
     // [[nodiscard]] const Data::MapData getMapData()                const;
     // [[nodiscard]] const std::vector<Data::UnitData> getUnitData() const;
