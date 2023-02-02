@@ -54,7 +54,7 @@ GameScene::GameScene(scenes newSceneType, RVector2 &camPos,
 
 int GameScene::Play() {
     std::unique_ptr<raylib::Window>& _window = Data::GetInstance().GetWindow();
-    InGame gameEventHandler;
+    InGame gameEventHandler(_camPos);
     gameEventHandler.SetGamemap(Data::GetInstance().GetMapDataByIdx(_mapID));
     gameEventHandler.SetCam(&_camera);
     gameEventHandler.EnableHandler();
@@ -78,8 +78,10 @@ int GameScene::Play() {
         ///inputhandler
 //        UiObject.Handler();
         //InputHandler(_camera, _camPos, _window);
-        if (GetKeyPressed() || raylib::Mouse::IsButtonPressed(0) || raylib::Mouse::IsButtonPressed(1))
+//        if (/*any key pressed ||*/ raylib::Mouse::IsButtonPressed(0) || raylib::Mouse::IsButtonPressed(1)) {
             ui.CallEvent();
+//            std::cout << _camPos.x << " " << _camPos.y << std::endl;
+//        }
         if (IsKeyPressed(KEY_SPACE)) {
             for (unsigned int i = 0; i < Data::GetInstance().GetMapDataByIdx(0).GetWidth(); i++) {
                 for (unsigned int ii = 0; ii != Data::GetInstance().GetMapDataByIdx(0).GetHeight(); ii++) {

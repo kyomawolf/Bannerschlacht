@@ -6,17 +6,31 @@ extern enum scenes global_scene_var;
 //todo move gameobjects to a different structure => gameobjects/<objectname> also current classes should be scenes probably
 
 bool InGame::Handler() {
+    bool returnValue = false;
 #ifdef DEBUG
-    std::cerr << "InGame class Handler() called" << std::endl;
+//    std::cerr << "InGame class Handler() called" << std::endl;
 #endif //DEBUG
     if (raylib::Mouse::IsButtonPressed(0)) {
         raylib::Vector2 vec = _cam->GetScreenToWorld(raylib::Mouse::GetPosition());
         _gamemap->OnClick(vec);
         std::cout << _gamemap->positionToIndex(vec) << std::endl;
         std::cout << "true" << std::endl;
-        return true;
+        returnValue = true;
     }
-    return false;
+    if (IsKeyDown(KEY_W)) {
+        _camPos.y += -10;
+        returnValue = true;
+    } if (IsKeyDown(KEY_S)) {
+        _camPos.y += 10;
+        returnValue = true;
+    } if (IsKeyDown(KEY_A)) {
+        _camPos.x += -10;
+        returnValue = true;
+    } if (IsKeyDown(KEY_D)) {
+        _camPos.x += 10;
+        returnValue = true;
+    }
+    return returnValue;
 }
 
 Map *InGame::GetGamemap() const {
@@ -34,6 +48,9 @@ raylib::Camera2D *InGame::GetCam() const {
 void InGame::SetCam(raylib::Camera2D *cam) {
     _cam = cam;
 }
+
+InGame::InGame(raylib::Vector2 &camPos) : _camPos(camPos) {}
+
 
 bool MenuMain::Handler() {
 #ifdef DEBUG

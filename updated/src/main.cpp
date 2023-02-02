@@ -74,10 +74,14 @@ int main (int argc, char **argv) {
     // replace hardcoded window settings to configuration file loading
     data.InitWindow(1080, 720, "Schlacht ver. 0.0.4");
 
-    raylib::Image reddot(std::string("../red_dot.png"));
-    std::cout << reddot.IsReady() << std::endl;
-    raylib::Texture unit_texture(reddot);
-    data.AddImageCollection(reddot);
+    raylib::Image redDot(data.GetGameSettings().textureList.find("unit_base_graphic")->second); //todo refactor image finding
+    raylib::Image quadImage(data.GetGameSettings().textureList.find("tile_base_graphic")->second);
+    raylib::Texture quad(quadImage); ///todo make unique and move into map (or better said, move the loading of texture also into the maploading
+    data.GetMapDataByIdx(0).GetMapPointer()->SetTileTex(&quad);
+//    raylib::Image reddot(std::string("../red_dot.png"));
+    std::cout << redDot.IsReady() << std::endl;
+    raylib::Texture unit_texture(redDot);
+    data.AddImageCollection(redDot);
     data.AddTextureCollection(unit_texture);
     std::cout << "parsed map" << std::endl;
 //    MapData *mapData = dynamic_cast<MapData *>(data->FindNextIdent(Data::MAP));
@@ -95,10 +99,10 @@ int main (int argc, char **argv) {
     SetUpButtonsMainUi(mainUi, data.GetWindow());
     data.AddVecScenes(std::make_unique<MainMenuScene>(scenes::MAINMENU, mainGameMenu));
     data.AddVecScenes(std::make_unique<GameScene>(scenes::GAME, cam_pos, cam, mainUi, 0));
+//    data.getSceneByEnum(scenes::GAME);
 //    data->SetWindow(&win);
 
 
-    raylib::Texture quad(raylib::Image(std::string("../rectangle.png")));
 //    raylib::Rectangle rec(10, 10, 700, 20);
 //    gamemap.SetTileTex(&quad);
 

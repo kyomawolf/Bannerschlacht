@@ -12,7 +12,10 @@ private:
 protected:
     Map*              _gamemap;
     raylib::Camera2D* _cam;
+    raylib::Vector2&  _camPos;
 public:
+    explicit InGame(raylib::Vector2 &camPos);
+
     bool Handler() override;
 
     Map *GetGamemap() const;

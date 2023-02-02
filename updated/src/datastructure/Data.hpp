@@ -21,7 +21,7 @@ private:
     std::vector<MapData>                mapCollection{};
     std::vector<std::shared_ptr<UnitData>>    unitCollection{(0, 0, 0, 0, 0, -1, 0, 0, 0, nullptr)};
     std::vector<TileData>               vecTiles;
-    std::vector<std::unique_ptr<Scene>> vecScenes; //TODO make private
+    std::vector<std::unique_ptr<Scene>> vecScenes;
     Setting                             gameSettings;
 
     static Data instance;
