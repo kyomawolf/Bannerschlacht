@@ -166,7 +166,6 @@ Setting Parser::Settings(const std::string &filename) {
 
     if (!file_setting.is_open())
         throw Parser::ParserException("bad file");
-    std::getline(file_setting, line);
     std::vector<std::pair<token_t, std::string> > tokens;
     while (std::getline(file_setting, line)) {
         Tokenizer(tokens, line);
