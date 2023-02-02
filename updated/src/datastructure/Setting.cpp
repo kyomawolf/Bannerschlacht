@@ -38,7 +38,7 @@ bool Setting::TokenizedListToValues(std::vector<std::pair<token_t, std::string> 
         std::cout << "expected Token:  " << GetTokenName(expectedToken) << std::endl;
         std::cout << GetTokenName(i.first) << "\t" << i.second << std::endl << std::endl;
         if ((expectedToken == NONE &&
-                (i.first == DELIMITER)) ||
+                ( i.first == DELIMITER)) ||
             (expectedToken != NONE && i.first != expectedToken)
                 ) {
             switch (expectedToken) {

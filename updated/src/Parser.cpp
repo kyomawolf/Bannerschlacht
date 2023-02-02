@@ -55,7 +55,6 @@ void Parser::Map(const std::string& filename, Data& target) {///TODO refactor
     std::vector<std::string> rawUnits;
     if (!file_map.is_open())
         throw Parser::ParserException("bad file");
-    // _fileList.insert(std::pair<std::string, std::string>("GameMap", filename));
     std::getline(file_map, _mapSize);
     while (std::getline(file_map, line))
         rawUnits.push_back(line);
@@ -68,16 +67,6 @@ void Parser::Map(const std::string& filename, Data& target) {///TODO refactor
     MapData newMap(vec);
     Data::GetInstance().AddMapToCollection(newMap);
 }
-
-//
-//void StripLine(std::string& line, const std::string& toStrip=" ")
-//{
-//    line.erase(std::remove_if(line.begin(), line.end(), [&toStrip] (std::string::value_type ch)
-//                            { return (toStrip.find(ch) != std::string::npos); }
-//    ), line.end());
-//}
-//
-
 
 bool DetectEmpty(const std::string& str) {
     if (std::all_of(str.begin(), str.end(), [] (std::string::value_type ch)
@@ -97,7 +86,6 @@ void CleanLine(std::string& line) {
         if (i <= 0)
             break;
     }
-//    std::cout << markBeginOfEnd << " " << line.size() << "  " << line.size() - 1 - markBeginOfEnd << " " << std::endl;
     line.erase(markBeginOfEnd, line.size() - markBeginOfEnd);
     line.erase(0, markEndOfBegin);
 }
@@ -134,7 +122,6 @@ void AssignTokens(std::vector<std::pair<token_t, std::string> >& stringTokenList
     std::string delimiterList = "=:;";
     std::pair<token_t, std::string> tokenPair;
     for (auto &i : stringList) {
-//        std::cout << "[" << i << "]" << i.length() << std::endl;
         if (i == "begin")
             stringTokenList.emplace_back(token_t::BLOCK_BEGIN, i);
         else if (i == "end")
@@ -151,11 +138,8 @@ void AssignTokens(std::vector<std::pair<token_t, std::string> >& stringTokenList
 void Tokenizer(std::vector<std::pair<token_t, std::string> >& stringTokenList, std::string& line) {
     if (DetectEmpty(line))
         return;
-//    std::cout << "first[" << line << "]" << std::endl;
     CleanLine(line);
-//    std::cout << "second[" << line << "]" << std::endl;
     std::vector<std::string> stringList = StringSplit(line);
-//    std::cout << "third[" << line << "]" << std::endl;
     AssignTokens(stringTokenList, stringList);
 }
 
@@ -170,10 +154,8 @@ Setting Parser::Settings(const std::string &filename) {
     while (std::getline(file_setting, line)) {
         Tokenizer(tokens, line);
     }
-    ret.TokenizedListToValues(tokens);
-//    for (auto &i : tokens)
-//        std::cout << i.first << "  " << i.second << std::endl;
 
+    ret.TokenizedListToValues(tokens);
 
     return ret;
 }
