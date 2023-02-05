@@ -2,6 +2,7 @@
 #define BANNERSCHLACHT_BASEDATA_HPP
 #include "raylib-cpp.hpp"
 #include "../map/Map.hpp"
+#include "../algorithm/PathFinder.hpp"
 #include <iostream>
 
 class Unit;
@@ -18,6 +19,7 @@ private:
     unsigned int _width;
     unsigned int _height;
     Map          _map;
+    int          _index;
 public:
     MapData();
     MapData(unsigned int initWidth, unsigned int initHeight);
@@ -25,7 +27,9 @@ public:
     ~MapData();
     void  SetWidth (unsigned int val);
     void  SetHeight(unsigned int val);
+    void SetIndex(int index);
 
+    int          GetIndex ( void ) const;
     unsigned int GetWidth ( void ) const;
     unsigned int GetHeight( void ) const;
     Map *GetMapPointer();
@@ -50,24 +54,35 @@ class TileData : public BaseData {
 
 class UnitData : public BaseData {
 private:
-    float       _atk;
-    float       _def;
-    int         _men;
-    float       _mov;
-    float       _mor;
-    int          _id;
-    unsigned int  _x; /// pos 
-    unsigned int  _y;
-    int      _player;
+    int                         _mapIdent = -1;
+    float                       _attack;
+    float                       _defense;
+    int                         _men;
+    float                       _movement;
+    float                       _moral;
+    int                         _id;
+    TileIdx                     _position;
+    unsigned int                _x; /// current position
+    unsigned int                _y;
+    TileIdx                     _destination;
+    unsigned int                _destinationX; /// destination position
+    unsigned int                _destinationY;
+    int                         _player;
+    std::vector<raylib::Color>  _player_tints;
+    std::string                 _texture; //todo make a settings variable
+
+public:
+    std::vector<raylib::Color> GetPlayerTints() const;
+
+private:
     std::shared_ptr<Unit>   _mapUnit;
 public:
     UnitData();
-    UnitData(std::shared_ptr<Unit>& rawUnit);
+    UnitData(std::shared_ptr<Unit> &rawUnit, const TileIdx& destination, const TileIdx& position);
     ~UnitData();
-    UnitData(float initAtk, float initDef, int initMen, 
-             float initMov, float initMor, int initId, 
-             unsigned int initX, unsigned int initY, int initPlayer,
-             const std::shared_ptr<Unit>& initClass_D);
+    UnitData(float initAtk, float initDef, int initMen, float initMov, float initMor, int initId,
+             unsigned int initX, unsigned int initY, int initPlayer, const std::shared_ptr<Unit> &initClass_D,
+             const TileIdx& destination, const TileIdx& index);
     void  SetAtk     (float val);
     void  SetDef     (float val);
     void  SetMen     (int val);
@@ -78,6 +93,12 @@ public:
     void  SetY       (unsigned int val);
     void  SetPlayer  (int val);
     void  SetMapUnit (std::shared_ptr<Unit>& ptr);
+    void  SetDestination(const TileIdx &destination);
+    void  SetDestination0 (unsigned x, unsigned y);
+    void  SetPosition(const TileIdx& position);
+    void  SetMapIdent(int mapIdent);
+
+
 
     float        GetAtk     ( void ) const;
     float        GetDef     ( void ) const;
@@ -89,6 +110,13 @@ public:
     unsigned int GetY       ( void ) const;
     int          GetPlayer  ( void ) const;
     const Unit&  GetMapUnit ( void ) const;
+    int          GetMapIdent( void ) const;
+    std::pair<unsigned, unsigned> GetDestination0();
+    raylib::Texture& GetTexture();
+    TileIdx  GetDestination();
+    TileIdx  GetPosition();
+
+    void    Action();
 
 };
 

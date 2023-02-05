@@ -106,5 +106,62 @@ void Button::ButtonAction(std::map<std::string, int>& actionHandlerObject, std::
     }
 }
 
+void Button::FunctionCall() {
+    if (_callableFunction != nullptr)
+        _callableFunction();
+    return;
+}
 
+void Button::SetCallableFunction(void (*callableFunction)(void)) {
+    _callableFunction = callableFunction;
+}
 
+bool TileIndex::operator<(const TileIndex &other) const {
+    if (x < other.x)
+        return true;
+    else if (x == other.x && y < other.y)
+        return true;
+    return false;
+}
+
+bool TileIndex::operator>(const TileIndex &other) const {
+    if (x > other.x)
+        return true;
+    else if (x == other.x && y > other.y)
+        return true;
+    return false;
+}
+
+bool TileIndex::operator<=(const TileIndex &other) const {
+    if (x < other.x)
+        return true;
+    else if (x == other.x && y <= other.y)
+        return true;
+    return false;
+}
+
+bool TileIndex::operator>=(const TileIndex &other) const {
+    if (x > other.x)
+        return true;
+    else if (x == other.x && y >= other.y)
+        return true;
+    return false;
+}
+
+bool TileIndex::operator==(const TileIndex &other) const {
+    if (x == other.x && y == other.y)
+        return true;
+    return false;
+}
+
+bool TileIndex::operator!=(const TileIndex &other) const {
+    if (!(*this == other))
+        return true;
+    return false;
+}
+
+TileIndex::TileIndex(long nX, long nY) : x(nX), y(nY) { }
+
+TileIndex::TileIndex(const TileIndex &other) = default;
+
+TileIndex& TileIndex::operator=(const TileIndex &other) = default;

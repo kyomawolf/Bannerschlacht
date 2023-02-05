@@ -76,6 +76,7 @@ int GameScene::Play() {
         //collection.draw(unitData);
 
         ///inputhandler
+        Data::GetInstance().SetInput();
 //        UiObject.Handler();
         //InputHandler(_camera, _camPos, _window);
 //        if (/*any key pressed ||*/ raylib::Mouse::IsButtonPressed(0) || raylib::Mouse::IsButtonPressed(1)) {
@@ -85,8 +86,9 @@ int GameScene::Play() {
         if (IsKeyPressed(KEY_SPACE)) {
             for (unsigned int i = 0; i < Data::GetInstance().GetMapDataByIdx(0).GetWidth(); i++) {
                 for (unsigned int ii = 0; ii != Data::GetInstance().GetMapDataByIdx(0).GetHeight(); ii++) {
-                    if (Data::GetInstance().GetMapDataByIdx(0).GetMapPointer()->at(i, ii).GetInit())
-                        std::cout << i << " " << ii << "initialized" << std::endl;
+                    if (!Data::GetInstance().GetMapDataByIdx(0).GetMapPointer()->at(i, ii).GetInit())
+                        continue;
+                    std::cout << i << " " << ii << "initialized" << std::endl;
                 }
             }
         }
@@ -107,6 +109,5 @@ int GameScene::Play() {
         _window->EndDrawing();
     }
     global_scene_var = MAINMENU;
-    ///TODO: Setup quads as clickable
     return 0;
 }

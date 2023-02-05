@@ -29,3 +29,7 @@ bool Player::GetIsCom() const {
 void Player::SetIsCom(bool isAi) {
     _isCom = isAi;
 }
+
+void Player::Routine() {
+    std::cout << "routine called for " << GetId() << std::endl;
+}

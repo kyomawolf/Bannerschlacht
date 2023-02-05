@@ -11,8 +11,8 @@ RVector2       ParseMapData(const std::string& rawData) {
     return RVector2(std::stoi(rawData), std::stoi(&rawData.at(pos)));
 }
 
-std::unique_ptr<UnitData> ParseUnit(const std::string& rawData) {
-    std::unique_ptr<UnitData> unitData = std::make_unique<UnitData>();
+std::shared_ptr<UnitData> ParseUnit(const std::string& rawData) {
+    std::shared_ptr<UnitData> unitData = std::make_shared<UnitData>();
     auto pos = rawData.find("ID");
     if (pos == std::string::npos)
         throw Parser::ParserException("unit");
@@ -21,6 +21,7 @@ std::unique_ptr<UnitData> ParseUnit(const std::string& rawData) {
     if (sec_pos == std::string::npos)
         throw Parser::ParserException("unit");
     unitData->SetPlayer(std::stoi(&rawData.at(pos), nullptr, 10));
+    std::cout << "Player: " << unitData->GetPlayer() << std::endl;
     pos = ++sec_pos;
     sec_pos = rawData.find(':', pos);
     if (sec_pos == std::string::npos)
@@ -48,7 +49,7 @@ std::unique_ptr<UnitData> ParseUnit(const std::string& rawData) {
     return unitData;
 }
 
-void Parser::Map(const std::string& filename, Data& target) {///TODO refactor
+void Parser::Map(const std::string& filename, Data& target) {
     std::ifstream file_map(filename);
     std::string line;
     std::string _mapSize;
@@ -56,16 +57,23 @@ void Parser::Map(const std::string& filename, Data& target) {///TODO refactor
     if (!file_map.is_open())
         throw Parser::ParserException("bad file");
     std::getline(file_map, _mapSize);
+
+    // init map
+    RVector2 vec = ParseMapData(_mapSize);
+    // load terrain etc...
+    MapData newMap(vec);
+    int mapIndex = Data::GetInstance().AddMapToCollection(newMap);
+
+    // init units of that map
     while (std::getline(file_map, line))
         rawUnits.push_back(line);
     file_map.close();
+    target.ClearUnits();
     for (auto &idx : rawUnits) {
         std::shared_ptr<UnitData> parsedUnit = ParseUnit(idx);
+        parsedUnit->SetMapIdent(mapIndex);
         target.AddUnitToCollection(parsedUnit);
     }
-    RVector2 vec = ParseMapData(_mapSize);
-    MapData newMap(vec);
-    Data::GetInstance().AddMapToCollection(newMap);
 }
 
 bool DetectEmpty(const std::string& str) {

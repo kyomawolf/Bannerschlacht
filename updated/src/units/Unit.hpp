@@ -3,7 +3,6 @@
 
 #include "raylib-cpp.hpp"
 #include "Texture.hpp"
-#include "../datastructure/Data.hpp"
 
 class Unit {
 public:

@@ -6,18 +6,19 @@
 #include "Tile.hpp"
 #include "Map.hpp"
 #include "../units/Unit.hpp"
-
+#include "../datastructure/Data.hpp"
 
 void Tile::Draw(unsigned int x, unsigned int y) {
-//    std::cout << "test" << std::endl;
-    if (_initialized) {
+        //draw tile terrain
+
+        //draw unit
         RVector2 pos = Map::LocalToWorld(x, y);
         pos.x += _paddingLeft;
         pos.y += _paddingTop;
-//        std::cout << "in here "<< Map::LocalToWorld(x, y) << std::endl;
-        _entry->tex->Draw(pos/* plus padding */, 0, _entry->scale, _entry->player_tints[_entry->GetPlayer()]);
-    }
-//    std::cout << "after if" << std::endl;
+        auto unit = Data::GetInstance().GetUnitByLocation(x, y);
+        if (unit != nullptr) {
+            unit->GetTexture().Draw(pos, 0, 0.6f, unit->GetPlayerTints().at(unit->GetPlayer()));
+        }
 }
 
 bool Tile::MoveUnit(Tile &dest) {
@@ -67,78 +68,60 @@ Tile &Tile::operator=(const Tile &other) noexcept {
     _pos = other._pos;//TODO make to map.end()?
     return *this;
 }
+TileIterator::TileIterator(const TileIdx &index, Map &ref) : _index(index), _ref(ref){
+}
 
-TileIterator::TileIterator(int x, int y, Map& ref) : _x(x), _y(y), _ref(ref) {}
+//TileIterator::TileIterator(const TileIdx& index, Map& ref) : _index(index), _ref(ref) {}
 
 void TileIterator::operator++() {
-    if (_x + 1 < _ref._size.x)
-        ++_x;
-    else if (_y + 1 < _ref._size.y) {
-        _x = 0;
-        ++_y;
-    }
-    else {
-        _x = -1;
-        _y = -1;
-    }
+    if (_index.y >= _ref._size.y) {
+        ++_index.x;
+        _index.y = 0;
+    } else
+        ++_index.y;
 }
 
 const TileIterator TileIterator::operator++(int) {
     TileIterator tmp(*this);
-    if (_x + 1 < _ref._size.x)
-        ++_x;
-    else if (_y + 1 < _ref._size.y) {
-        _x = 0;
-        ++_y;
-    }
-    else {
-        _x = -1;
-        _y = -1;
-    }
+    if (_index.y >= _ref._size.y) {
+        ++_index.x;
+        _index.y = 0;
+    } else
+        ++_index.y;
     return tmp;
 }
 
 void TileIterator::operator--() {
-    if (_x - 1 > 0)
-        --_x;
-    else if (_y - 1 > 0) {
-        _x = 0;
-        --_y;
-    }
-    else {
-        _x = -1;
-        _y = -1;
-    }
+    if (_index.y <= 0) {
+        --_index.x;
+        _index.y =  _ref._size.y;
+    } else
+        --_index.y;
 }
 
 const TileIterator TileIterator::operator--(int) {
     TileIterator tmp(*this);
-    if (_x - 1 < 0)
-        --_x;
-    else if (_y - 1 < 0) {
-        _x = 0;
-        --_y;
-    }
-    else {
-        _x = -1;
-        _y = -1;
-    }
+    if (_index.y <= 0) {
+        --_index.x;
+        _index.y =  _ref._size.y;
+    } else
+        --_index.y;
     return tmp;
 }
 
 
 Tile &TileIterator::operator*() {
-    return _ref.at(_x, _y);
+    return _ref.at(_index);
 }
 
 Tile &TileIterator::operator->() {
-    return _ref.at(_x, _y);
+    return _ref.at(_index);
 }
 
-TileIterator::TileIterator(const Tile& tile) : _x(tile._pos.x), _y(tile._pos.y), _ref(tile._parent){ }
+TileIterator::TileIterator(const Tile& tile) : _index(tile._pos), _ref(tile._parent){ }
 
 bool TileIterator::operator==(const TileIterator &second) const {
-    if (_x == second._x && _y == second._y)
+    if (_index == second._index)
         return true;
     return false;
 }
@@ -148,28 +131,28 @@ bool TileIterator::operator!=(const TileIterator &second) const {
 }
 
 bool TileIterator::operator<(const TileIterator &second) const {
-    if (_y < second._y || _x < second._x)
+    if (_index < second._index)
         return true;
     return false;
 }
 
 bool TileIterator::operator>(const TileIterator &second) const {
-    return (second < *this);
+    return (_index > second._index);
 }
 
 bool TileIterator::operator<=(const TileIterator &second) const {
-    return (*this == second || *this < second);
+    return (_index <= second._index);
 }
 
 bool TileIterator::operator>=(const TileIterator &second) const {
-    return (*this == second || *this > second);
+    return (_index >= second._index);
 }
 
 TileIterator &TileIterator::operator=(TileIterator & other) {
-    _x = other._x;
-    _y = other._y;
+    _index = other._index;
     _ref = other._ref;
     return *this;
 }
+
 
 TileIterator::TileIterator(const TileIterator& other) = default;

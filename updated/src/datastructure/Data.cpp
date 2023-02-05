@@ -1,7 +1,8 @@
 
 #include "Data.hpp"
 
-Data    Data::instance = Data();
+Data    Data::_instance = Data();
+int     Data::_mapIndex = 0;
 
 Data::Data() {
     _window = std::make_unique<raylib::Window>();
@@ -30,12 +31,14 @@ void Data::AddImageCollection(raylib::Image &image) {
     imageCollection.insert(imageCollection.end(), std::move(image));
 }
 
-const std::vector<raylib::Texture> &Data::GetTextureCollection() const {
+const std::map<std::string, raylib::Texture&> &Data::GetTextureCollection() const {
     return textureCollection;
 }
 
-void Data::AddTextureCollection(raylib::Texture &texture) {
-    textureCollection.insert(textureCollection.end(), std::move(texture));
+void Data::AddTextureCollection(std::string name, raylib::Texture& texture) {
+    auto ins = std::pair<std::string, raylib::Texture&>(name, texture);
+    textureCollection.insert(ins);
+//    textureCollection.insert(textureCollection.end(), std::move(texture));
 }
 
 const std::vector<std::unique_ptr<Scene>> & Data::GetVecScenes() const {
@@ -47,7 +50,7 @@ void Data::AddVecScenes(std::unique_ptr<Scene> scene) {
 }
 
 Data &Data::GetInstance() {
-    return instance;
+    return _instance;
 }
 
 bool Data::InitWindow(int width, int height, const std::string &title) {
@@ -73,7 +76,7 @@ void Data::SetUnitCollection(std::vector<std::shared_ptr<UnitData>> unitCollecti
 }
 
 void Data::AddUnitToCollection(std::shared_ptr<UnitData> &unitToAdd) {
-    unitCollection.push_back(std::move(unitToAdd));
+    unitCollection.push_back(unitToAdd);
 }
 
 int Data::DefaultAddUnit() {
@@ -104,12 +107,65 @@ const std::vector<MapData> &Data::GetMapCollection() const {
     return mapCollection;
 }
 
-void Data::AddMapToCollection(MapData &mapToAdd) {
+int Data::AddMapToCollection(MapData &mapToAdd) {
+    mapToAdd.SetIndex(_mapIndex);
     this->mapCollection.push_back(mapToAdd);
+    return _mapIndex++;
 }
 
 MapData &Data::GetMapDataByIdx(size_t idx) {
     return this->mapCollection.at(idx);
+}
+
+void Data::ClearUnits() {
+    unitCollection.clear();
+}
+
+raylib::Texture &Data::GetTexture(std::string& key) const {
+    return textureCollection.find(key)->second;
+}
+
+std::shared_ptr<UnitData> Data::GetUnitByLocation(TileIdx index) {
+    for (auto &i : unitCollection) {
+        if (i != nullptr && i->GetX() == index.x && i->GetY() == index.y)
+            return i;
+    }
+    return nullptr;
+}
+
+const Data::InputCollection &Data::GetInput() const {
+    return _input;
+}
+
+void Data::SetInput() {
+    if (raylib::Mouse::IsButtonPressed(0))
+        _input.mouseButton = 1;
+    else if (raylib::Mouse::IsButtonPressed(1))
+        _input.mouseButton = 2;
+    else
+        _input.mouseButton = 0;
+    if (IsKeyDown(KEY_LEFT_SHIFT))
+        _input.pressedKey = KEY_LEFT_SHIFT;
+    else if (IsKeyDown(KEY_LEFT_CONTROL))
+        _input.pressedKey = KEY_LEFT_CONTROL;
+    else
+        _input.pressedKey = KEY_NULL;
+}
+
+std::shared_ptr<Player> Data::GetPlayerById(int id) {
+    for (auto &i : playerCollection) {
+        if (i->GetId() == id)
+            return i;
+    }
+    return nullptr;
+}
+
+std::vector<std::shared_ptr<Player>> &Data::GetPlayerCollection()  {
+    return playerCollection;
+}
+
+void Data::AddPlayerToCollection(std::shared_ptr<Player> &singlePlayer) {
+    Data::playerCollection.emplace_back(singlePlayer);
 }
 
 //void Data::SetMapCollection(const std::vector<MapData> &mapCollection) {

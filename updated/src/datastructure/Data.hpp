@@ -6,31 +6,39 @@
 #include <vector>
 #include "BaseData.hpp"
 #include "../Scene.hpp"
+#include "../Player.hpp"
+
 #include "../units/Unit.hpp"
 #include "Setting.hpp"
 class Scene;
 
 class Data {
 public:
+    struct InputCollection {
+        int     pressedKey;
+        int     mouseButton;
+    };
 private:
 
 // make sure to call Window.init()
-    std::unique_ptr<raylib::Window>     _window{nullptr};
-    std::vector<raylib::Image>          imageCollection;
-    std::vector<raylib::Texture>        textureCollection;
-    std::vector<MapData>                mapCollection{};
-    std::vector<std::shared_ptr<UnitData>>    unitCollection{(0, 0, 0, 0, 0, -1, 0, 0, 0, nullptr)};
-    std::vector<TileData>               vecTiles;
-    std::vector<std::unique_ptr<Scene>> vecScenes;
-    Setting                             gameSettings;
+    InputCollection                         _input;
+    std::unique_ptr<raylib::Window>         _window{nullptr};
+    std::vector<raylib::Image>              imageCollection;
+    std::map<std::string, raylib::Texture&> textureCollection;
+    std::vector<std::shared_ptr<Player>>    playerCollection;
+    std::vector<MapData>                    mapCollection{};
+    std::vector<std::shared_ptr<UnitData>>  unitCollection{(0, 0, 0, 0, 0, -1, 0, 0, 0, nullptr)};
+    std::vector<TileData>                   vecTiles;
+    std::vector<std::unique_ptr<Scene>>     vecScenes;
+    Setting                                 gameSettings;
 
-    static Data instance;
+    static Data _instance;
+    static int  _mapIndex;
 
 public:
     //all data will be held here
     //use generator function to create pointer to DataLinkobject
     //use generator function to create a vector list of all pointer of same classtype
-    //TODO make private
     Scene& getSceneByEnum(scenes type);
 
     [[nodiscard]] std::unique_ptr<raylib::Window>& GetWindow();
@@ -39,9 +47,9 @@ public:
 
     [[nodiscard]] const std::vector<raylib::Image> &GetImageCollection() const;
 
-    [[nodiscard]] const std::vector<raylib::Texture> &GetTextureCollection() const;
+    [[nodiscard]] const std::map<std::string, raylib::Texture&> &GetTextureCollection() const;
 
-    void AddTextureCollection(raylib::Texture &textureCollection);
+    void AddTextureCollection(std::string name, raylib::Texture &textureCollection);
 
     [[nodiscard]] const std::vector<std::unique_ptr<Scene>> &GetVecScenes() const;
 
@@ -51,7 +59,7 @@ public:
 
     void AddUnitToCollection(std::shared_ptr<UnitData> &unitToAdd);
 
-    void AddMapToCollection(MapData &mapToAdd);
+    int AddMapToCollection(MapData &mapToAdd);
 
     const Setting &GetGameSettings() const;
 
@@ -61,7 +69,12 @@ public:
 
     void SetUnitCollection(std::vector<std::shared_ptr<UnitData>> unitCollection);
 
+    std::vector<std::shared_ptr<Player>> &GetPlayerCollection();
+    void AddPlayerToCollection(std::shared_ptr<Player> &singlePlayer);
+
     int DefaultAddUnit();
+
+    void ClearUnits();
 
     std::shared_ptr<UnitData>& GetUnit(int id);
 
@@ -69,12 +82,22 @@ public:
 
     MapData& GetMapDataByIdx(size_t idx);
 
+    raylib::Texture& GetTexture(std::string& name) const;
+
+    std::shared_ptr<UnitData>   GetUnitByLocation(TileIndex index);
+    std::shared_ptr<Player>     GetPlayerById(int id);
+
+    const InputCollection &GetInput() const;
+
+    void SetInput();
+
 //    void SetMapCollection(const std::vector<MapData> &mapCollection);
 
     Data();
     ~Data();
 
     static Data &GetInstance();
+
 };
 
 #endif /*DATA_HPP*/

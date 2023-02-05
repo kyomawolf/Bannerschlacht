@@ -27,6 +27,7 @@ public:
     bool GetIsCom() const;
 
     void SetIsCom(bool isCom);
+    void Routine();
 };
 
 

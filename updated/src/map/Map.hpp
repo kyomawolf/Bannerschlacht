@@ -6,16 +6,17 @@
 #define PROJEKT_DIESCHLACHT_MAP_HPP
 
 #include <string>
+#include "../Utils.hpp"
 #include "raylib-cpp.hpp"
 #include "Tile.hpp"
 
 class Map {
 public:
-    raylib::Vector2 _size; //todo make private
 private:
+    TileIdx _size;
     constexpr static const float _sizeScaling = 100;
     constexpr static const float _imageScaling = 1;
-    RVector2 _selectedIndex;
+    TileIdx _selectedIndex = TileIdx(-1, -1);
     bool     _selected;
     std::vector<std::vector<Tile> > _field;
     raylib::Texture* _tileTex;
@@ -34,15 +35,17 @@ public:
     iterator getIter(int x, int y);
     void    Draw(raylib::Texture& tex);
     void    Draw();
-    raylib::Vector2 positionToIndex(raylib::Vector2& worldPosition);
-    bool    OnClick(RVector2 worldPosition);
+    TileIdx positionToIndex(TileIdx& worldPosition);
+    bool    OnClick(TileIdx worldPosition);
     static raylib::Vector2 LocalToWorld(unsigned int index_x, unsigned int index_y);
     Tile& at(unsigned int x, unsigned int y);
-    Tile& at(RVector2 pos);
-    Tile* atPosition(RVector2 pos);
+    Tile& at(TileIdx pos);
+    Tile* atPosition(TileIdx pos);
 
     [[nodiscard]] raylib::Texture *GetTileTex() const;
+    const TileIdx &GetSize() const;
 
+    void SetSize(const TileIdx &size);
     void SetTileTex(raylib::Texture *tileTex);
 };
 

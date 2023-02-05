@@ -7,8 +7,11 @@
 
 #include "raylib-cpp.hpp"
 #include "Texture.hpp"
+#include "../Utils.hpp"
+//#include "../datastructure/BaseData.hpp"
 
 class Unit;
+class UnitData;
 class Map;
 class TileIterator;
 
@@ -29,13 +32,13 @@ private:
     float    _attackModifier = 1;
     bool     _faceAccess[4] = {true, true, true, true}; ///0 = North, 1 = East, 2 = South, 3 = West
     bool     _initialized = false;
-    Unit*    _entry = nullptr;
+    UnitData*    _entry = nullptr;
     float    _paddingLeft = 20.0f;
     float    _paddingTop = 20.0f;
 public:
     typedef TileIterator iterator;
     Map&     _parent;
-    RVector2 _pos;
+    TileIdx  _pos;
     Tile(int y, int x, Map& parent); //uninitialized
     Tile(const Tile& tile);
     Tile& operator=(const Tile& other) noexcept;
@@ -44,10 +47,10 @@ public:
 
     /// getter and setter for modifier
     raylib::Texture *tileTexture = nullptr;
-    void    SetEntry(Unit* new_entry) { _entry = new_entry; _initialized = true; }
+    void    SetEntry(UnitData* new_entry) { _entry = new_entry; _initialized = true; }
     void    SwitchInit()              { _initialized = !_initialized; }
     void    SetInit(bool sw)              { _initialized = sw; }
-    Unit*   GetEntry()                { return _entry; }
+    UnitData*   GetEntry()                { return _entry; }
     float   GetDefenceModifier()    const { return _defenceModifier; };
     float   GetAttackModifier()     const { return _attackModifier; };
     bool    IsBlocked(unsigned int face) { return face >= 4 || _faceAccess[face]; };
@@ -62,14 +65,13 @@ public:
 };
 class TileIterator {
 private:
-    int _x;
-    int _y;
+    TileIdx _index;
     Map& _ref;
 public:
     TileIterator(const TileIterator& other);
     TileIterator& operator=(TileIterator& other);
 
-    TileIterator(int x, int y, Map& ref);
+    TileIterator(const TileIdx& index, Map& ref);
     void operator++();
     const TileIterator operator++(int);
     void operator--();

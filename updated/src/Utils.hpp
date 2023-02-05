@@ -5,8 +5,24 @@
 
 enum scenes {MAINMENU, GAME, ENUMCOUNT = GAME, LOADMENU};
 
+typedef struct TileIndex {
+    TileIndex(long x, long y);
+    TileIndex(const TileIndex& other);
+    TileIndex& operator=(const TileIndex& other);
+
+    long    x;
+    long    y;
+    bool    operator<(const TileIndex& other) const;
+    bool    operator>(const TileIndex& other) const;
+    bool    operator<=(const TileIndex& other) const;
+    bool    operator>=(const TileIndex& other) const;
+    bool    operator==(const TileIndex& other) const;
+    bool    operator!=(const TileIndex& other) const;
+}   TileIdx;
+
 class Button {
 private:
+    void         (*_callableFunction)(void) = nullptr;
     RVector2     _position; ///upper left corner
     RVector2     _clickSize; ///rectangle, [_isCircular == true] only x value will be used as radius
     std::string  _text;
@@ -29,6 +45,9 @@ public:
     void        SetClickSize(RVector2 val);
     void        SetTexture(raylib::Texture& val);
     void        SetColor(Color val);
+    void        FunctionCall();
+    void        SetCallableFunction(void (*callableFunction)(void));
+
 
     [[nodiscard]] Color              GetColor()      const;
     [[nodiscard]] bool               GetIsCircular() const;

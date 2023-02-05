@@ -38,6 +38,17 @@ void    SetUpButtonsMainMenu(MenuMain& menuObject, std::unique_ptr<raylib::Windo
     menuObject.AddButton(buttonExitGame);
 }
 
+void    NextRound() {
+    std::cout << "next round" << std::endl;
+    for (auto& currentPlayer : Data::GetInstance().GetPlayerCollection()) {
+        currentPlayer->Routine();
+        for (auto &i : Data::GetInstance().GetUnitCollection()) {
+            if (i->GetPlayer() == currentPlayer->GetId())
+            i->Action();
+        }
+    }
+}
+
 void    SetUpButtonsMainUi(UiInGame& UiObject, std::unique_ptr<raylib::Window>& win) {
     Button      buttonVoid({static_cast<float>(win->GetWidth()) * 0.2f,
                                       static_cast<float>(win->GetHeight()) * 0.8f },
@@ -48,14 +59,22 @@ void    SetUpButtonsMainUi(UiInGame& UiObject, std::unique_ptr<raylib::Window>& 
     Button      buttonEnableAttackMode({containerTopRightCorner.x + containerSize.x * 0.2f,
                                         containerTopRightCorner.y + containerSize.y * 0.5f - 60 },
                                        {60, 60 });
+    Button      buttonNextRound({containerTopRightCorner.x + containerSize.x - 100,
+                                 containerTopRightCorner.y + containerSize.y * 0.5f - 60 },
+                                {60, 60});
+
+    buttonNextRound.SetCallableFunction(NextRound);
+
+    buttonNextRound.SetColor(raylib::LIME);
     buttonVoid.SetColor(raylib::BEIGE);
     buttonEnableAttackMode.SetColor(raylib::MAROON);
     UiObject.AddButton(buttonEnableAttackMode);
+    UiObject.AddButton(buttonNextRound);
     UiObject.AddButton(buttonVoid); //background layer
 }
 
-int Setup() {
-}
+//int Setup() {
+//}
 
 int main (int argc, char **argv) {
     Data &data = Data::GetInstance();
@@ -76,13 +95,17 @@ int main (int argc, char **argv) {
 
     raylib::Image redDot(data.GetGameSettings().textureList.find("unit_base_graphic")->second); //todo refactor image finding
     raylib::Image quadImage(data.GetGameSettings().textureList.find("tile_base_graphic")->second);
+    raylib::Image unitTestImage(data.GetGameSettings().textureList.find("unit_test_graphic")->second);
     raylib::Texture quad(quadImage); ///todo make unique and move into map (or better said, move the loading of texture also into the maploading
     data.GetMapDataByIdx(0).GetMapPointer()->SetTileTex(&quad);
 //    raylib::Image reddot(std::string("../red_dot.png"));
     std::cout << redDot.IsReady() << std::endl;
     raylib::Texture unit_texture(redDot);
+    raylib::Texture unitTestTexture(unitTestImage);
     data.AddImageCollection(redDot);
-    data.AddTextureCollection(unit_texture);
+    data.AddImageCollection(unitTestImage);
+    data.AddTextureCollection("tile_base_graphic", unit_texture);
+    data.AddTextureCollection("unit_test_graphic", unitTestTexture);
     std::cout << "parsed map" << std::endl;
 //    MapData *mapData = dynamic_cast<MapData *>(data->FindNextIdent(Data::MAP));
 //    Map gamemap(mapData->GetWidth(), mapData->GetHeight());
@@ -115,6 +138,18 @@ int main (int argc, char **argv) {
 //    data->vecScenes.push_back(&mainMenuSceneObject);
 //    data->vecScenes.push_back(&gameSceneObject);
 
+    for (auto i=0; i != 20; i++) {
+        for (auto ii = 0; ii != 20; ii++) {
+            std::cout << data.GetMapDataByIdx(0).GetMapPointer()->at(i, ii).GetEntry() << " ";
+        }
+        std::cout << std::endl;
+    }
+
+    for (auto &i : data.GetUnitCollection()) {
+//        if (i == nullptr)
+//            continue;
+        std::cout << "unit" << i->GetX() << " " << i->GetY() << std::endl;
+    }
 
     while(!data.GetWindow()->ShouldClose()) {
         data.getSceneByEnum(global_scene_var).Play();

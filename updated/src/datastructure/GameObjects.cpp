@@ -10,24 +10,32 @@ bool InGame::Handler() {
 #ifdef DEBUG
 //    std::cerr << "InGame class Handler() called" << std::endl;
 #endif //DEBUG
-    if (raylib::Mouse::IsButtonPressed(0)) {
+    if (raylib::Mouse::IsButtonPressed(0) || raylib::Mouse::IsButtonPressed(1)) {
         raylib::Vector2 vec = _cam->GetScreenToWorld(raylib::Mouse::GetPosition());
         _gamemap->OnClick(vec);
         std::cout << _gamemap->positionToIndex(vec) << std::endl;
-        std::cout << "true" << std::endl;
         returnValue = true;
     }
+    /// game movement
+    if (raylib::Mouse::GetWheelMove() > 0 && (_cam->zoom + 0.06) < 1.5) {
+        _cam->zoom += 0.06;
+        std::cout << "zoom: " << _cam->zoom << std::endl;
+    }
+    if (raylib::Mouse::GetWheelMove() < 0 && (_cam->zoom - 0.06) > 0.1) {
+        _cam->zoom += -0.06;
+        std::cout << "zoom: " << _cam->zoom << std::endl;
+    }
     if (IsKeyDown(KEY_W)) {
-        _camPos.y += -10;
+        _camPos.y += -18;
         returnValue = true;
     } if (IsKeyDown(KEY_S)) {
-        _camPos.y += 10;
+        _camPos.y += 18;
         returnValue = true;
     } if (IsKeyDown(KEY_A)) {
-        _camPos.x += -10;
+        _camPos.x += -18;
         returnValue = true;
     } if (IsKeyDown(KEY_D)) {
-        _camPos.x += 10;
+        _camPos.x += 18;
         returnValue = true;
     }
     return returnValue;
@@ -91,9 +99,6 @@ void UiInGame::DrawElements() {
 }
 
 bool UiInGame::Handler() {
-#ifdef DEBUG
-//    std::cerr << "Ui - InGame class Handler() called" << std::endl;
-#endif //DEBUG
     RVector2  currMousePos = raylib::Mouse::GetPosition();
     ///check buttonList for clickable area
     for (auto & i : _buttonList) {
@@ -101,6 +106,7 @@ bool UiInGame::Handler() {
             if (IsMouseButtonPressed(0)) {
                 std::cout << i.GetClickSize() << std::endl;
                 std::cout << "clicked " << i.GetText() << std::endl;
+                i.FunctionCall();
                 return true;
             }
             break;
