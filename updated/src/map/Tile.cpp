@@ -15,7 +15,7 @@ void Tile::Draw(unsigned int x, unsigned int y) {
         RVector2 pos = Map::LocalToWorld(x, y);
         pos.x += _paddingLeft;
         pos.y += _paddingTop;
-        auto unit = Data::GetInstance().GetUnitByLocation(x, y);
+        auto unit = Data::GetInstance().GetUnitByLocation({x, y});
         if (unit != nullptr) {
             unit->GetTexture().Draw(pos, 0, 0.6f, unit->GetPlayerTints().at(unit->GetPlayer()));
         }
@@ -74,7 +74,7 @@ TileIterator::TileIterator(const TileIdx &index, Map &ref) : _index(index), _ref
 //TileIterator::TileIterator(const TileIdx& index, Map& ref) : _index(index), _ref(ref) {}
 
 void TileIterator::operator++() {
-    if (_index.y >= _ref._size.y) {
+    if (_index.y >= _ref.GetSize().y) {
         ++_index.x;
         _index.y = 0;
     } else
@@ -83,7 +83,7 @@ void TileIterator::operator++() {
 
 const TileIterator TileIterator::operator++(int) {
     TileIterator tmp(*this);
-    if (_index.y >= _ref._size.y) {
+    if (_index.y >= _ref.GetSize().y) {
         ++_index.x;
         _index.y = 0;
     } else
@@ -94,7 +94,7 @@ const TileIterator TileIterator::operator++(int) {
 void TileIterator::operator--() {
     if (_index.y <= 0) {
         --_index.x;
-        _index.y =  _ref._size.y;
+        _index.y =  _ref.GetSize().y;
     } else
         --_index.y;
 }
@@ -103,7 +103,7 @@ const TileIterator TileIterator::operator--(int) {
     TileIterator tmp(*this);
     if (_index.y <= 0) {
         --_index.x;
-        _index.y =  _ref._size.y;
+        _index.y =  _ref.GetSize().y;
     } else
         --_index.y;
     return tmp;

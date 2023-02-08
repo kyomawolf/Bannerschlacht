@@ -8,6 +8,7 @@ enum scenes {MAINMENU, GAME, ENUMCOUNT = GAME, LOADMENU};
 typedef struct TileIndex {
     TileIndex(long x, long y);
     TileIndex(const TileIndex& other);
+    TileIndex(const raylib::Vector2& vec);
     TileIndex& operator=(const TileIndex& other);
 
     long    x;
@@ -19,6 +20,8 @@ typedef struct TileIndex {
     bool    operator==(const TileIndex& other) const;
     bool    operator!=(const TileIndex& other) const;
 }   TileIdx;
+
+std::ostream& operator<<(std::ostream& o, const TileIndex& value);
 
 class Button {
 private:

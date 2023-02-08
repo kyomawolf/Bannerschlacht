@@ -11,7 +11,7 @@ bool InGame::Handler() {
 //    std::cerr << "InGame class Handler() called" << std::endl;
 #endif //DEBUG
     if (raylib::Mouse::IsButtonPressed(0) || raylib::Mouse::IsButtonPressed(1)) {
-        raylib::Vector2 vec = _cam->GetScreenToWorld(raylib::Mouse::GetPosition());
+        TileIndex vec = _cam->GetScreenToWorld(raylib::Mouse::GetPosition());
         _gamemap->OnClick(vec);
         std::cout << _gamemap->positionToIndex(vec) << std::endl;
         returnValue = true;

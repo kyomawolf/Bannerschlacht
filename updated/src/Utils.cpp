@@ -162,6 +162,16 @@ bool TileIndex::operator!=(const TileIndex &other) const {
 
 TileIndex::TileIndex(long nX, long nY) : x(nX), y(nY) { }
 
+TileIndex::TileIndex(const raylib::Vector2& vec) : x((long) vec.x), y((long) vec.y) { }
+
 TileIndex::TileIndex(const TileIndex &other) = default;
 
 TileIndex& TileIndex::operator=(const TileIndex &other) = default;
+
+std::ostream& operator<<(std::ostream& o, const TileIndex& value) {
+    o << "x: ";
+    o << value.x;
+    o << " y: ";
+    o << value.y;
+    return o;
+}
