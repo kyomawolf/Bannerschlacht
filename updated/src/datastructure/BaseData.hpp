@@ -3,6 +3,9 @@
 #include "raylib-cpp.hpp"
 #include "../map/Map.hpp"
 #include "../algorithm/PathFinder.hpp"
+#ifdef LINUX
+#include <memory>
+#endif
 #include <iostream>
 
 class Unit;

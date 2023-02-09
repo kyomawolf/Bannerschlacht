@@ -48,57 +48,57 @@ static bool IsHandled(TileIndex current, std::vector<TileIndex>& prio, std::vect
     return true;
 }
 
-bool Pathfinder::SearchNext(std::vector<TileIndex>& prio, std::vector<std::vector<TileIndex>>& sec, std::vector<TileIndex>& closed, const TileIndex& end) {
-    std::vector<std::vector<TileIndex> > preferredPaths;
-    std::vector<std::vector<TileIndex> > backupPaths;
+bool Pathfinder::SearchNext(std::vector<std::vector <TileIndex>>& paths, std::vector<std::vector<TileIndex>>& sec, std::vector<TileIndex>& closed, const TileIndex& end) {
+    std::vector<TileIndex> preferredPaths;
+    std::vector<TileIndex> backupPaths;
 
-    for (auto& i : prio) {
+    for (auto& firstIdx : paths) {
+        auto& i = firstIdx.back();
         long differenceEnd = (long) hypot(end.y - i.y, end.x - end.x);
         if (differenceEnd == 0)
             return false;
         long differenceAdjacent;
         /// up
         if (i.x != 0 && _pathTileCollection[i.x - 1][i.y]._passable &&
-            IsHandled({i.x - 1, i.y}, prio, sec_tmp, tmp, closed)) {
+            IsHandled({i.x - 1, i.y}, firstIdx, backupPaths, preferredPaths, closed)) {
             differenceAdjacent = (long) hypot(end.y - i.y, end.x - (i.x - 1));
             if (differenceAdjacent < differenceEnd)
-                tmp.emplace_back(i.x - 1, i.y);
+                preferredPaths.emplace_back(i.x - 1, i.y);
             else
-                sec_tmp.emplace_back(i.x - 1, i.y);
+                backupPaths.emplace_back(i.x - 1, i.y);
         }
         ///down
         if (i.x != _parent->GetSize().x && _pathTileCollection[i.x + 1][i.y]._passable &&
-            IsHandled({i.x + 1, i.y}, prio, sec_tmp, tmp, closed)) {
+            IsHandled({i.x + 1, i.y}, firstIdx, backupPaths, preferredPaths, closed)) {
             differenceAdjacent = (long) hypot(end.y - i.y, end.x - (i.x + 1));
             if (differenceAdjacent < differenceEnd)
-                tmp.emplace_back(i.x + 1, i.y);
+                preferredPaths.emplace_back(i.x + 1, i.y);
             else
-                sec_tmp.emplace_back(i.x + 1, i.y);
+                backupPaths.emplace_back(i.x + 1, i.y);
         }
         ///left
         if (i.y != 0 && _pathTileCollection[i.x][i.y - 1]._passable &&
-            IsHandled({i.x, i.y - 1}, prio, sec_tmp, tmp, closed)) {
+            IsHandled({i.x, i.y - 1}, firstIdx, backupPaths, preferredPaths, closed)) {
             differenceAdjacent = (long) hypot(end.y - (i.y - 1), end.x - i.x);
             if (differenceAdjacent < differenceEnd)
-                tmp.emplace_back(i.x, i.y - 1);
+                preferredPaths.emplace_back(i.x, i.y - 1);
             else
-                sec_tmp.emplace_back(i.x, i.y - 1);
+                backupPaths.emplace_back(i.x, i.y - 1);
         }
         ///right
         if (i.y != _parent->GetSize().y && _pathTileCollection[i.x][i.y + 1]._passable &&
-            IsHandled({i.x, i.y + 1}, prio, sec_tmp, tmp, closed)) {
+            IsHandled({i.x, i.y + 1}, firstIdx, backupPaths, preferredPaths, closed)) {
             differenceAdjacent = (long) hypot(end.y - (i.y + 1), end.x - i.x);
             if (differenceAdjacent < differenceEnd)
-                tmp.emplace_back(i.x, i.y + 1);
+                preferredPaths.emplace_back(i.x, i.y + 1);
             else
-                sec_tmp.emplace_back(i.x, i.y + 1);
+                backupPaths.emplace_back(i.x, i.y + 1);
         }
-        closed.push_back(i);
-        if (!sec_tmp.empty())
-            sec.insert(sec.begin(), sec_tmp);
+//        closed.push_back(i);
+        if (!backupPaths.empty())
+            sec.insert(sec.begin(), backupPaths);
     }
 
-    prio.clear();
     if (tmp.empty() && !sec.empty())
         prio.assign(sec.begin()->begin(), sec.begin()->end());
     else
@@ -110,8 +110,9 @@ Pathfinder::Path &Pathfinder::GeneratePath(const TileIndex &start, const TileInd
     auto existingPath = _pathsGenerated.find({start, end});
     if (existingPath != _pathsGenerated.end() && checkPath(existingPath->second))
         return existingPath->second;
-    std::vector<TileIndex> prioList;
-    prioList.emplace_back(start);
+    std::vector<std::vector<TileIndex>> prioList;
+    prioList.emplace_back();
+    prioList.begin()->emplace_back(start);
     std::vector<std::vector<TileIndex>> secondList;
     std::vector<TileIndex> closedList;
     while (SearchNext(prioList, secondList, closedList, end)) { }

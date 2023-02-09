@@ -1,6 +1,7 @@
 #include "Parser.hpp"
 
 #include <utility>
+#include <algorithm>
 #include "datastructure/Data.hpp"
 #include "units/Unit.hpp"
 

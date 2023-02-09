@@ -61,6 +61,7 @@ else
 	UNAME_S := $(shell uname -s)
 	ifeq ($(UNAME_S), Linux)
 		LDFLAGS += -lraylib-linux -lGL -lpthread -lm -ldl -lrt -lX11
+		FLAGS += -DLINUX
 	else ifeq ($(UNAME_S), Darwin)
 		FLAGS := -fsanitize=address
 		LDFLAGS += -Llib -lraylib-mac -lglfw3-mac -framework CoreVideo -framework IOKit -framework Cocoa -framework GLUT -framework OpenGL
