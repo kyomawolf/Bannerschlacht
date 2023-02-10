@@ -28,7 +28,7 @@ bool Pathfinder::checkPath(const Pathfinder::Path &path) {
     return true;
 }
 
-static bool IsHandled(TileIndex current, std::vector<TileIndex>& prio, std::vector<TileIndex>& sec, std::vector<TileIndex>& tmp, std::vector<TileIndex>& closed) {
+static bool IsHandled(TileIndex current, std::vector<TileIndex>& prio, std::vector<TileIndex>& sec, std::vector<TileIndex>& tmp, std::vector<std::vector<TileIndex>>& closed) {
     for (auto& idx : prio) {
         if (current == idx)
             return false;
@@ -41,16 +41,19 @@ static bool IsHandled(TileIndex current, std::vector<TileIndex>& prio, std::vect
         if (current == idx)
             return false;
     }
-    for (auto& idx : closed) {
-        if (current == idx)
-            return false;
+    for (auto& idxFirst : closed) {
+        for (auto& idxSecond : idxFirst) {
+            if (current == idxSecond)
+                return false;
+        }
     }
     return true;
 }
 
-bool Pathfinder::SearchNext(std::vector<std::vector <TileIndex>>& paths, std::vector<std::vector<TileIndex>>& sec, std::vector<TileIndex>& closed, const TileIndex& end) {
-    std::vector<TileIndex> preferredPaths;
-    std::vector<TileIndex> backupPaths;
+bool Pathfinder::SearchNext(std::vector<std::vector <TileIndex>>& paths, std::vector<std::vector<TileIndex>>& sec, std::vector<std::vector<TileIndex>>& closed, const TileIndex& end) {
+    std::vector<TileIndex>  preferredPaths;
+    std::vector<TileIndex>  backupPaths;
+    bool                    first_possibility = false;
 
     for (auto& firstIdx : paths) {
         auto& i = firstIdx.back();
@@ -62,17 +65,30 @@ bool Pathfinder::SearchNext(std::vector<std::vector <TileIndex>>& paths, std::ve
         if (i.x != 0 && _pathTileCollection[i.x - 1][i.y]._passable &&
             IsHandled({i.x - 1, i.y}, firstIdx, backupPaths, preferredPaths, closed)) {
             differenceAdjacent = (long) hypot(end.y - i.y, end.x - (i.x - 1));
-            if (differenceAdjacent < differenceEnd)
-                preferredPaths.emplace_back(i.x - 1, i.y);
-            else
+            if (!first_possibility && differenceAdjacent < differenceEnd) {
+                first_possibility = true;
+                firstIdx.emplace_back(i.x - 1, i.y);
+            } else if (first_possibility && differenceAdjacent < differenceEnd) {
+                paths.insert(paths.begin(), firstIdx);
+                paths.front().emplace_back(i.x - 1, i.y);
+            }
+//                preferredPaths.emplace_back(i.x - 1, i.y);
+            else {
                 backupPaths.emplace_back(i.x - 1, i.y);
+
+            }
         }
         ///down
         if (i.x != _parent->GetSize().x && _pathTileCollection[i.x + 1][i.y]._passable &&
             IsHandled({i.x + 1, i.y}, firstIdx, backupPaths, preferredPaths, closed)) {
             differenceAdjacent = (long) hypot(end.y - i.y, end.x - (i.x + 1));
-            if (differenceAdjacent < differenceEnd)
-                preferredPaths.emplace_back(i.x + 1, i.y);
+            if (!first_possibility && differenceAdjacent < differenceEnd) {
+                first_possibility = true;
+                firstIdx.emplace_back(i.x + 1, i.y);
+            } else if (first_possibility && differenceAdjacent < differenceEnd) {
+                paths.insert(paths.begin(), firstIdx);
+                paths.front().emplace_back(i.x + 1, i.y);
+            }
             else
                 backupPaths.emplace_back(i.x + 1, i.y);
         }
@@ -80,8 +96,13 @@ bool Pathfinder::SearchNext(std::vector<std::vector <TileIndex>>& paths, std::ve
         if (i.y != 0 && _pathTileCollection[i.x][i.y - 1]._passable &&
             IsHandled({i.x, i.y - 1}, firstIdx, backupPaths, preferredPaths, closed)) {
             differenceAdjacent = (long) hypot(end.y - (i.y - 1), end.x - i.x);
-            if (differenceAdjacent < differenceEnd)
-                preferredPaths.emplace_back(i.x, i.y - 1);
+            if (!first_possibility && differenceAdjacent < differenceEnd) {
+                first_possibility = true;
+                firstIdx.emplace_back(i.x, i.y - 1);
+            } else if (first_possibility && differenceAdjacent < differenceEnd) {
+                paths.insert(paths.begin(), firstIdx);
+                paths.front().emplace_back(i.x, i.y - 1);
+            }
             else
                 backupPaths.emplace_back(i.x, i.y - 1);
         }
@@ -89,21 +110,26 @@ bool Pathfinder::SearchNext(std::vector<std::vector <TileIndex>>& paths, std::ve
         if (i.y != _parent->GetSize().y && _pathTileCollection[i.x][i.y + 1]._passable &&
             IsHandled({i.x, i.y + 1}, firstIdx, backupPaths, preferredPaths, closed)) {
             differenceAdjacent = (long) hypot(end.y - (i.y + 1), end.x - i.x);
-            if (differenceAdjacent < differenceEnd)
-                preferredPaths.emplace_back(i.x, i.y + 1);
+            if (!first_possibility && differenceAdjacent < differenceEnd) {
+                first_possibility = true;
+                firstIdx.emplace_back(i.x, i.y + 1);
+            } else if (first_possibility && differenceAdjacent < differenceEnd) {
+                paths.insert(paths.begin(), firstIdx);
+                paths.front().emplace_back(i.x, i.y + 1);
+            }
             else
                 backupPaths.emplace_back(i.x, i.y + 1);
         }
 //        closed.push_back(i);
-        if (!backupPaths.empty())
-            sec.insert(sec.begin(), backupPaths);
+//        if (!backupPaths.empty())
+//            sec.insert(sec.begin(), backupPaths);
     }
-
-    if (tmp.empty() && !sec.empty())
-        prio.assign(sec.begin()->begin(), sec.begin()->end());
-    else
-        prio.assign(tmp.begin(), tmp.end());
     return true;
+//    if (tmp.empty() && !sec.empty())
+//        prio.assign(sec.begin()->begin(), sec.begin()->end());
+//    else
+//        prio.assign(tmp.begin(), tmp.end());
+//    return true;
 }
 
 Pathfinder::Path &Pathfinder::GeneratePath(const TileIndex &start, const TileIndex &end) {
@@ -114,10 +140,10 @@ Pathfinder::Path &Pathfinder::GeneratePath(const TileIndex &start, const TileInd
     prioList.emplace_back();
     prioList.begin()->emplace_back(start);
     std::vector<std::vector<TileIndex>> secondList;
-    std::vector<TileIndex> closedList;
+    std::vector<std::vector<TileIndex>> closedList;
     while (SearchNext(prioList, secondList, closedList, end)) { }
-    for (auto& idx : prioList)
-        std::cout << idx << std::endl;
+//    for (auto& idx : prioList)
+//        std::cout << idx << std::endl;
 }
 
 //Pathfinder::Path &Pathfinder::FindExistingPath(const TileIndex& start, const TileIndex& end) {

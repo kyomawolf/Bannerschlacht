@@ -44,7 +44,7 @@ public:
     explicit Pathfinder(Map* parent);
 //    Path&    FindExistingPath(const TileIndex& start, const TileIndex& end);
     Path&    GeneratePath(const TileIndex& start, const TileIndex& end);
-    bool     SearchNext(std::vector<std::vector<TileIndex>>& prio, std::vector<std::vector<TileIndex> >& sec, std::vector<TileIndex>& closed, const TileIndex& end);
+    bool     SearchNext(std::vector<std::vector<TileIndex>>& prio, std::vector<std::vector<TileIndex> >& sec, std::vector<std::vector<TileIndex>>& closed, const TileIndex& end);
 };
 
 
