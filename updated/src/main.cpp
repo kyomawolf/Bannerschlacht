@@ -123,7 +123,8 @@ int main (int argc, char **argv) {
     data.AddVecScenes(std::make_unique<MainMenuScene>(scenes::MAINMENU, mainGameMenu));
     data.AddVecScenes(std::make_unique<GameScene>(scenes::GAME, cam_pos, cam, mainUi, 0));
     Pathfinder paths(data.GetMapDataByIdx(0).GetMapPointer());
-    paths.GeneratePath({0 ,0}, {0, 3});
+    std::cout << "generating path..." << std::endl;
+    paths.GeneratePath({0 ,0}, {1, 3});
     exit(0);
 //    data.getSceneByEnum(scenes::GAME);
 //    data->SetWindow(&win);

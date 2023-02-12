@@ -24,6 +24,7 @@ private:
         TileIndex              _end = { -1, -1};
     };
 
+
     // Tile class specifically formatted for pathfinding
     struct PathTile {
         int       _weather = 0;
@@ -34,17 +35,27 @@ private:
         PathTile(const TileIndex& maxIndex, const TileIndex& index);
     };
 
-    Map*                                _parent;
-    std::vector<std::vector<PathTile> > _pathTileCollection;
+    Map*                                                _parent;
+    std::vector<std::vector<PathTile> >                 _pathTileCollection;
     //   start and end tile, path
-    std::map<std::pair<TileIndex, TileIndex>, Path>  _pathsGenerated;
+    std::map<std::pair<TileIndex, TileIndex>, Path>     _pathsGenerated;
 
     bool    checkPath(const Path& path);
 public:
     explicit Pathfinder(Map* parent);
 //    Path&    FindExistingPath(const TileIndex& start, const TileIndex& end);
+
+    class PathTileIndex : public TileIndex {
+    public:
+        PathTileIndex(long initX, long initY, int prio = 0);
+
+        PathTileIndex(const TileIndex& index);
+
+        int priority = 0;
+    };
+
     Path&    GeneratePath(const TileIndex& start, const TileIndex& end);
-    bool     SearchNext(std::vector<std::vector<TileIndex>>& prio, std::vector<std::vector<TileIndex> >& sec, std::vector<std::vector<TileIndex>>& closed, const TileIndex& end);
+    void     SearchNext(std::vector<std::vector<PathTileIndex>>& prio, std::vector<std::vector<PathTileIndex> >& sec, std::vector<std::vector<PathTileIndex>>& closed, const TileIndex& end);
 };
 
 
