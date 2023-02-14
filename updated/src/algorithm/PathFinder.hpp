@@ -10,6 +10,17 @@
 #include <vector>
 #include <map>
 
+//class TileIndex;
+
+class PathTileIndex : public TileIndex {
+    public:
+        PathTileIndex(long initX, long initY, int prio = 0);
+
+        PathTileIndex(const TileIndex &index);
+
+        int priority = 0;
+};
+
 class Pathfinder {
 private:
 
@@ -35,6 +46,8 @@ private:
         PathTile(const TileIndex& maxIndex, const TileIndex& index);
     };
 
+
+
     Map*                                                _parent;
     std::vector<std::vector<PathTile> >                 _pathTileCollection;
     //   start and end tile, path
@@ -45,19 +58,11 @@ public:
     explicit Pathfinder(Map* parent);
 //    Path&    FindExistingPath(const TileIndex& start, const TileIndex& end);
 
-    class PathTileIndex : public TileIndex {
-    public:
-        PathTileIndex(long initX, long initY, int prio = 0);
 
-        PathTileIndex(const TileIndex& index);
 
-        int priority = 0;
-    };
-
-    Path&    GeneratePath(const TileIndex& start, const TileIndex& end);
+    Path     GeneratePath(const TileIndex& start, const TileIndex& end);
     void     SearchNext(std::vector<std::vector<PathTileIndex>>& prio, std::vector<std::vector<PathTileIndex> >& sec, std::vector<std::vector<PathTileIndex>>& closed, const TileIndex& end);
 };
-
 
 ///**
 // * Pathfinding algorithm used for any navigation during the game.

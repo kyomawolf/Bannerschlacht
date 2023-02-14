@@ -2,15 +2,19 @@
 #define BANNERSCHLACHT_UTILS_HPP
 #include "raylib-cpp.hpp"
 #include <map>
+//#include "algorithm/PathFinder.hpp"/**/
 
 enum scenes {MAINMENU, GAME, ENUMCOUNT = GAME, LOADMENU};
+
+class PathTileIndex;
 
 typedef struct TileIndex {
     TileIndex(long x, long y);
     TileIndex(const TileIndex& other);
-    TileIndex(const raylib::Vector2& vec);
+    explicit TileIndex(const raylib::Vector2& vec);
+    explicit TileIndex(const PathTileIndex& pathTile);
     TileIndex& operator=(const TileIndex& other);
-
+    TileIndex& operator=(const PathTileIndex& other);
     long    x;
     long    y;
     bool    operator<(const TileIndex& other) const;
