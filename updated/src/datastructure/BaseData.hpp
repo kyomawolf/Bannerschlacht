@@ -57,6 +57,8 @@ class TileData : public BaseData {
 
 class UnitData : public BaseData {
 private:
+    bool                        _moving = false;
+    bool                        _attacking = false;
     int                         _mapIdent = -1;
     float                       _attack;
     float                       _defense;
@@ -73,11 +75,11 @@ private:
     int                         _player;
     std::vector<raylib::Color>  _player_tints;
     std::string                 _texture; //todo make a settings variable
-
 public:
-    std::vector<raylib::Color> GetPlayerTints() const;
 
+    std::vector<raylib::Color> GetPlayerTints() const;
 private:
+
     std::shared_ptr<Unit>   _mapUnit;
 public:
     UnitData();
@@ -97,13 +99,13 @@ public:
     void  SetPlayer  (int val);
     void  SetMapUnit (std::shared_ptr<Unit>& ptr);
     void  SetDestination(const TileIdx &destination);
-    void  SetDestination0 (unsigned x, unsigned y);
+//    void  SetDestination0 (unsigned x, unsigned y);
     void  SetPosition(const TileIdx& position);
     void  SetMapIdent(int mapIdent);
-
-
-
     float        GetAtk     ( void ) const;
+
+
+
     float        GetDef     ( void ) const;
     int          GetMen     ( void ) const;
     float        GetMov     ( void ) const;
@@ -118,9 +120,16 @@ public:
     raylib::Texture& GetTexture();
     TileIdx  GetDestination();
     TileIdx  GetPosition();
-
     void    Action();
 
+
+    bool IsMoving() const;
+
+    void SetMoving(bool moving);
+
+    bool IsAttacking() const;
+
+    void SetAttacking(bool attacking);
 };
 
 std::ostream& operator<<(std::ostream& o, const UnitData& data);

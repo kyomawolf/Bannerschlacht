@@ -13,6 +13,7 @@ typedef struct TileIndex {
     TileIndex(const TileIndex& other);
     explicit TileIndex(const raylib::Vector2& vec);
     explicit TileIndex(const PathTileIndex& pathTile);
+    TileIndex& operator=(const raylib::Vector2& other);
     TileIndex& operator=(const TileIndex& other);
     TileIndex& operator=(const PathTileIndex& other);
     long    x;

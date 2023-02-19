@@ -162,7 +162,13 @@ bool TileIndex::operator!=(const TileIndex &other) const {
 
 TileIndex::TileIndex(long nX, long nY) : x(nX), y(nY) { }
 
-TileIndex::TileIndex(const raylib::Vector2& vec) : x((long) vec.x), y((long) vec.y) { }
+TileIndex::TileIndex(const raylib::Vector2& vec) : x(static_cast<long>(vec.x)), y(static_cast<long>(vec.y)) { }
+
+TileIndex &TileIndex::operator=(const raylib::Vector2 &other) {
+    x = static_cast<long>(other.x);
+    y = static_cast<long>(other.y);
+    return *this;
+}
 
 TileIndex::TileIndex(const TileIndex &other) = default;
 

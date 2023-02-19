@@ -11,7 +11,7 @@
 class Player {
 private:
     bool    _isCom;
-    int     _id;
+    int     _id = -1;
     std::vector<Unit*>      _vecUnits;
     Unit*       _headquater;
 public:

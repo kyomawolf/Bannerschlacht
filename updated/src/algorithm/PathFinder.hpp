@@ -22,8 +22,7 @@ class PathTileIndex : public TileIndex {
 };
 
 class Pathfinder {
-private:
-
+public:
     // this saves paths for reuse-ability
     struct Path {
         std::vector<TileIndex> _usedTiles;
@@ -34,6 +33,8 @@ private:
         TileIndex              _start = {-1, -1};
         TileIndex              _end = { -1, -1};
     };
+private:
+
 
 
     // Tile class specifically formatted for pathfinding
@@ -50,9 +51,9 @@ private:
 
     Map*                                                _parent;
     std::vector<std::vector<PathTile> >                 _pathTileCollection;
+
     //   start and end tile, path
     std::map<std::pair<TileIndex, TileIndex>, Path>     _pathsGenerated;
-
     bool    checkPath(const Path& path);
 public:
     explicit Pathfinder(Map* parent);

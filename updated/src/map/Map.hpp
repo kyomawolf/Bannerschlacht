@@ -17,7 +17,7 @@ private:
     constexpr static const float _sizeScaling = 100;
     constexpr static const float _imageScaling = 1;
     TileIdx _selectedIndex = TileIdx(-1, -1);
-    bool     _selected;
+    bool     _selected = false;
     std::vector<std::vector<Tile> > _field;
     raylib::Texture* _tileTex;
 public:

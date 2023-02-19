@@ -32,12 +32,15 @@ std::shared_ptr<UnitData> ParseUnit(const std::string& rawData) {
     sec_pos = rawData.find('b', pos);
     if (sec_pos == std::string::npos)
         throw Parser::ParserException("unit");
-    unitData->SetX(std::stol(&rawData.at(pos), nullptr, 10));
+    auto x = std::stol(&rawData.at(pos), nullptr, 10);
+//    unitData->SetX(std::stol(&rawData.at(pos), nullptr, 10));
     pos = ++sec_pos;
     sec_pos = rawData.find(':', pos);
     if (sec_pos == std::string::npos)
         throw Parser::ParserException("unit");
-    unitData->SetY(std::stol(&rawData.at(pos), nullptr, 10));
+    auto y = std::stol(&rawData.at(pos), nullptr, 10);
+    unitData->SetPosition({x, y});
+//    unitData->SetY(std::stol(&rawData.at(pos), nullptr, 10));
     pos = ++sec_pos;
     sec_pos = rawData.find(',', pos);
     if (sec_pos == std::string::npos)

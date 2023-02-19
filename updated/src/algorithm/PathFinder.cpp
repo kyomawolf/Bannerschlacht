@@ -65,10 +65,10 @@ void Pathfinder::SearchNext(std::vector<std::vector <PathTileIndex>>& paths, std
         pathIndex = 0;
         for (auto& firstIdx : paths) { /// TODO copy into temporary if inserting a new path. otherwise, heap buffer overflow as iterator gets destroyed
             first_possibility = true;
-            std::cout << "---" << std::endl;
-            for (auto& idx : firstIdx)
-                std:: cout << idx << std::endl;
-            std::cout << "---" << std::endl;
+//            std::cout << "---" << std::endl;
+//            for (auto& idx : firstIdx)
+//                std:: cout << idx << std::endl;
+//            std::cout << "---" << std::endl;
             auto& i = firstIdx.back();
             if (i.priority != idxFirst) {
                 ++pathIndex;
@@ -85,12 +85,12 @@ void Pathfinder::SearchNext(std::vector<std::vector <PathTileIndex>>& paths, std
                 IsHandled({i.x - 1, i.y}, firstIdx, newPaths, temporary, closed)) {
                 differenceAdjacent = (long) hypot(end.y - i.y, end.x - (i.x - 1));
                 if (differenceAdjacent < differenceEnd) {
-                    std::cout << "up" << std::endl;
+//                    std::cout << "up" << std::endl;
                     first_possibility = false;
                     temporary.emplace_back(i.x - 1, i.y);
                 } else {
                     /* if (!first_possibility && differenceAdjacent < differenceEnd) */
-                    std::cout << "up" << std::endl;
+//                    std::cout << "up" << std::endl;
                     newPaths.push_back(firstIdx);
                     newPaths.back().push_back({i.x - 1, i.y, 1});
                 }
@@ -100,11 +100,11 @@ void Pathfinder::SearchNext(std::vector<std::vector <PathTileIndex>>& paths, std
                 IsHandled({i.x + 1, i.y}, firstIdx, newPaths, temporary, closed)) {
                 differenceAdjacent = (long) hypot(end.y - i.y, end.x - (i.x + 1));
                 if (first_possibility && differenceAdjacent < differenceEnd) {
-                    std::cout << "down" << std::endl;
+//                    std::cout << "down" << std::endl;
                     first_possibility = false;
                     temporary.emplace_back(i.x + 1, i.y);
                 } else {
-                    std::cout << "down" << std::endl;
+//                    std::cout << "down" << std::endl;
                     newPaths.push_back(firstIdx);
                     newPaths.back().push_back({i.x + 1, i.y, 1});
                 }
@@ -114,11 +114,11 @@ void Pathfinder::SearchNext(std::vector<std::vector <PathTileIndex>>& paths, std
                 IsHandled({i.x, i.y - 1}, firstIdx, newPaths, temporary, closed)) {
                 differenceAdjacent = (long) hypot(end.y - (i.y - 1), end.x - i.x);
                 if (first_possibility && differenceAdjacent < differenceEnd) {
-                    std::cout << "left" << std::endl;
+//                    std::cout << "left" << std::endl;
                     first_possibility = false;
                     temporary.emplace_back(i.x, i.y - 1);
                 } else {
-                    std::cout << "left" << std::endl;
+//                    std::cout << "left" << std::endl;
                     newPaths.push_back(firstIdx);
                     newPaths.back().push_back({i.x, i.y - 1, 1});
                 }
@@ -128,11 +128,11 @@ void Pathfinder::SearchNext(std::vector<std::vector <PathTileIndex>>& paths, std
                 IsHandled({i.x, i.y + 1}, firstIdx, newPaths, temporary, closed)) {
                 differenceAdjacent = (long) hypot(end.y - (i.y + 1), end.x - i.x);
                 if (first_possibility && differenceAdjacent < differenceEnd) {
-                    std::cout << "right" << std::endl;
+//                    std::cout << "right" << std::endl;
                     first_possibility = false;
                     temporary.emplace_back(i.x, i.y + 1);
                 } else {
-                    std::cout << "right" << std::endl;
+//                    std::cout << "right" << std::endl;
                     newPaths.push_back(firstIdx);
                     newPaths.back().push_back({i.x, i.y + 1, 1});
                 }
@@ -168,6 +168,9 @@ Pathfinder::Path Pathfinder::GeneratePath(const TileIndex &start, const TileInde
     std::vector<std::vector<PathTileIndex>> secondList;
     std::vector<std::vector<PathTileIndex>> closedList;
     Path        finalPath;
+    finalPath._start = start; //todo put into proper constructor
+    finalPath._end = end;
+    std::cout << "start: " << start << " end: " << end << std::endl;
     std::string none;
     bool    looping = true;
     while (looping) {
@@ -190,6 +193,9 @@ Pathfinder::Path Pathfinder::GeneratePath(const TileIndex &start, const TileInde
     }
 //    for (auto & idx : prioList.back())
 //        std::cout << idx << std::endl;
+std::cout << "final: " << std::endl;
+    for (auto &ii: finalPath._usedTiles)
+        std::cout << ii << std::endl;
     return finalPath;
 }
 

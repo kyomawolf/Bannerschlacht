@@ -9,6 +9,7 @@
 #include "Scene.hpp"
 #include <unistd.h>
 #include "units/Unit.hpp"
+#include <memory>
 
 
 //int main_game_loop(Data *gameData, uiObj *ui) {
@@ -157,6 +158,11 @@ int main (int argc, char **argv) {
 //            continue;
         std::cout << "unit" << i->GetX() << " " << i->GetY() << std::endl;
     }
+
+    // add players
+    std::shared_ptr<Player> playerOne = std::make_shared<Player>();
+    playerOne->SetId(0);
+    data.AddPlayerToCollection(playerOne);
 
     while(!data.GetWindow()->ShouldClose()) {
         data.getSceneByEnum(global_scene_var).Play();

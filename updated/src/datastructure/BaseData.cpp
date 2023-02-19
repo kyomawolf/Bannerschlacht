@@ -74,8 +74,8 @@ void  UnitData::SetMen(int val)        { _men = val; }
 void  UnitData::SetMov(float val)      { _movement = val; }
 void  UnitData::SetMor(float val)      { _moral = val; }
 void  UnitData::SetId(int val)         { _id = val; }
-void  UnitData::SetX(unsigned int val) { _x = val; }
-void  UnitData::SetY(unsigned int val) { _y = val; }
+void  UnitData::SetX(unsigned int val) { _position.x = val; }
+void  UnitData::SetY(unsigned int val) { _position.y = val; }
 void  UnitData::SetPlayer(int val)     { _player = val; }
 void  UnitData::SetMapUnit(std::shared_ptr<Unit>& ptr)  { _mapUnit = ptr; }
 
@@ -87,8 +87,8 @@ int             UnitData::GetMen     ( void ) const { return _men; }
 float           UnitData::GetMov     ( void ) const { return _movement; }
 float           UnitData::GetMor     ( void ) const { return _moral; }
 int             UnitData::GetId      ( void ) const { return _id; }
-unsigned int    UnitData::GetX       ( void ) const { return _x; }
-unsigned int    UnitData::GetY       ( void ) const { return _y; }
+unsigned int    UnitData::GetX       ( void ) const { return _position.x; }
+unsigned int    UnitData::GetY       ( void ) const { return _position.y; }
 int             UnitData::GetPlayer  ( void ) const { return _player; }
 const Unit&     UnitData::GetMapUnit (void ) const { return *_mapUnit; }
 
@@ -123,10 +123,10 @@ std::vector<raylib::Color> UnitData::GetPlayerTints() const {
     return _player_tints;
 }
 
-void UnitData::SetDestination0(unsigned x, unsigned y) {
-    _destinationX = x;
-    _destinationY = y;
-}
+//void UnitData::SetDestination0(unsigned x, unsigned y) {
+//    _destinationX = x;
+//    _destinationY = y;
+//}
 
 std::pair<unsigned, unsigned> UnitData::GetDestination0() {
     return std::make_pair(_destinationX, _destinationY);
@@ -165,4 +165,20 @@ int UnitData::GetMapIdent() const {
 
 void UnitData::SetMapIdent(int mapIdent) {
     _mapIdent = mapIdent;
+}
+
+bool UnitData::IsMoving() const {
+    return _moving;
+}
+
+void UnitData::SetMoving(bool moving) {
+    _moving = moving;
+}
+
+bool UnitData::IsAttacking() const {
+    return _attacking;
+}
+
+void UnitData::SetAttacking(bool attacking) {
+    _attacking = attacking;
 }

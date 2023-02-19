@@ -41,37 +41,42 @@ raylib::Vector2 Map::LocalToWorld(unsigned int index_x, unsigned int index_y) {
 }
 
 bool Map::OnClick(TileIdx worldPosition) { //todo refactor
+    //deselect unit
     if (Data::GetInstance().GetInput().mouseButton == 2) {
         _selected = false;
         return false;
     }
+    //get position
     TileIdx indexPos = positionToIndex(worldPosition);
+    //check for boundaries
     if (indexPos.x < 0 || indexPos.y < 0 || indexPos.x >= _size.x || indexPos.y >= _size.y)
         return _selected = false;
+    //movement if already selected
     if (_selected && indexPos != _selectedIndex) {
         auto unit = Data::GetInstance().GetUnitByLocation(_selectedIndex);
-        unit->SetDestination0(indexPos.x, indexPos.y);
+        std::cout << unit << std::endl;
+//        unit->SetDestination0(indexPos.x, indexPos.y);
+        unit->SetDestination({indexPos.x, indexPos.y});
+        unit->SetMoving(true);
         // temporary; there will be an implementation of a movement function
         if (Data::GetInstance().GetUnitByLocation(indexPos) != nullptr)
             return _selected = false;
-        unit->SetPosition(indexPos);
-        unit->SetX(indexPos.x);
-        unit->SetY(indexPos.y);
+//        unit->SetPosition(indexPos);
+//        unit->SetX(indexPos.x);
+//        unit->SetY(indexPos.y);
         //        at(_selectedIndex).MoveUnit(at(indexPos));
         std:: cout << "moved" << std::endl;
-        return _selected = false;
+        return _selected = false; /// bad formatting right here; if possible reduce to one return statement
     }
+    //select unit if none is selected right now
     _selectedIndex = indexPos;
     std::cout << "selected new Tile" << std::endl;
     auto unit = Data::GetInstance().GetUnitByLocation(indexPos);
     if (unit == nullptr)
         return _selected = false;
-    std::cout << unit->GetPlayerTints()[unit->GetPlayer()].r << " " << unit->GetPlayerTints()[unit->GetPlayer()].g << unit->GetPlayerTints()[unit->GetPlayer()].b << std::endl;
+    std::cout << "owner: " << unit->GetPlayer() << std::endl;
+//    std::cout << unit->GetPlayerTints()[unit->GetPlayer()].r << " " << unit->GetPlayerTints()[unit->GetPlayer()].g << unit->GetPlayerTints()[unit->GetPlayer()].b << std::endl;
     return _selected = true;
-//    if (_field[static_cast<int>(_selectedIndex.x)][static_cast<int>(_selectedIndex.y)].GetEntry() != nullptr)
-//        return _selected = true;
-//    else
-//        return _selected = false;
 }
 
 Tile &Map::at(TileIdx pos) {
