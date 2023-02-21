@@ -168,6 +168,14 @@ void Data::AddPlayerToCollection(std::shared_ptr<Player> &singlePlayer) {
     Data::playerCollection.emplace_back(singlePlayer);
 }
 
+void    Data::UpdatePathfinder() {
+    // pathCollection.UpdatePathfinder();
+}
+
+Pathfinder& Data::GetPathfinder() {
+
+}
+
 //void Data::SetMapCollection(const std::vector<MapData> &mapCollection) {
 //    Data::mapCollection = mapCollection;
 //}

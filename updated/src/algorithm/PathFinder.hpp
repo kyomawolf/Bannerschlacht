@@ -63,6 +63,7 @@ public:
 
     Path     GeneratePath(const TileIndex& start, const TileIndex& end);
     void     SearchNext(std::vector<std::vector<PathTileIndex>>& prio, std::vector<std::vector<PathTileIndex> >& sec, std::vector<std::vector<PathTileIndex>>& closed, const TileIndex& end);
+    // void     UpdatePathfinder();
 };
 
 ///**

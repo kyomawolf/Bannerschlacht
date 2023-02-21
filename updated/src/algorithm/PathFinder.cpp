@@ -215,3 +215,7 @@ TileIndex& TileIndex::operator=(const PathTileIndex& other) { x = other.x; y = o
 PathTileIndex::PathTileIndex(const TileIndex& index) : TileIndex(index) {
 
 }
+
+// void     Pathfinder::UpdatePathfinder() {
+//     _parent->
+// }

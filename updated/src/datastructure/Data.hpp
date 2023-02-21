@@ -7,6 +7,7 @@
 #include "BaseData.hpp"
 #include "../Scene.hpp"
 #include "../Player.hpp"
+#include "../algorithm/PathFinder.hpp"
 
 #include "../units/Unit.hpp"
 #include "Setting.hpp"
@@ -30,6 +31,7 @@ private:
     std::vector<std::shared_ptr<UnitData>>  unitCollection{(0, 0, 0, 0, 0, -1, 0, 0, 0, nullptr)};
     std::vector<TileData>                   vecTiles;
     std::vector<std::unique_ptr<Scene>>     vecScenes;
+    Pathfinder                              pathCollection;
     Setting                                 gameSettings;
 
     static Data _instance;
@@ -68,6 +70,10 @@ public:
     const std::vector<std::shared_ptr<UnitData>> &GetUnitCollection() const;
 
     void SetUnitCollection(std::vector<std::shared_ptr<UnitData>> unitCollection);
+
+    void    UpdatePathfinder();
+
+    Pathfinder& GetPathfinder();
 
     std::vector<std::shared_ptr<Player>> &GetPlayerCollection();
     void AddPlayerToCollection(std::shared_ptr<Player> &singlePlayer);

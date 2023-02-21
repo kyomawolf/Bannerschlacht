@@ -143,3 +143,11 @@ const TileIdx &Map::GetSize() const {
 void Map::SetSize(const TileIdx &size) {
     _size = size;
 }
+
+void Map::iterator::operator++() {
+    
+}
+
+const Map::iterator Map::iterator::operator++(int) {
+    
+}

@@ -21,7 +21,13 @@ private:
     std::vector<std::vector<Tile> > _field;
     raylib::Texture* _tileTex;
 public:
-    typedef TileIterator iterator;
+    class iterator {
+    public:
+        
+        friend Map;
+        void operator++();
+        const iterator operator++(int);
+    };
 
     Map();
     Map(unsigned int height, unsigned int length);

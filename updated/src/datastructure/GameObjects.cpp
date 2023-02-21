@@ -69,7 +69,9 @@ bool MenuMain::Handler() {
     for (auto & i : _buttonList) {
         if (i.IsInside(currMousePos)) {
             if (raylib::Mouse::IsButtonReleased(0)) {
-                 std::cout << "clicked " << i.GetText() << std::endl;
+                if (i.GetText() == "Exit")
+                    exit(0); // TODO set as a scene variable
+                std::cout << "clicked " << i.GetText() << std::endl;
                 global_scene_var = GAME;
                 return true;
             }

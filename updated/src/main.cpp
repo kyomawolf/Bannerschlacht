@@ -45,7 +45,7 @@ void    NextRound() {
         currentPlayer->Routine();
         for (auto &i : Data::GetInstance().GetUnitCollection()) {
             if (i->GetPlayer() == currentPlayer->GetId())
-            i->Action();
+                i->Action();
         }
     }
 }
@@ -123,12 +123,18 @@ int main (int argc, char **argv) {
     SetUpButtonsMainUi(mainUi, data.GetWindow());
     data.AddVecScenes(std::make_unique<MainMenuScene>(scenes::MAINMENU, mainGameMenu));
     data.AddVecScenes(std::make_unique<GameScene>(scenes::GAME, cam_pos, cam, mainUi, 0));
-    Pathfinder paths(data.GetMapDataByIdx(0).GetMapPointer());
-    std::cout << "generating path..." << std::endl;
-    auto path = paths.GeneratePath({0 ,0}, {1, 3});
-    std::cout << "final path" << std::endl;
-    for (auto& idx : path._usedTiles)
+
+
+    Map* local = Data::GetInstance().GetMapDataByIdx(0).GetMapPointer();
+    for (auto idx = local->begin(); idx != local->end(); ++idx)
         std::cout << idx << std::endl;
+
+    // Pathfinder paths(data.GetMapDataByIdx(0).GetMapPointer());
+    // std::cout << "generating path..." << std::endl;
+    // auto path = paths.GeneratePath({0 ,0}, {1, 3});
+    // std::cout << "final path" << std::endl;
+    // for (auto& idx : path._usedTiles)
+        // std::cout << idx << std::endl;
 //    exit(0);
 //    data.getSceneByEnum(scenes::GAME);
 //    data->SetWindow(&win);
