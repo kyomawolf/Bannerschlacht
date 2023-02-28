@@ -125,9 +125,9 @@ int main (int argc, char **argv) {
     data.AddVecScenes(std::make_unique<GameScene>(scenes::GAME, cam_pos, cam, mainUi, 0));
 
 
-    Map* local = Data::GetInstance().GetMapDataByIdx(0).GetMapPointer();
-    for (auto idx = local->begin(); idx != local->end(); ++idx)
-        std::cout << idx << std::endl;
+        // Map* local = Data::GetInstance().GetMapDataByIdx(0).GetMapPointer();
+        // for (auto idx = local->begin(); idx != local->end(); ++idx)
+        //     std::cout << idx << std::endl;
 
     // Pathfinder paths(data.GetMapDataByIdx(0).GetMapPointer());
     // std::cout << "generating path..." << std::endl;
@@ -151,6 +151,7 @@ int main (int argc, char **argv) {
 
 //    data->vecScenes.push_back(&mainMenuSceneObject);
 //    data->vecScenes.push_back(&gameSceneObject);
+    data.GetPathfinder().SetMap(data.GetMapDataByIdx(0).GetMapPointer());
 
     for (auto i=0; i != 20; i++) {
         for (auto ii = 0; ii != 20; ii++) {
@@ -172,6 +173,6 @@ int main (int argc, char **argv) {
 
     while(!data.GetWindow()->ShouldClose()) {
         data.getSceneByEnum(global_scene_var).Play();
-        }
+    }
     return EXIT_SUCCESS;
 }

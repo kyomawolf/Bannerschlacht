@@ -35,7 +35,7 @@ void Player::SetIsCom(bool isAi) {
 
 // todo make member
 static void MoveUnits(int id) {
-    Pathfinder local(Data::GetInstance().GetMapDataByIdx(0).GetMapPointer());
+    Pathfinder& local = Data::GetInstance().GetPathfinder();
     auto unitCollectionLocal = Data::GetInstance().GetUnitCollection();
     for (auto& idx : unitCollectionLocal) {
         if (idx->GetPlayer() != id || !idx->IsMoving())

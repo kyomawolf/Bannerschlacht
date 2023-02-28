@@ -6,6 +6,8 @@
 
 
 Pathfinder::Pathfinder(Map* parent) : _parent(parent), _pathTileCollection() {
+    if (parent == nullptr)
+        return;
     auto maxSize = parent->GetSize();
     for (auto countX = 0; countX != maxSize.x; countX++) { //future: use iterator instead
         _pathTileCollection.emplace_back(std::vector<PathTile>());
@@ -214,6 +216,30 @@ TileIndex& TileIndex::operator=(const PathTileIndex& other) { x = other.x; y = o
 
 PathTileIndex::PathTileIndex(const TileIndex& index) : TileIndex(index) {
 
+}
+
+void     Pathfinder::SetMap(Map* ptr) {
+    if (_parent != nullptr)
+        _pathTileCollection.clear();
+    _parent = ptr;
+    std::cout << "init pathfinder map" << std::endl;
+    auto maxSize = _parent->GetSize();
+    std::cout << maxSize << std::endl;
+
+    for (auto idx = _parent->begin(); idx != _parent->end(); ++idx) {
+        std::cout << idx << std::endl;
+        if (idx._index.y == 0)
+           _pathTileCollection.emplace_back(std::vector<PathTile>());
+        _pathTileCollection.at(idx._index.x).emplace_back(PathTile(maxSize, idx._index));
+    }
+
+    // for (auto countX = 0; countX != maxSize.x; countX++) { //future: use iterator instead
+    //     _pathTileCollection.emplace_back(std::vector<PathTile>());
+    //     for (auto countY = 0; countY != maxSize.y; countY++) {
+    //         _pathTileCollection.at(countX).emplace_back(PathTile(maxSize, {countX, countY}));
+    //     }
+    // }
+    std::cout << "finished pathfinder map" << std::endl;
 }
 
 // void     Pathfinder::UpdatePathfinder() {

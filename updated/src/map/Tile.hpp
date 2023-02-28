@@ -65,13 +65,14 @@ public:
 };
 class TileIterator {
 private:
-    TileIdx _index;
     Map& _ref;
 public:
+    TileIdx _index=  {0, 0};
     TileIterator(const TileIterator& other);
     TileIterator& operator=(TileIterator& other);
 
     TileIterator(const TileIdx& index, Map& ref);
+    TileIterator(Map& ref);
     void operator++();
     const TileIterator operator++(int);
     void operator--();
@@ -88,7 +89,13 @@ public:
     bool operator>(const TileIterator& second) const;
     bool operator<=(const TileIterator& second) const;
     bool operator>=(const TileIterator& second) const;
+
+
+    std::ostream& print(std::ostream& str) const;
 };
+
+std::ostream&    operator<<(std::ostream& o, const TileIterator& printable);
+
 
 
 

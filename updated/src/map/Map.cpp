@@ -123,11 +123,11 @@ Map::iterator Map::getIter(int x, int y) {
 }
 
 Map::iterator Map::end() {
-    return {{ _size.x, _size.y }, *this};
+    return {{ _size.x, 0 }, *this};
 }
 
 Tile &Map::front() {
-    return *begin();
+    return *begin(); //highly fucking illegal i think
 }
 
 Tile &Map::back() {
@@ -142,12 +142,4 @@ const TileIdx &Map::GetSize() const {
 
 void Map::SetSize(const TileIdx &size) {
     _size = size;
-}
-
-void Map::iterator::operator++() {
-    
-}
-
-const Map::iterator Map::iterator::operator++(int) {
-    
 }

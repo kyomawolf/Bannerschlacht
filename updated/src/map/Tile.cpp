@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+
 #include "Tile.hpp"
 #include "Map.hpp"
 #include "../units/Unit.hpp"
@@ -19,6 +20,8 @@ void Tile::Draw(unsigned int x, unsigned int y) {
         if (unit != nullptr) {
             unit->GetTexture().Draw(pos, 0, 0.6f, unit->GetPlayerTints().at(unit->GetPlayer()));
         }
+        std::string text = "x: " + std::to_string(x) + " y: " + std::to_string(y);
+        raylib::DrawText(text, pos.x, pos.y, 12, raylib::BLACK);
 }
 
 bool Tile::MoveUnit(Tile &dest) {
@@ -74,11 +77,13 @@ TileIterator::TileIterator(const TileIdx &index, Map &ref) : _index(index), _ref
 //TileIterator::TileIterator(const TileIdx& index, Map& ref) : _index(index), _ref(ref) {}
 
 void TileIterator::operator++() {
+    // std::cout << _index << std::endl;
     if (_index.y >= _ref.GetSize().y) {
         ++_index.x;
         _index.y = 0;
     } else
         ++_index.y;
+    // std::cout << _index << std::endl;
 }
 
 const TileIterator TileIterator::operator++(int) {
@@ -94,7 +99,7 @@ const TileIterator TileIterator::operator++(int) {
 void TileIterator::operator--() {
     if (_index.y <= 0) {
         --_index.x;
-        _index.y =  _ref.GetSize().y;
+        _index.y = _ref.GetSize().y - 1;
     } else
         --_index.y;
 }
@@ -155,4 +160,16 @@ TileIterator &TileIterator::operator=(TileIterator & other) {
 }
 
 
-TileIterator::TileIterator(const TileIterator& other) = default;
+TileIterator::TileIterator(const TileIterator& other): _ref(other._ref), _index(other._index) {};
+
+
+TileIterator::TileIterator(Map& ref) : _ref(ref), _index(0, 0) {}
+
+std::ostream& TileIterator::print(std::ostream& o) const {
+    o << "x: " << _index.x << " y: " << _index.y << std::endl;
+    return o;
+}
+
+std::ostream&    operator<<(std::ostream& o, const TileIterator& printable) {
+    return printable.print(o);
+}
